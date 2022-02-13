@@ -4,7 +4,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import nextI18NextConfig from "../next-i18next.config.js";
 import { GetStaticProps } from "next";
-import { useEffect, useState } from "react";
+import { ComponentProps, FC, useEffect, useState } from "react";
 import { If } from "../components/If";
 import {
   ChevronUpIcon,
@@ -22,7 +22,7 @@ export const getStaticProps = async ({ locale }) => ({
   }
 });
 
-type PlayerPlatform = "java" | "bedrock";
+type PlayerPlatform = "java" | "bedrock" | "consoles";
 
 export default function Home() {
   const { t } = useTranslation("common");
@@ -34,6 +34,9 @@ export default function Home() {
     const map: Record<string, PlayerPlatform> = {
       iPhone: "bedrock",
       iPad: "bedrock",
+      Xbox: "consoles",
+      PlayStation: "consoles",
+      "Nintendo Switch": "consoles",
       Android: "bedrock",
       "Mac OS X": "java",
       X11: "java",
@@ -49,6 +52,12 @@ export default function Home() {
       }
     }
   }, [setPrimaryPlatform]);
+
+  const platforms: Record<PlayerPlatform, FC<ComponentProps<"svg">>> = {
+    java: DesktopComputerIcon,
+    bedrock: DeviceMobileIcon,
+    consoles: GlobeAltIcon
+  };
 
   return (
     <>
@@ -127,7 +136,12 @@ export default function Home() {
                 </a>
               </If>
 
-              <If condition={primaryPlatform === undefined}>
+              <If
+                condition={
+                  primaryPlatform === undefined ||
+                  primaryPlatform === "consoles"
+                }
+              >
                 <a
                   className="clickable bg-action-500 hover:bg-action-600 transition-colors text-white w-full h-16 flex items-center justify-center rounded font-bold"
                   href="#join"
@@ -162,9 +176,9 @@ export default function Home() {
                   stroke="currentColor"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     d="M19 9l-7 7-7-7"
                   />
                 </svg>
@@ -205,24 +219,28 @@ export default function Home() {
           <h2>{t("join.actions.how-to-join")}</h2>
 
           <div className="flex flex-col gap-4">
-            {["java", "bedrock", "consoles"].map((value) => (
-              <a
-                key={value}
-                className="flex clickable items-center w-full gap-2 px-6 py-4 text-sm font-medium text-left text-primary-900 bg-primary-100 rounded-lg hover:bg-primary-200 focus:outline-none focus-visible:ring focus-visible:ring-primary-500 focus-visible:ring-opacity-75 transition-colors"
-                href={t(`guides.${value}.link`)}
-              >
-                <div className="flex bg-primary-200 rounded-full w-12 h-12 items-center justify-center p-6 relative">
-                  <DesktopComputerIcon className="w-6 h-6 absolute" />
-                </div>
+            {Object.keys(platforms).map((value) => {
+              const Icon = platforms[value];
 
-                <div className="whitespace-nowrap">
-                  {t(`guides.${value}.title`)}
-                </div>
+              return (
+                <a
+                  key={value}
+                  className="flex clickable items-center w-full gap-2 px-6 py-4 text-sm font-medium text-left text-primary-900 bg-primary-100 rounded-lg hover:bg-primary-200 focus:outline-none focus-visible:ring focus-visible:ring-primary-500 focus-visible:ring-opacity-75 transition-colors"
+                  href={t(`guides.${value}.link`)}
+                >
+                  <div className="flex bg-primary-200 rounded-full w-12 h-12 items-center justify-center p-6 relative">
+                    <Icon className="w-6 h-6 absolute" />
+                  </div>
 
-                <div className="w-full" />
-                <ExternalLinkIcon className="w-6 h-6" />
-              </a>
-            ))}
+                  <div className="whitespace-nowrap">
+                    {t(`guides.${value}.title`)}
+                  </div>
+
+                  <div className="w-full" />
+                  <ExternalLinkIcon className="w-6 h-6" />
+                </a>
+              );
+            })}
           </div>
         </section>
 

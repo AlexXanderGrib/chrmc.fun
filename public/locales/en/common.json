@@ -1,11 +1,14 @@
 {
   "seo": {
-    "description": "",
-    "keywords": ""
+    "description": "Private official minecraft server on 1.18 java and bedrock (pocket edition pe) with Survival (SMP) and city role play (RP).",
+    "keywords": "chrome mc, minecraft server, mcpe server, smp, minecraft survival, minecraft role play",
+    "title": "Chrome MC • 1.18 • Private SMP | RP"
   },
   "server": {
     "ip": "play.chrmc.io",
-    "name": "Chrome MC"
+    "name": "Chrome MC",
+    "javaPort": "25565",
+    "bedrockPort": "19132"
   },
   "join": {
     "address": "Address (IP)",
@@ -15,5 +18,18 @@
       "how-to-join": "How to join?"
     }
   },
-  "hello": "Hello!"
+  "guides": {
+    "java": {
+      "title": "With JavaEdition",
+      "link": ""
+    },
+    "bedrock": {
+      "title": "With BedrockEdition",
+      "link": ""
+    },
+    "consoles": {
+      "title": "From Gaming Consoles",
+      "link": "https://vk.com/@chrome_mc-join-from-xbox"
+    }
+  }
 }
