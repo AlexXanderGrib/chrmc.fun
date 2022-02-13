@@ -5,31 +5,38 @@
     "title": "Chrome MC • 1.18 • Private SMP | RP"
   },
   "server": {
-    "ip": "play.chrmc.io",
+    "ip": "play.chrmc.fun",
     "name": "Chrome MC",
     "javaPort": "25565",
+    "javaVersion": "1.18.1",
     "bedrockPort": "19132"
   },
   "join": {
     "address": "Address (IP)",
     "port": "Port",
+    "version": "Version",
     "actions": {
-      "bedrock-join": "Open minecraft",
+      "bedrock-join": "Add this Server",
       "how-to-join": "How to join?"
     }
   },
+  "actions": {
+    "read": "Read"
+  },
   "guides": {
     "java": {
-      "title": "With JavaEdition",
-      "link": ""
+      "title": "With JavaEdition"
     },
     "bedrock": {
-      "title": "With BedrockEdition",
-      "link": ""
+      "title": "With BedrockEdition"
     },
     "consoles": {
       "title": "From Gaming Consoles",
-      "link": "https://vk.com/@chrome_mc-join-from-xbox"
+      "article": {
+        "title": "Guide",
+        "thumbnail": "https://sun9-41.userapi.com/impg/zpjzKOgS5dtE6nagTLYAPdCamyqbnkhUQNQdLQ/-izrrRGdCRE.jpg?size=604x402&quality=96&sign=24116670c5667031028be993118c21a0&type=album",
+        "link": "https://vk.com/@chrome_mc-join-from-xbox"
+      }
     }
   }
 }

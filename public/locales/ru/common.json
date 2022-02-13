@@ -5,31 +5,38 @@
     "title": "Chrome MC • 1.18 • Приватный СМП | РП"
   },
   "server": {
-    "ip": "play.chrmc.io",
+    "ip": "play.chrmc.fun",
     "name": "Chrome MC",
     "javaPort": "25565",
+    "javaVersion": "1.18.1",
     "bedrockPort": "19132"
   },
   "join": {
     "address": "Адрес (IP)",
     "port": "Порт",
+    "version": "Версия",
     "actions": {
-      "bedrock-join": "Открыть майнкрафт",
+      "bedrock-join": "Добавить этот сервер",
       "how-to-join": "Как присоеденится?"
     }
   },
+  "actions": {
+    "read": "Читать"
+  },
   "guides": {
     "java": {
-      "title": "С JavaEdition",
-      "link": ""
+      "title": "С JavaEdition"
     },
     "bedrock": {
-      "title": "С BedrockEdition",
-      "link": ""
+      "title": "С BedrockEdition"
     },
     "consoles": {
       "title": "С Игровых Консолей",
-      "link": "https://vk.com/@chrome_mc-join-from-xbox"
+      "article": {
+        "title": "Гайд",
+        "thumbnail": "https://sun9-41.userapi.com/impg/zpjzKOgS5dtE6nagTLYAPdCamyqbnkhUQNQdLQ/-izrrRGdCRE.jpg?size=604x402&quality=96&sign=24116670c5667031028be993118c21a0&type=album",
+        "link": "https://vk.com/@chrome_mc-join-from-xbox"
+      }
     }
   }
 }

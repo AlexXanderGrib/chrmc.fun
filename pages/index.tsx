@@ -15,6 +15,7 @@ import {
   GlobeAltIcon
 } from "@heroicons/react/solid";
 import { Disclosure } from "@headlessui/react";
+import Link from "next/link";
 
 export const getStaticProps = async ({ locale }) => ({
   props: {
@@ -92,7 +93,7 @@ export default function Home() {
             <div className="pt-8">
               <If condition={primaryPlatform === "java"}>
                 <form
-                  className="grid gap-y-2 grid-cols-[auto_4rem_4rem] grid-rows-[auto_4rem] w-full"
+                  className="grid gap-y-2 grid-cols-[auto_6rem_4rem] grid-rows-[auto_4rem] w-full"
                   onSubmit={(e) => {
                     e.preventDefault();
 
@@ -224,22 +225,20 @@ export default function Home() {
               const Icon = platforms[value];
 
               return (
-                <a
-                  key={value}
-                  className="flex clickable items-center w-full gap-2 px-6 py-4 text-sm font-medium text-left text-primary-900 bg-primary-100 rounded-lg hover:bg-primary-200 focus:outline-none focus-visible:ring focus-visible:ring-primary-500 focus-visible:ring-opacity-75 transition-colors"
-                  href={t(`guides.${value}.link`)}
-                >
-                  <div className="flex bg-primary-200 rounded-full w-12 h-12 items-center justify-center p-6 relative">
-                    <Icon className="w-6 h-6 absolute" />
-                  </div>
+                <Link key={value} href={`/join/${value}`} passHref>
+                  <a className="flex clickable items-center w-full gap-2 px-6 py-4 text-sm font-medium text-left text-primary-900 bg-primary-100 rounded-lg hover:bg-primary-200 focus:outline-none focus-visible:ring focus-visible:ring-primary-500 focus-visible:ring-opacity-75 transition-colors">
+                    <div className="flex bg-primary-200 rounded-full w-12 h-12 items-center justify-center p-6 relative">
+                      <Icon className="w-6 h-6 absolute" />
+                    </div>
 
-                  <div className="whitespace-nowrap">
-                    {t(`guides.${value}.title`)}
-                  </div>
+                    <div className="whitespace-nowrap">
+                      {t(`guides.${value}.title`)}
+                    </div>
 
-                  <div className="w-full" />
-                  <ExternalLinkIcon className="w-6 h-6" />
-                </a>
+                    <div className="w-full" />
+                    <ExternalLinkIcon className="w-6 h-6" />
+                  </a>
+                </Link>
               );
             })}
           </div>

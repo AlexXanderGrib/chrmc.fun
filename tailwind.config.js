@@ -1,5 +1,8 @@
 const { emerald, orange } = require("tailwindcss/colors");
 const typography = require("@tailwindcss/typography");
+const forms = require("@tailwindcss/forms");
+const aspectRatio = require("@tailwindcss/aspect-ratio");
+
 const plugin = require("tailwindcss/plugin");
 const utils = plugin(({ addUtilities }) => {
   addUtilities({
@@ -31,5 +34,5 @@ module.exports = {
       }
     }
   },
-  plugins: [typography, utils]
+  plugins: [typography, forms, aspectRatio, utils]
 };
