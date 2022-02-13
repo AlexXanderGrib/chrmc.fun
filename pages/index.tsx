@@ -132,7 +132,7 @@ export default function Home() {
                   className="clickable bg-action-500 hover:bg-action-600 transition-colors text-white w-full h-16 flex items-center justify-center rounded font-bold"
                   href={`minecraft://?addExternalServer=${t("server.name")}|${t(
                     "server.ip"
-                  )}:${t("server.javaPort")}`}
+                  )}:${t("server.bedrockPort")}`}
                 >
                   {t("join.actions.bedrock-join")}
                 </a>
