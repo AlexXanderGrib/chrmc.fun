@@ -56,7 +56,7 @@ function MyApp({ Component, pageProps }) {
         <div className="bg-gray-800 p-8">
           <ul className="flex list-none gap-4 flex-wrap justify-center">
             <li>
-              <a href="https://vk.com/chrome_mc" rel="noopener" target="_blank">
+              <a href="https://vk.com/chrome_mc" rel="noopener noreferrer" target="_blank">
                 <img
                   src="https://img.icons8.com/external-tal-revivo-bold-tal-revivo/32/ffffff/external-vk-a-russian-online-social-media-and-social-networking-service-logo-bold-tal-revivo.png"
                   srcSet="https://img.icons8.com/external-tal-revivo-bold-tal-revivo/64/ffffff/external-vk-a-russian-online-social-media-and-social-networking-service-logo-bold-tal-revivo.png 2x"
@@ -70,7 +70,7 @@ function MyApp({ Component, pageProps }) {
             <li>
               <a
                 href="https://discord.gg/V6dCEUhsbt"
-                rel="noopener"
+                rel="noopener noreferrer"
                 target="_blank"
               >
                 <img

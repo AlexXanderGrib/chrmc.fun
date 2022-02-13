@@ -77,6 +77,7 @@ export default function Home() {
             loading="eager"
             decoding="async"
             draggable="false"
+            alt=""
           />
         </picture>
         <div className="absolute w-full h-full top-0 left-0 bg-gradient-to-t from-gray-900 via-gray-800 to-transparent opacity-60" />
