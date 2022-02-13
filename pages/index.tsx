@@ -156,7 +156,7 @@ export default function Home() {
           <div className="w-full">
             <div className="text-center pb-4">
               <a
-                href="#problems"
+                href="#join"
                 className="
             clickable
             mx-auto
@@ -218,7 +218,7 @@ export default function Home() {
 
       <main className="mt-8">
         <section className="prose prose-primary mx-auto p-2 my-4">
-          <h2>{t("join.actions.how-to-join")}</h2>
+          <h2 id="join">{t("join.actions.how-to-join")}</h2>
 
           <div className="flex flex-col gap-4">
             {Object.keys(platforms).map((value) => {
