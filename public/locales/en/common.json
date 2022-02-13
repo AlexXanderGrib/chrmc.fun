@@ -1,0 +1,19 @@
+{
+  "seo": {
+    "description": "",
+    "keywords": ""
+  },
+  "server": {
+    "ip": "play.chrmc.io",
+    "name": "Chrome MC"
+  },
+  "join": {
+    "address": "Address (IP)",
+    "port": "Port",
+    "actions": {
+      "bedrock-join": "Open minecraft",
+      "how-to-join": "How to join?"
+    }
+  },
+  "hello": "Hello!"
+}

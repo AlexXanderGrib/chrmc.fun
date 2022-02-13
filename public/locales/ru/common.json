@@ -1,0 +1,35 @@
+{
+  "seo": {
+    "description": "Приватный лицензионный сервер на 1.18 java и bedrock (пе) с режимами: Выживание (СМП) и Ролеплей в городе (РП)",
+    "keywords": "",
+    "title": "Chrome MC • 1.18 • Приватный СМП | РП"
+  },
+  "server": {
+    "ip": "play.chrmc.io",
+    "name": "Chrome MC",
+    "javaPort": "25565",
+    "bedrockPort": "19132"
+  },
+  "join": {
+    "address": "Адрес (IP)",
+    "port": "Порт",
+    "actions": {
+      "bedrock-join": "Открыть майнкрафт",
+      "how-to-join": "Как присоеденится?"
+    }
+  },
+  "guides": {
+    "java": {
+      "title": "С JavaEdition",
+      "link": ""
+    },
+    "bedrock": {
+      "title": "С BedrockEdition",
+      "link": ""
+    },
+    "consoles": {
+      "title": "С Игровых Консолей",
+      "link": ""
+    }
+  }
+}
