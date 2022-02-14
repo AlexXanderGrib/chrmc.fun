@@ -21,6 +21,11 @@ function MyApp({ Component, pageProps }) {
           href="/favicon-32x32.png"
         />
         <link
+          rel="shortcut icon"
+          type="image/x-icon"
+          href="/favicon.ico"
+        />
+        <link
           rel="icon"
           type="image/png"
           sizes="192x192"
@@ -43,7 +48,7 @@ function MyApp({ Component, pageProps }) {
         <meta property="og:type" content="website" />
         <meta
           property="og:image"
-          content="/images/assets/aye-kosmonavt-og.jpg"
+          content="/hero@1x.jpg"
         />
         <meta property="og:locale" content={locale} />
         <meta property="og:site_name" content="Chrome MC" />
