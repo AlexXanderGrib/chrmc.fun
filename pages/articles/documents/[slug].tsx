@@ -108,7 +108,7 @@ export const getStaticProps: GetStaticProps = async ({
 export default function Document({ document }) {
   const { t } = useTranslation("article");
   return (
-    <>
+    <main itemProp="mainEntity">
       <Head>
         <title>{document.title}</title>
       </Head>
@@ -117,7 +117,6 @@ export default function Document({ document }) {
         className="prose prose-lg mx-auto my-8 px-2"
         itemScope
         itemType="https://schema.org/Article"
-        itemProp="mainEntity"
       >
         <h1 className="break-words" itemProp="name">
           {document.title}
@@ -129,6 +128,6 @@ export default function Document({ document }) {
           <StructuredText data={document.content} />
         </div>
       </article>
-    </>
+    </main>
   );
 }

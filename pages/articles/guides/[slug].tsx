@@ -130,7 +130,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export default function Guide({ guide, allGuides: otherGuides }) {
   return (
-    <>
+    <main itemProp="mainEntity">
       <Head>
         <title>{guide.seo?.title ?? guide.title}</title>
         <meta name="og:title" content={guide.seo?.title ?? guide.title} />
@@ -145,7 +145,6 @@ export default function Guide({ guide, allGuides: otherGuides }) {
         className="prose prose-lg mx-auto my-8 px-4"
         itemScope
         itemType="https://schema.org/Article"
-        itemProp="mainEntity"
       >
         <h1 className="break-words" itemProp="name">
           {guide.title}
@@ -182,6 +181,6 @@ export default function Guide({ guide, allGuides: otherGuides }) {
           </Carousel>
         </If>
       </article>
-    </>
+    </main>
   );
 }
