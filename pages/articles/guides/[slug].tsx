@@ -140,8 +140,15 @@ export default function Guide({ guide, allGuides: otherGuides }) {
         />
       </Head>
 
-      <article className="prose prose-lg mx-auto my-8 px-4">
-        <h1 className="break-words">{guide.title}</h1>
+      <article
+        className="prose prose-lg mx-auto my-8 px-4"
+        itemScope
+        itemType="https://schema.org/Article"
+        itemProp="mainEntityOfPage"
+      >
+        <h1 className="break-words" itemProp="name">
+          {guide.title}
+        </h1>
 
         <Image
           src={guide.thumbnail.url}
@@ -150,9 +157,12 @@ export default function Guide({ guide, allGuides: otherGuides }) {
           height={guide.thumbnail.height}
           priority
           className="-mx-4"
+          itemProp="thumbnailUrl"
         />
 
-        <StructuredText data={guide.content} />
+        <div itemProp="text">
+          <StructuredText data={guide.content} />
+        </div>
 
         <If condition={guide.images?.length > 0}>
           <Carousel showArrows={true} emulateTouch infiniteLoop>

@@ -97,8 +97,8 @@ export default function Home() {
           <div className="pt-8 text-center text-white" />
           <div className="max-w-lg px-4">
             <hgroup className="text-white text-center flex flex-col gap-4">
-              <h1 className="text-3xl font-bold">{t("seo.title")}</h1>
-              <p>{t("seo.description")}</p>
+              <h1 className="text-3xl font-bold" itemProp="name">{t("seo.title")}</h1>
+              <p itemProp="description">{t("seo.description")}</p>
             </hgroup>
 
             <div className="pt-8">

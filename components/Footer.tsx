@@ -18,11 +18,14 @@ function FooterBlock({ label, links }: any) {
     <article>
       <h3 className="text-white font-bold text-xl mb-4">{label}</h3>
       <ul className="flex flex-col gap-4">
-        {links.map(([label, link, Icon]: any) => (
+        {links.map(([label, link, Icon, props]: any) => (
           <li key={label}>
             {link?.startsWith("/") ? (
               <Link href={link} locale={locale}>
-                <a className="text-gray-400 hover:text-primary-400 transition-colors duration-150">
+                <a
+                  {...props}
+                  className="text-gray-400 hover:text-primary-400 transition-colors duration-150"
+                >
                   {Icon ? (
                     <Icon className="text-primary-400 w-5 h-5 inline" />
                   ) : (
@@ -33,6 +36,7 @@ function FooterBlock({ label, links }: any) {
               </Link>
             ) : (
               <a
+                {...props}
                 className="text-gray-400 hover:text-primary-400 transition-colors duration-150"
                 href={link}
               >
@@ -56,7 +60,7 @@ export default function Footer() {
   const { t: ts } = useTranslation("common");
 
   return (
-    <footer>
+    <footer itemProp="author" itemScope itemType="https://schema.org/Organization">
       <div className="bg-gray-800">
         <section className="flex flex-row flex-wrap max-w-5xl mx-auto p-16 gap-8 justify-between">
           <FooterBlock
@@ -97,8 +101,18 @@ export default function Footer() {
           <FooterBlock
             label={t("contacts.title")}
             links={[
-              ["+7 (995) 488-83-15", "tel:+79954888315", PhoneIcon],
-              ["support@chrmc.fun", "mailto:support@chrmc.fun", MailIcon]
+              [
+                "+7 (995) 488-83-15",
+                "tel:+79954888315",
+                PhoneIcon,
+                { itemProp: "telephone" }
+              ],
+              [
+                "support@chrmc.fun",
+                "mailto:support@chrmc.fun",
+                MailIcon,
+                { itemProp: "email" }
+              ]
             ]}
           />
           <FooterBlock
@@ -130,7 +144,8 @@ export default function Footer() {
       </div>
       <div className="bg-gray-900">
         <section className="flex flex-row flex-wrap max-w-3xl mx-auto px-16 py-8 gap-8 text-gray-400">
-          {ts("server.name")} © {new Date().getFullYear()}
+          <span itemProp="name">{ts("server.name")}</span> ©{" "}
+          {new Date().getFullYear()}
           <div className="flex flex-row flex-wrap text-gray-500">
             <span>{t("disclaimer.trademarks")}</span>
 

@@ -87,7 +87,7 @@ export const getStaticProps: GetStaticProps = async ({
     props: {
       ...(await serverSideTranslations(
         locale,
-        ["common", "footer", "nav","article"],
+        ["common", "footer", "nav", "article"],
         nextI18NextConfig
       )),
       document:
@@ -113,12 +113,21 @@ export default function Document({ document }) {
         <title>{document.title}</title>
       </Head>
 
-      <article className="prose prose-lg mx-auto my-8 px-2">
-        <h1 className="break-words">{document.title}</h1>
-        <time dateTime={document.updatedAt.pure}>
+      <article
+        className="prose prose-lg mx-auto my-8 px-2"
+        itemScope
+        itemType="https://schema.org/Article"
+        itemProp="mainEntityOfPage"
+      >
+        <h1 className="break-words" itemProp="name">
+          {document.title}
+        </h1>
+        <time dateTime={document.updatedAt.pure} itemProp="dateModified">
           {t("updatedAt")} {document.updatedAt.formatted}
         </time>
-        <StructuredText data={document.content} />
+        <div itemProp="text">
+          <StructuredText data={document.content} />
+        </div>
       </article>
     </>
   );

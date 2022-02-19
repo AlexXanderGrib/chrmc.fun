@@ -4,9 +4,8 @@ import { useRouter } from "next/router";
 import Script from "next/script";
 import Footer from "../components/Footer";
 import "../styles/globals.css";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; 
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Navbar from "../components/Navbar";
-
 
 function MyApp({ Component, pageProps }) {
   const { locale } = useRouter();
@@ -53,8 +52,9 @@ function MyApp({ Component, pageProps }) {
       </Head>
 
       <Navbar />
-        
-      <Component {...pageProps} />
+      <div itemScope itemType="https://schema.org/WebPage">
+        <Component {...pageProps} />
+      </div>
 
       <Footer />
 
