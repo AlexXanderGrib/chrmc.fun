@@ -108,7 +108,7 @@ export const getStaticProps: GetStaticProps = async ({
 export default function Document({ document }) {
   const { t } = useTranslation("article");
   return (
-    <main itemProp="mainEntity">
+    <main>
       <Head>
         <title>{document.title}</title>
       </Head>

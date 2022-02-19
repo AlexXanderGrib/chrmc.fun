@@ -50,15 +50,14 @@ function MyApp({ Component, pageProps }) {
         <meta property="og:locale" content={locale} />
         <meta property="og:site_name" content="Chrome MC" />
         <meta property="og:locale:alternate" content="en_US" />
-        <meta property="og:url" content={`https://chrmc.fun${path}`}/>
+        <meta property="og:url" content={`https://chrmc.fun${path}`} />
       </Head>
 
-      <Navbar />
       <div itemScope itemType="https://schema.org/WebPage">
+        <Navbar />
         <Component {...pageProps} />
+        <Footer />
       </div>
-
-      <Footer />
 
       <Script
         src="https://www.googletagmanager.com/gtag/js?id=G-7JMR9BLX1N"

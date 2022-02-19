@@ -130,7 +130,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export default function Guide({ guide, allGuides: otherGuides }) {
   return (
-    <main itemProp="mainEntity">
+    <main>
       <Head>
         <title>{guide.seo?.title ?? guide.title}</title>
         <meta name="og:title" content={guide.seo?.title ?? guide.title} />
