@@ -75,6 +75,8 @@ export default function Home() {
       <Head>
         <meta name="description" content={t("seo.description")} />
         <meta name="keywords" content={t("seo.keywords")} />
+        <meta name="og:title" content={t("seo.title")} />
+
         <title>{t("seo.title")}</title>
         <meta property="og:image" content="/hero@1x.jpg" />
       </Head>
@@ -97,7 +99,9 @@ export default function Home() {
           <div className="pt-8 text-center text-white" />
           <div className="max-w-lg px-4">
             <hgroup className="text-white text-center flex flex-col gap-4">
-              <h1 className="text-3xl font-bold" itemProp="name">{t("seo.title")}</h1>
+              <h1 className="text-3xl font-bold" itemProp="name">
+                {t("seo.title")}
+              </h1>
               <p itemProp="description">{t("seo.description")}</p>
             </hgroup>
 

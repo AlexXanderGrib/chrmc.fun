@@ -133,7 +133,8 @@ export default function Guide({ guide, allGuides: otherGuides }) {
     <>
       <Head>
         <title>{guide.seo?.title ?? guide.title}</title>
-        <meta name="description" content={guide.description} />
+        <meta name="og:title" content={guide.seo?.title ?? guide.title} />
+        <meta name="description" content={guide.seo.description} />
         <meta
           property="og:image"
           content={guide.seo?.image?.url ?? guide.thumbnail.url}
@@ -144,7 +145,7 @@ export default function Guide({ guide, allGuides: otherGuides }) {
         className="prose prose-lg mx-auto my-8 px-4"
         itemScope
         itemType="https://schema.org/Article"
-        itemProp="mainEntityOfPage"
+        itemProp="mainEntity"
       >
         <h1 className="break-words" itemProp="name">
           {guide.title}
@@ -160,7 +161,7 @@ export default function Guide({ guide, allGuides: otherGuides }) {
           itemProp="thumbnailUrl"
         />
 
-        <div itemProp="text">
+        <div itemProp="articleBody">
           <StructuredText data={guide.content} />
         </div>
 

@@ -117,7 +117,7 @@ export default function Document({ document }) {
         className="prose prose-lg mx-auto my-8 px-2"
         itemScope
         itemType="https://schema.org/Article"
-        itemProp="mainEntityOfPage"
+        itemProp="mainEntity"
       >
         <h1 className="break-words" itemProp="name">
           {document.title}
@@ -125,7 +125,7 @@ export default function Document({ document }) {
         <time dateTime={document.updatedAt.pure} itemProp="dateModified">
           {t("updatedAt")} {document.updatedAt.formatted}
         </time>
-        <div itemProp="text">
+        <div itemProp="articleBody">
           <StructuredText data={document.content} />
         </div>
       </article>

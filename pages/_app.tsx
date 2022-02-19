@@ -8,7 +8,8 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Navbar from "../components/Navbar";
 
 function MyApp({ Component, pageProps }) {
-  const { locale } = useRouter();
+  const { locale, defaultLocale, asPath } = useRouter();
+  const path = locale === defaultLocale ? asPath : `/${locale}${asPath}`;
 
   return (
     <>
@@ -49,6 +50,7 @@ function MyApp({ Component, pageProps }) {
         <meta property="og:locale" content={locale} />
         <meta property="og:site_name" content="Chrome MC" />
         <meta property="og:locale:alternate" content="en_US" />
+        <meta property="og:url" content={`https://chrmc.fun${path}`}/>
       </Head>
 
       <Navbar />
