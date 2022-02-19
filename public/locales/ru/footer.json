@@ -1,0 +1,30 @@
+{
+  "contacts": {
+    "title": "Контакты"
+  },
+  "documents": {
+    "title": "Документы",
+    "agreement": "Пользовательское Соглашение",
+    "privacy": "Политика конфиденциальности",
+    "parents": "Для Родителей",
+    "rules": "Правила Сервера"
+  },
+  "join": {
+    "title": "Играть",
+    "java": "С Java",
+    "bedrock": "С Bedrock",
+    "consoles": "С Консолей",
+    "bedrock-add": "Открыть в Bedrock"
+  },
+  "links": {
+    "title": "Ссылки",
+    "donate": "Донат",
+    "vk": "ВКонтакте",
+    "discord": "Дискорд"
+  },
+
+  "disclaimer": {
+    "trademarks": "Все права сохранены, все торговые марки являются собственностью их владельцев.",
+    "mojang": "Chrome MC не аффилирован и не может быть ассоциирован с Mojang и Microsoft"
+  }
+}

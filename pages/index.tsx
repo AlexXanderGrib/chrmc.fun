@@ -19,7 +19,11 @@ import Link from "next/link";
 
 export const getStaticProps = async ({ locale }) => ({
   props: {
-    ...(await serverSideTranslations(locale, ["common"], nextI18NextConfig))
+    ...(await serverSideTranslations(
+      locale,
+      ["common", "footer"],
+      nextI18NextConfig
+    ))
   }
 });
 
@@ -54,10 +58,16 @@ export default function Home() {
     }
   }, [setPrimaryPlatform]);
 
-  const platforms: Record<PlayerPlatform, FC<ComponentProps<"svg">>> = {
-    java: DesktopComputerIcon,
-    bedrock: DeviceMobileIcon,
-    consoles: GlobeAltIcon
+  const platforms: Record<
+    PlayerPlatform,
+    [destination: string, icon: FC<ComponentProps<"svg">>]
+  > = {
+    java: [
+      "/articles/guides/how-to-join-from-java-edition",
+      DesktopComputerIcon
+    ],
+    bedrock: ["/articles/guides/how-to-join-from-bedrock", DeviceMobileIcon],
+    consoles: ["/articles/guides/how-to-join-from-consoles", GlobeAltIcon]
   };
 
   return (
@@ -66,6 +76,7 @@ export default function Home() {
         <meta name="description" content={t("seo.description")} />
         <meta name="keywords" content={t("seo.keywords")} />
         <title>{t("seo.title")}</title>
+        <meta property="og:image" content="/hero@1x.jpg" />
       </Head>
       <div className="relative min-h-[800px] h-[90vh] max-h-[1200px] w-full">
         <picture>
@@ -222,10 +233,10 @@ export default function Home() {
 
           <div className="flex flex-col gap-4">
             {Object.keys(platforms).map((value) => {
-              const Icon = platforms[value];
+              const [href, Icon] = platforms[value];
 
               return (
-                <Link key={value} href={`/join/${value}`} passHref>
+                <Link key={value} href={href} passHref>
                   <a className="flex clickable items-center w-full gap-2 px-6 py-4 text-sm font-medium text-left text-primary-900 bg-primary-100 rounded-lg hover:bg-primary-200 focus:outline-none focus-visible:ring focus-visible:ring-primary-500 focus-visible:ring-opacity-75 transition-colors">
                     <div className="flex bg-primary-200 rounded-full w-12 h-12 items-center justify-center p-6 relative">
                       <Icon className="w-6 h-6 absolute" />

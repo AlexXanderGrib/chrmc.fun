@@ -1,7 +1,12 @@
 import { appWithTranslation } from "next-i18next";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import Script from "next/script";
+import Footer from "../components/Footer";
 import "../styles/globals.css";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; 
+import Navbar from "../components/Navbar";
+
 
 function MyApp({ Component, pageProps }) {
   const { locale } = useRouter();
@@ -20,11 +25,7 @@ function MyApp({ Component, pageProps }) {
           sizes="32x32"
           href="/favicon-32x32.png"
         />
-        <link
-          rel="shortcut icon"
-          type="image/x-icon"
-          href="/favicon.ico"
-        />
+        <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link
           rel="icon"
           type="image/png"
@@ -46,56 +47,55 @@ function MyApp({ Component, pageProps }) {
         <meta name="theme-color" content="#ffffff" />
         <meta name="theme-color" content="#ffffff" />
         <meta property="og:type" content="website" />
-        <meta
-          property="og:image"
-          content="/hero@1x.jpg"
-        />
         <meta property="og:locale" content={locale} />
         <meta property="og:site_name" content="Chrome MC" />
         <meta property="og:locale:alternate" content="en_US" />
       </Head>
 
+      <Navbar />
+        
       <Component {...pageProps} />
 
-      <footer lang="en" className="text-gray-100">
-        <div className="bg-gray-800 p-8">
-          <ul className="flex list-none gap-4 flex-wrap justify-center">
-            <li>
-              <a href="https://vk.com/chrome_mc" rel="noopener noreferrer" target="_blank">
-                <img
-                  src="https://img.icons8.com/external-tal-revivo-bold-tal-revivo/32/ffffff/external-vk-a-russian-online-social-media-and-social-networking-service-logo-bold-tal-revivo.png"
-                  srcSet="https://img.icons8.com/external-tal-revivo-bold-tal-revivo/64/ffffff/external-vk-a-russian-online-social-media-and-social-networking-service-logo-bold-tal-revivo.png 2x"
-                  alt="VK"
-                  draggable="false"
-                  width="32"
-                  height="32"
-                />
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://discord.gg/V6dCEUhsbt"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                <img
-                  src="https://img.icons8.com/ios-filled/32/ffffff/discord--v2.png"
-                  srcSet="https://img.icons8.com/ios-filled/64/ffffff/discord--v2.png 2x"
-                  alt="Discord"
-                  draggable="false"
-                  width="32"
-                  height="32"
-                />
-              </a>
-            </li>
-          </ul>
+      <Footer />
+
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-7JMR9BLX1N"
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){window.dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-7JMR9BLX1N');
+        `}
+      </Script>
+
+      <Script id="yandex-metrika" strategy="afterInteractive">
+        {`
+          (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+          m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+          (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+          ym(87563257, "init", {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true,
+            webvisor:true,
+            ecommerce:"dataLayer"
+          });
+        `}
+      </Script>
+      <noscript>
+        <div>
+          <img
+            src="https://mc.yandex.ru/watch/87563257"
+            style={{ position: "absolute", top: "-9999px" }}
+            alt=""
+          />
         </div>
-        <div className="bg-gray-900">
-          <div className="text-center p-8 font-bold">
-            Chrome MC &copy; {new Date().getFullYear()}
-          </div>
-        </div>
-      </footer>
+      </noscript>
     </>
   );
 }

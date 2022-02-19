@@ -1,0 +1,30 @@
+{
+  "contacts": {
+    "title": "Contacts"
+  },
+  "documents": {
+    "title": "Documents",
+    "agreement": "User Agreement",
+    "privacy": "Privacy Policy",
+    "parents": "For Parents",
+    "rules": "Rules"
+  },
+  "join": {
+    "title": "Play",
+    "java": "From Java Edition",
+    "bedrock": "From Bedrock Edition",
+    "consoles": "From Consoles",
+    "bedrock-add": "Add to Bedrock"
+  },
+  "links": {
+    "title": "Links",
+    "donate": "Shop",
+    "vk": "VK",
+    "discord": "Discord"
+  },
+
+  "disclaimer": {
+    "trademarks": "All trademarks are property of their respective owners.",
+    "mojang": "Chrome MC is not affiliated and can't be associated with Mojang of Microsoft"
+  }
+}
