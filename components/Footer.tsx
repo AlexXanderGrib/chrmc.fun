@@ -86,7 +86,7 @@ export default function Footer() {
                 GlobeAltIcon
               ],
               [
-                ts("join.bedrock-add"),
+                t("join.bedrock-add"),
                 `minecraft://?addExternalServer=${ts("server.name")}|${ts(
                   "server.ip"
                 )}:${ts("server.bedrockPort")}`,
