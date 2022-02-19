@@ -168,12 +168,15 @@ export default function Guide({ guide, allGuides: otherGuides }) {
         <If condition={guide.images?.length > 0}>
           <Carousel showArrows={true} emulateTouch infiniteLoop>
             {guide.images.map((image) => (
-              <Image
+              <img
                 src={image.url}
                 alt={image.alt}
                 width={image.width}
                 height={image.height}
                 key={image.url}
+                loading="lazy"
+                decoding="async"
+                draggable="false"
               />
             ))}
           </Carousel>
