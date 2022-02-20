@@ -7,4 +7,3 @@ Host: https://chrmc.fun
 
 # Sitemaps
 Sitemap: https://chrmc.fun/sitemap.xml
-Sitemap: https://chrmc.fun/sitemap-0.xml
