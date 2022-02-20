@@ -114,7 +114,7 @@ export default function Document({ document }) {
       </Head>
 
       <article
-        className="prose prose-lg mx-auto my-8 px-2"
+        className="prose prose-lg mx-auto my-8 px-2 prose-headings:font-heading"
         itemScope
         itemType="https://schema.org/Article"
       >

@@ -14,38 +14,6 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/apple-touch-icon.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/favicon-32x32.png"
-        />
-        <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="192x192"
-          href="/android-chrome-192x192.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/favicon-16x16.png"
-        />
-        <link rel="manifest" href="/site.webmanifest" />
-        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
-        <meta name="apple-mobile-web-app-title" content="Chrome MC" />
-        <meta name="application-name" content="Chrome MC" />
-        <meta name="msapplication-TileColor" content="#ffc40d" />
-        <meta name="msapplication-TileImage" content="/mstile-144x144.png" />
-        <meta name="theme-color" content="#ffffff" />
-        <meta name="theme-color" content="#ffffff" />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content={locale} />
         <meta property="og:site_name" content="Chrome MC" />
@@ -96,6 +64,18 @@ function MyApp({ Component, pageProps }) {
             alt=""
           />
         </div>
+      </noscript>
+
+      <Script id="vk-pixel" strategy="afterInteractive">
+        {`!function(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src="https://vk.com/js/api/openapi.js?169",t.onload=function(){VK.Retargeting.Init("VK-RTRG-1215466-fkqbK"),VK.Retargeting.Hit()},document.head.appendChild(t)}();`}
+      </Script>
+
+      <noscript>
+        <img
+          src="https://vk.com/rtrg?p=VK-RTRG-1215466-fkqbK"
+          style={{ position: "absolute", top: "-9999px" }}
+          alt=""
+        />
       </noscript>
     </>
   );

@@ -1,5 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
+import { getFunctions, httpsCallable } from "firebase/functions";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -18,3 +20,12 @@ const firebaseConfig = {
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 export const analytics = getAnalytics(app);
+export const appCheck = initializeAppCheck(app, {
+  provider: new ReCaptchaV3Provider(process.env.RECAPTCHA_SITE_KEY),
+  isTokenAutoRefreshEnabled: true
+});
+export const functions = getFunctions(app);
+
+const _checkPlayer = httpsCallable(functions, "checkPlayer");
+export const checkPayer = (username: string) =>
+  _checkPlayer({ username }).then((res) => res.data as any);

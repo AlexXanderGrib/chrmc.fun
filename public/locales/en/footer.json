@@ -1,6 +1,8 @@
 {
   "contacts": {
-    "title": "Contacts"
+    "title": "Contacts",
+    "email": "Email",
+    "phone": "Phone number"
   },
   "documents": {
     "title": "Documents",
@@ -21,6 +23,11 @@
     "donate": "Shop",
     "vk": "VK",
     "discord": "Discord"
+  },
+  "lang": {
+    "title": "Language",
+    "ru": "Русский",
+    "en": "English"
   },
 
   "disclaimer": {

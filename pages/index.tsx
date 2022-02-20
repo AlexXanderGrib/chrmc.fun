@@ -21,7 +21,7 @@ export const getStaticProps = async ({ locale }) => ({
   props: {
     ...(await serverSideTranslations(
       locale,
-      ["common", "footer"],
+      ["common", "footer", "nav"],
       nextI18NextConfig
     ))
   }
@@ -221,7 +221,7 @@ export default function Home() {
                 opacity=".5"
               />
               <path
-                className="fill-white"
+                className="fill-primary-50"
                 fillRule="evenodd"
                 d="M0 140.02l29 6.605c29 6.605 87 19.99 146 11.646 58-8.343 116-38.416 174-39.98 58-1.738 116 25.031 175 31.637 58 6.779 116-6.606 174-9.908 58-3.477 117 3.302 175 8.343 58 4.867 116 8.344 174 4.867 58-3.302 117-13.21 175-26.595 58-13.385 116-30.073 174-30.073 59 0 117 16.688 175 26.77 58 9.908 116 13.211 174 14.949 59 1.739 117 1.739 146 1.739h29V180H0v-39.98z"
                 clipRule="evenodd"
@@ -231,9 +231,9 @@ export default function Home() {
         </div>
       </div>
 
-      <main className="mt-8">
+      <main className="pt-8 bg-primary-50">
         <section className="prose prose-primary mx-auto p-2 my-4">
-          <h2 id="join">{t("join.actions.how-to-join")}</h2>
+          <h2 id="join" className="text-center">{t("join.actions.how-to-join")}</h2>
 
           <div className="flex flex-col gap-4">
             {Object.keys(platforms).map((value) => {
@@ -293,11 +293,14 @@ export default function Home() {
               src="https://discord.com/widget?id=883759326131540000&amp;theme=dark"
               width="350"
               height="500"
-              allowTransparency
+              {...{ ["allowtransparency"]: "true" }}
               frameBorder={0}
               sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
-              className="mx-auto"
-            ></iframe>
+              className="mx-auto max-w-full select-none"
+              title="Discord"
+              lang="en"
+              loading="lazy"
+            />
           </section>
         </div>
       </main>

@@ -142,7 +142,7 @@ export default function Guide({ guide, allGuides: otherGuides }) {
       </Head>
 
       <article
-        className="prose prose-lg mx-auto my-8 px-4"
+        className="prose prose-lg mx-auto my-8 px-4 prose-headings:font-heading"
         itemScope
         itemType="https://schema.org/Article"
       >
@@ -176,6 +176,7 @@ export default function Guide({ guide, allGuides: otherGuides }) {
                 loading="lazy"
                 decoding="async"
                 draggable="false"
+                className="select-none"
               />
             ))}
           </Carousel>

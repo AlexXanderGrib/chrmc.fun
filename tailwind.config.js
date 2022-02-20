@@ -31,6 +31,10 @@ module.exports = {
       colors: {
         primary: orange,
         action: emerald
+      },
+      fontFamily: {
+        default: "Nunito, ui-sans-serif, sans-serif",
+        heading: "Montserrat Alternates, ui-sans-serif, Apple Color Emoji, sans-serif"
       }
     }
   },

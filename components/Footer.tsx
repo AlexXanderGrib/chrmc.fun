@@ -10,47 +10,57 @@ import {
 } from "@heroicons/react/solid";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
+import classNames from "classnames";
+import { If } from "./If";
 
-function FooterBlock({ label, links }: any) {
+function FooterBlock({ label, links = [], children, icon: Icon }: any) {
   const { locale } = useRouter();
+  const iconFrag = Icon ? <Icon className="w-5 h-5 inline" /> : null;
 
   return (
     <article>
-      <h3 className="text-white font-bold text-xl mb-4">{label}</h3>
-      <ul className="flex flex-col gap-4">
-        {links.map(([label, link, Icon, props]: any) => (
-          <li key={label}>
-            {link?.startsWith("/") ? (
+      <h3 className="text-white font-bold text-xl mb-4 flex gap-2 justify-start items-center">
+        {iconFrag} {label}
+      </h3>
+      <If condition={links?.length > 0}>
+        <ul className="flex flex-col gap-4">
+          {links.map(([label, link, Icon, props]: any) => {
+            const icon = Icon ? (
+              <Icon className="text-primary-400 w-5 h-5 inline" />
+            ) : (
+              <span className="text-primary-400 select-none" aria-hidden="true">
+                ■
+              </span>
+            );
+
+            const content = (
+              <>
+                {icon} {label}
+              </>
+            );
+            props = {
+              ...props,
+              className: classNames(
+                "text-gray-400 hover:text-primary-400 transition-colors duration-150",
+                props?.className ?? ""
+              )
+            };
+
+            const wrapper = link?.startsWith("/") ? (
               <Link href={link} locale={locale}>
-                <a
-                  {...props}
-                  className="text-gray-400 hover:text-primary-400 transition-colors duration-150"
-                >
-                  {Icon ? (
-                    <Icon className="text-primary-400 w-5 h-5 inline" />
-                  ) : (
-                    <span className="text-primary-400">■</span>
-                  )}{" "}
-                  {label}
-                </a>
+                <a {...props}>{content}</a>
               </Link>
             ) : (
-              <a
-                {...props}
-                className="text-gray-400 hover:text-primary-400 transition-colors duration-150"
-                href={link}
-              >
-                {Icon ? (
-                  <Icon className="text-primary-400 w-5 h-5 inline" />
-                ) : (
-                  <span className="text-primary-400">■</span>
-                )}{" "}
-                {label}
+              <a {...props} href={link}>
+                {content}
               </a>
-            )}
-          </li>
-        ))}
-      </ul>
+            );
+
+            return <li key={label}>{wrapper}</li>;
+          })}
+        </ul>
+      </If>
+      {children}
     </article>
   );
 }
@@ -58,9 +68,14 @@ function FooterBlock({ label, links }: any) {
 export default function Footer() {
   const { t } = useTranslation("footer");
   const { t: ts } = useTranslation("common");
+  const router = useRouter();
 
   return (
-    <footer itemProp="author" itemScope itemType="https://schema.org/Organization">
+    <footer
+      itemProp="author"
+      itemScope
+      itemType="https://schema.org/Organization"
+    >
       <div className="bg-gray-800">
         <section className="flex flex-row flex-wrap max-w-5xl mx-auto p-16 gap-8 justify-between">
           <FooterBlock
@@ -105,13 +120,21 @@ export default function Footer() {
                 "+7 (995) 488-83-15",
                 "tel:+79954888315",
                 PhoneIcon,
-                { itemProp: "telephone" }
+                {
+                  itemProp: "telephone",
+                  "aria-label": t("contacts.phone"),
+                  title: t("contacts.phone")
+                }
               ],
               [
                 "support@chrmc.fun",
                 "mailto:support@chrmc.fun",
                 MailIcon,
-                { itemProp: "email" }
+                {
+                  itemProp: "email",
+                  "aria-label": t("contacts.email"),
+                  title: t("contacts.email")
+                }
               ]
             ]}
           />
@@ -140,6 +163,25 @@ export default function Footer() {
               ]
             ]}
           />
+          <If condition={router.locales?.length > 0}>
+            <FooterBlock label={t("lang.title")} icon={GlobeAltIcon}>
+              <select
+                defaultValue={router.locale ?? router.defaultLocale}
+                onChange={(e) => {
+                  router.push(router.asPath, router.asPath, {
+                    locale: e.target.value
+                  });
+                }}
+                className="max-w-full w-full select-none rounded"
+              >
+                {router.locales.map((locale) => (
+                  <option value={locale} key={locale}>
+                    {locale} - {t(`lang.${locale}`, locale)}
+                  </option>
+                ))}
+              </select>
+            </FooterBlock>
+          </If>
         </section>
       </div>
       <div className="bg-gray-900">
