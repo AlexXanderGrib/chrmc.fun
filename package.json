@@ -1,11 +1,24 @@
 {
+  "name": "chrmc.fun",
+  "version": "1.0.0",
   "private": true,
+  "files": [
+    "README.md",
+    "yarn.lock",
+    "package.json",
+    "package-lock.json",
+    ".next",
+    "public",
+    "next.config.js",
+    "next-i18next.config.js"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "postbuild": "next-sitemap",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prepack": "npm run build"
   },
   "dependencies": {
     "@headlessui/react": "^1.4.3",
