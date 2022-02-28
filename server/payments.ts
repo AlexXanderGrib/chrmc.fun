@@ -1,7 +1,6 @@
 import { normalize } from "./strings";
 import type { Cart } from "./cart";
 import { createHmac } from "crypto";
-import { SymmetricCryptoService } from "yandex-cloud/api/kms/v1"
 
 let Authorization = "";
 export const setAuth = (auth: string) => {
