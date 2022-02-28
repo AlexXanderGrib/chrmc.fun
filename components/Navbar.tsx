@@ -35,8 +35,11 @@ export default function NavBar({ transparent = false, dark = false }) {
                 <span className="sr-only">{ts("server.name")}</span>
                 <img
                   className="h-8 w-auto sm:h-10"
-                  src="/apple-touch-icon-180x180-precomposed.png"
+                  src="/logo-40.jpg"
+                  srcSet="/logo-80.jpg 2x"
                   alt=""
+                  width="40"
+                  height="40"
                 />
               </a>
             </Link>
@@ -134,7 +137,10 @@ export default function NavBar({ transparent = false, dark = false }) {
                 <div>
                   <img
                     className="h-8 w-auto"
-                    src="/apple-touch-icon-180x180-precomposed.png"
+                    src="/logo-40.jpg"
+                    srcSet="/logo-80.jpg 2x"
+                    width="40"
+                    height="40"
                     alt={ts("server.name")}
                   />
                 </div>
