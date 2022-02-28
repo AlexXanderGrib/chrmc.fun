@@ -27,7 +27,7 @@ module.exports = {
       ref: "origin/main",
       repo: "github:AlexXanderGrib/chrmc.fun.git",
       path: "/home/www/app",
-      "post-deploy": "npm ci && npm run build && pm2 startOrRestart --env production",
+      "post-deploy": "npm ci && npm run build && pm2 startOrRestart --env production ecosystem.config.js",
       key: "./key.pem"
     }
   }
