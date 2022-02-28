@@ -25,9 +25,9 @@ module.exports = {
       user: "www",
       host: "37.77.106.193",
       ref: "origin/main",
-      repo: "git@github.com:AlexXanderGrib/chrmc.fun.git",
+      repo: "github:AlexXanderGrib/chrmc.fun.git",
       path: "/home/www/app",
-      "post-deploy": "npm ci --prod",
+      "post-deploy": "npm i --prod && npm run build && pm2 startOrRestart ecosystem.json --env production",
       key: "./key.pem"
     }
   }
