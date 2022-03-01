@@ -31,10 +31,10 @@ export default function NavBar({ transparent = false, dark = false }) {
         <div className="flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
           <div className="flex justify-start lg:w-0 lg:flex-1">
             <Link href="/" passHref locale={locale}>
-              <a className="clickable" draggable="false">
+              <a className="clickable" draggable="false" hrefLang={locale}>
                 <span className="sr-only">{ts("server.name")}</span>
                 <img
-                  className="h-8 w-auto sm:h-10"
+                  className="h-8 w-auto sm:h-10 rounded"
                   src="/logo-40.jpg"
                   srcSet="/logo-80.jpg 2x"
                   alt=""
@@ -94,6 +94,7 @@ export default function NavBar({ transparent = false, dark = false }) {
                                   <a
                                     className="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50 clickable"
                                     draggable="false"
+                                    hrefLang={locale}
                                   >
                                     <div className="ml-4">
                                       <p className="text-base font-medium text-gray-900">
@@ -136,7 +137,7 @@ export default function NavBar({ transparent = false, dark = false }) {
               <div className="flex items-center justify-between">
                 <div>
                   <img
-                    className="h-8 w-auto"
+                    className="h-8 w-auto rounded"
                     src="/logo-40.jpg"
                     srcSet="/logo-80.jpg 2x"
                     width="40"
@@ -183,7 +184,11 @@ export default function NavBar({ transparent = false, dark = false }) {
                                     passHref
                                     locale={locale}
                                   >
-                                    <a className="clickable -m-3 p-3 flex items-center rounded-md hover:bg-gray-50">
+                                    <a
+                                      className="clickable -m-3 p-3 flex items-center rounded-md hover:bg-gray-50"
+                                      hrefLang={locale}
+                                      draggable="false"
+                                    >
                                       <span className="ml-3 text-base font-medium text-gray-900">
                                         {item.name}
                                       </span>

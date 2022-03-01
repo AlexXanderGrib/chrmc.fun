@@ -6,10 +6,43 @@ import Footer from "../components/Footer";
 import "../styles/globals.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Navbar from "../components/Navbar";
+import { AppProps } from "next/app";
+import Analytics from "../components/Analytics";
+import { Transition } from "@headlessui/react";
+import { useEffect, useState } from "react";
 
-function MyApp({ Component, pageProps }) {
-  const { locale, defaultLocale, asPath } = useRouter();
-  const path = locale === defaultLocale ? asPath : `/${locale}${asPath}`;
+function MyApp({ Component, pageProps, router }: AppProps) {
+  const { locale, defaultLocale, locales, asPath } = router;
+  const [show, setShow] = useState(true);
+
+  useEffect(() => {
+    const { events } = router;
+    const beforeNavigation = () => setShow(false);
+    const afterNavigation = () => setShow(true);
+
+    events.on("routeChangeStart", beforeNavigation);
+    events.on("routeChangeComplete", afterNavigation);
+    events.on("routeChangeError", afterNavigation);
+
+    return () => {
+      events.off("routeChangeStart", beforeNavigation);
+      events.off("routeChangeComplete", afterNavigation);
+      events.off("routeChangeError", afterNavigation);
+    };
+  }, [router, setShow]);
+
+  const getPath = (locale: string) => {
+    if (locale !== defaultLocale) {
+      return `/${locale}${asPath}`;
+    }
+
+    if (asPath === "/") {
+      return `/${defaultLocale}`;
+    }
+
+    return asPath;
+  };
+  const path = getPath(locale);
 
   return (
     <>
@@ -17,66 +50,45 @@ function MyApp({ Component, pageProps }) {
         <meta property="og:type" content="website" />
         <meta property="og:locale" content={locale} />
         <meta property="og:site_name" content="Chrome MC" />
-        <meta property="og:locale:alternate" content="en_US" />
+        <meta property="og:locale:alternate" content="en" />
         <meta property="og:url" content={`https://chrmc.fun${path}`} />
+        {locales
+          ?.filter((loc) => loc !== locale)
+          .map((locale) => (
+            <link
+              key={locale}
+              rel="alternate"
+              hrefLang={locale}
+              href={`https://chrmc.fun${getPath(locale)}`}
+            />
+          ))}
       </Head>
 
       <div itemScope itemType="https://schema.org/WebPage">
         <Navbar />
-        <Component {...pageProps} />
+        <div className="min-h-screen">
+          <Transition
+            appear={true}
+            show={show}
+            enter="transition-opacity duration-75"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="transition-opacity duration-150"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <Component {...pageProps} />
+          </Transition>
+        </div>
+
         <Footer />
       </div>
 
-      <Script
-        src="https://www.googletagmanager.com/gtag/js?id=G-7JMR9BLX1N"
-        strategy="afterInteractive"
+      <Analytics
+        googleTag="G-7JMR9BLX1N"
+        yandexMetrika="87563257"
+        vkPixel="VK-RTRG-1215466-fkqbK"
       />
-      <Script id="google-analytics" strategy="afterInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){window.dataLayer.push(arguments);}
-          gtag('js', new Date());
-
-          gtag('config', 'G-7JMR9BLX1N');
-        `}
-      </Script>
-
-      <Script id="yandex-metrika" strategy="afterInteractive">
-        {`
-          (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-          m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-          (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-          ym(87563257, "init", {
-            clickmap:true,
-            trackLinks:true,
-            accurateTrackBounce:true,
-            webvisor:true,
-            ecommerce:"dataLayer"
-          });
-        `}
-      </Script>
-      <noscript>
-        <div>
-          <img
-            src="https://mc.yandex.ru/watch/87563257"
-            style={{ position: "absolute", top: "-9999px" }}
-            alt=""
-          />
-        </div>
-      </noscript>
-
-      <Script id="vk-pixel" strategy="afterInteractive">
-        {`!function(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src="https://vk.com/js/api/openapi.js?169",t.onload=function(){VK.Retargeting.Init("VK-RTRG-1215466-fkqbK"),VK.Retargeting.Hit()},document.head.appendChild(t)}();`}
-      </Script>
-
-      <noscript>
-        <img
-          src="https://vk.com/rtrg?p=VK-RTRG-1215466-fkqbK"
-          style={{ position: "absolute", top: "-9999px" }}
-          alt=""
-        />
-      </noscript>
     </>
   );
 }

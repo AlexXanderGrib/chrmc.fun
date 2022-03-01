@@ -6,7 +6,10 @@ import {
   DocumentTextIcon,
   DeviceMobileIcon,
   DesktopComputerIcon,
-  GlobeAltIcon
+  GlobeAltIcon,
+  VolumeUpIcon,
+  ChatAlt2Icon,
+  CursorClickIcon,
 } from "@heroicons/react/solid";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
@@ -48,7 +51,9 @@ function FooterBlock({ label, links = [], children, icon: Icon }: any) {
 
             const wrapper = link?.startsWith("/") ? (
               <Link href={link} locale={locale}>
-                <a {...props}>{content}</a>
+                <a {...props} hrefLang={locale}>
+                  {content}
+                </a>
               </Link>
             ) : (
               <a {...props} href={link}>
@@ -82,8 +87,18 @@ export default function Footer() {
             label={t("links.title")}
             links={[
               [t("links.donate"), "/donate", ShoppingBagIcon],
-              [t("links.discord"), "https://discord.gg/V6dCEUhsbt"],
-              [t("links.vk"), "https://vk.com/chrome_mc"]
+              [
+                t("links.discord"),
+                "https://discord.gg/V6dCEUhsbt",
+                VolumeUpIcon,
+                { rel: "noopener noreferrer", target: "_blank" }
+              ],
+              [
+                t("links.vk"),
+                "https://vk.com/chrome_mc",
+                ChatAlt2Icon,
+                { rel: "noopener me", target: "_blank" }
+              ]
             ]}
           />
           <FooterBlock
@@ -109,7 +124,7 @@ export default function Footer() {
                 `minecraft://?addExternalServer=${ts("server.name")}|${ts(
                   "server.ip"
                 )}:${ts("server.bedrockPort")}`,
-                DeviceMobileIcon
+                CursorClickIcon
               ]
             ]}
           />

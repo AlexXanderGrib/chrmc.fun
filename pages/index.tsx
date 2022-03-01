@@ -4,7 +4,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import nextI18NextConfig from "../next-i18next.config.js";
 import { GetStaticProps } from "next";
-import { ComponentProps, FC, useEffect, useState } from "react";
+import { ComponentProps, FC, ReactNode, useEffect, useState } from "react";
 import { If } from "../components/If";
 import {
   ChevronUpIcon,
@@ -16,6 +16,7 @@ import {
 } from "@heroicons/react/solid";
 import { Disclosure } from "@headlessui/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export const getStaticProps = async ({ locale }) => ({
   props: {
@@ -29,11 +30,38 @@ export const getStaticProps = async ({ locale }) => ({
 
 type PlayerPlatform = "java" | "bedrock" | "consoles";
 
+function ScrollSpy({ children }: { children: (pos: number) => ReactNode }) {
+  const [pos, setPos] = useState(0);
+
+  useEffect(() => {
+    let stopped = false;
+    let frame = 0;
+
+    const update = () => setPos(Math.floor(window.scrollY / 3));
+
+    function tick() {
+      update();
+
+      if (!stopped) frame = requestAnimationFrame(tick);
+    }
+
+    tick();
+
+    return () => {
+      stopped = true;
+      cancelAnimationFrame(frame);
+    };
+  }, [setPos]);
+  
+  return <>{children(pos)}</>;
+}
+
 export default function Home() {
   const { t } = useTranslation("common");
   const [primaryPlatform, setPrimaryPlatform] = useState<
     PlayerPlatform | undefined
   >(undefined);
+  const { locale } = useRouter();
 
   useEffect(() => {
     const map: Record<string, PlayerPlatform> = {
@@ -80,20 +108,34 @@ export default function Home() {
         <title>{t("seo.title")}</title>
         <meta property="og:image" content="/hero@1x.jpg" />
       </Head>
-      <div className="relative min-h-[800px] h-[90vh] max-h-[1200px] w-full">
-        <picture>
-          <source srcSet="/hero@1x.avif, /hero@2x.avif 2x" type="image/avif" />
-          <source srcSet="/hero@1x.webp, /hero@2x.webp 2x" type="image/webp" />
-          <img
-            src="/hero@1x.jpg"
-            srcSet="/hero@2x.jpg 2x"
-            className="absolute w-full h-full top-0 left-0 object-cover object-center select-none"
-            loading="eager"
-            decoding="async"
-            draggable="false"
-            alt=""
-          />
-        </picture>
+      <div className="relative min-h-[500px] h-[90vh] max-h-[1200px] w-full">
+        <ScrollSpy>
+          {(pos) => (
+            <picture>
+              <source
+                srcSet="/hero@1x.avif, /hero@2x.avif 2x"
+                type="image/avif"
+              />
+              <source
+                srcSet="/hero@1x.webp, /hero@2x.webp 2x"
+                type="image/webp"
+              />
+              <img
+                src="/hero@1x.jpg"
+                srcSet="/hero@2x.jpg 2x"
+                className="absolute w-full h-full top-0 left-0 object-cover object-center select-none -z-10 will-change-transform"
+                loading="eager"
+                decoding="async"
+                draggable="false"
+                alt=""
+                style={{
+                  transform: `translateY(${Math.max(0, pos - 60)}px)`
+                }}
+              />
+            </picture>
+          )}
+        </ScrollSpy>
+
         <div className="absolute w-full h-full top-0 left-0 bg-gradient-to-t from-gray-900 via-gray-800 to-transparent opacity-60" />
         <div className="absolute w-full h-full top-0 left-0 flex flex-col justify-between items-center">
           <div className="pt-8 text-center text-white" />
@@ -148,6 +190,7 @@ export default function Home() {
                   href={`minecraft://?addExternalServer=${t("server.name")}|${t(
                     "server.ip"
                   )}:${t("server.bedrockPort")}`}
+                  draggable="false"
                 >
                   {t("join.actions.bedrock-join")}
                 </a>
@@ -162,6 +205,7 @@ export default function Home() {
                 <a
                   className="clickable bg-action-500 hover:bg-action-600 transition-colors text-white w-full h-16 flex items-center justify-center rounded font-bold"
                   href="#join"
+                  draggable="false"
                 >
                   {t("join.actions.how-to-join")}
                 </a>
@@ -185,6 +229,7 @@ export default function Home() {
           "
                 aria-label="Scroll down"
                 lang="en"
+                draggable="false"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -233,15 +278,21 @@ export default function Home() {
 
       <main className="pt-8 bg-primary-50">
         <section className="prose prose-primary mx-auto p-2 my-4">
-          <h2 id="join" className="text-center">{t("join.actions.how-to-join")}</h2>
+          <h2 id="join" className="text-center">
+            {t("join.actions.how-to-join")}
+          </h2>
 
           <div className="flex flex-col gap-4">
             {Object.keys(platforms).map((value) => {
               const [href, Icon] = platforms[value];
 
               return (
-                <Link key={value} href={href} passHref>
-                  <a className="flex clickable items-center w-full gap-2 px-6 py-4 text-sm font-medium text-left text-primary-900 bg-primary-100 rounded-lg hover:bg-primary-200 focus:outline-none focus-visible:ring focus-visible:ring-primary-500 focus-visible:ring-opacity-75 transition-colors">
+                <Link key={value} href={href} passHref locale={locale}>
+                  <a
+                    className="flex clickable items-center w-full gap-2 px-6 py-4 text-sm font-medium text-left text-primary-900 bg-primary-100 rounded-lg hover:bg-primary-200 focus:outline-none focus-visible:ring focus-visible:ring-primary-500 focus-visible:ring-opacity-75 transition-colors"
+                    hrefLang={locale}
+                    draggable="false"
+                  >
                     <div className="flex bg-primary-200 rounded-full w-12 h-12 items-center justify-center p-6 relative">
                       <Icon className="w-6 h-6 absolute" />
                     </div>
