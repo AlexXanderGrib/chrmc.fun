@@ -1,22 +1,18 @@
 import Head from "next/head";
-import Image from "next/image";
+
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import nextI18NextConfig from "../next-i18next.config.js";
-import { GetStaticProps } from "next";
 import { ComponentProps, FC, ReactNode, useEffect, useState } from "react";
 import { If } from "../components/If";
 import {
-  ChevronUpIcon,
   ClipboardCopyIcon,
   DesktopComputerIcon,
   DeviceMobileIcon,
   ExternalLinkIcon,
   GlobeAltIcon
 } from "@heroicons/react/solid";
-import { Disclosure } from "@headlessui/react";
-import Link from "next/link";
-import { useRouter } from "next/router";
+import Link from "../components/Link";
 
 export const getStaticProps = async ({ locale }) => ({
   props: {
@@ -37,7 +33,7 @@ function ScrollSpy({ children }: { children: (pos: number) => ReactNode }) {
     let stopped = false;
     let frame = 0;
 
-    const update = () => setPos(Math.floor(window.scrollY / 3));
+    const update = () => setPos(Math.floor(window.scrollY / 1.3));
 
     function tick() {
       update();
@@ -52,7 +48,7 @@ function ScrollSpy({ children }: { children: (pos: number) => ReactNode }) {
       cancelAnimationFrame(frame);
     };
   }, [setPos]);
-  
+
   return <>{children(pos)}</>;
 }
 
@@ -61,7 +57,6 @@ export default function Home() {
   const [primaryPlatform, setPrimaryPlatform] = useState<
     PlayerPlatform | undefined
   >(undefined);
-  const { locale } = useRouter();
 
   useEffect(() => {
     const map: Record<string, PlayerPlatform> = {
@@ -287,23 +282,21 @@ export default function Home() {
               const [href, Icon] = platforms[value];
 
               return (
-                <Link key={value} href={href} passHref locale={locale}>
-                  <a
-                    className="flex clickable items-center w-full gap-2 px-6 py-4 text-sm font-medium text-left text-primary-900 bg-primary-100 rounded-lg hover:bg-primary-200 focus:outline-none focus-visible:ring focus-visible:ring-primary-500 focus-visible:ring-opacity-75 transition-colors"
-                    hrefLang={locale}
-                    draggable="false"
-                  >
-                    <div className="flex bg-primary-200 rounded-full w-12 h-12 items-center justify-center p-6 relative">
-                      <Icon className="w-6 h-6 absolute" />
-                    </div>
+                <Link
+                  key={value}
+                  href={href}
+                  className="flex clickable items-center w-full gap-2 px-6 py-4 text-sm font-medium text-left text-primary-900 bg-primary-100 rounded-lg hover:bg-primary-200 focus:outline-none focus-visible:ring focus-visible:ring-primary-500 focus-visible:ring-opacity-75 transition-colors"
+                >
+                  <div className="flex bg-primary-200 rounded-full w-12 h-12 items-center justify-center p-6 relative">
+                    <Icon className="w-6 h-6 absolute" />
+                  </div>
 
-                    <div className="whitespace-nowrap">
-                      {t(`guides.${value}.title`)}
-                    </div>
+                  <div className="whitespace-nowrap">
+                    {t(`guides.${value}.title`)}
+                  </div>
 
-                    <div className="w-full" />
-                    <ExternalLinkIcon className="w-6 h-6" />
-                  </a>
+                  <div className="w-full" />
+                  <ExternalLinkIcon className="w-6 h-6" />
                 </Link>
               );
             })}

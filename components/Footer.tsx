@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "./Link";
 import {
   MailIcon,
   PhoneIcon,
@@ -9,7 +9,7 @@ import {
   GlobeAltIcon,
   VolumeUpIcon,
   ChatAlt2Icon,
-  CursorClickIcon,
+  CursorClickIcon
 } from "@heroicons/react/solid";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
@@ -36,11 +36,6 @@ function FooterBlock({ label, links = [], children, icon: Icon }: any) {
               </span>
             );
 
-            const content = (
-              <>
-                {icon} {label}
-              </>
-            );
             props = {
               ...props,
               className: classNames(
@@ -49,19 +44,13 @@ function FooterBlock({ label, links = [], children, icon: Icon }: any) {
               )
             };
 
-            const wrapper = link?.startsWith("/") ? (
-              <Link href={link} locale={locale}>
-                <a {...props} hrefLang={locale}>
-                  {content}
-                </a>
-              </Link>
-            ) : (
-              <a {...props} href={link}>
-                {content}
-              </a>
+            return (
+              <li key={label}>
+                <Link {...props} href={link}>
+                  {icon} {label}
+                </Link>
+              </li>
             );
-
-            return <li key={label}>{wrapper}</li>;
           })}
         </ul>
       </If>

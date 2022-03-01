@@ -2,7 +2,7 @@ import { Disclosure, Popover, Transition } from "@headlessui/react";
 import { MenuIcon, ChevronDownIcon, XIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
 import { useTranslation } from "next-i18next";
-import Link from "next/link";
+import Link from "./Link";
 import { useRouter } from "next/router";
 import { Fragment } from "react";
 
@@ -10,7 +10,6 @@ export default function NavBar({ transparent = false, dark = false }) {
   const { t } = useTranslation("nav");
   const { t: fs } = useTranslation("footer");
   const { t: ts } = useTranslation("common");
-  const { locale } = useRouter();
 
   const navigation = {
     [fs("links.title")]: [{ name: fs("links.donate"), href: "/donate" }],
@@ -30,18 +29,16 @@ export default function NavBar({ transparent = false, dark = false }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
           <div className="flex justify-start lg:w-0 lg:flex-1">
-            <Link href="/" passHref locale={locale}>
-              <a className="clickable" draggable="false" hrefLang={locale}>
-                <span className="sr-only">{ts("server.name")}</span>
-                <img
-                  className="h-8 w-auto sm:h-10 rounded"
-                  src="/logo-40.jpg"
-                  srcSet="/logo-80.jpg 2x"
-                  alt=""
-                  width="40"
-                  height="40"
-                />
-              </a>
+            <Link href="/">
+              <span className="sr-only">{ts("server.name")}</span>
+              <img
+                className="h-8 w-auto sm:h-10 rounded"
+                src="/logo-40.jpg"
+                srcSet="/logo-80.jpg 2x"
+                alt=""
+                width="40"
+                height="40"
+              />
             </Link>
           </div>
           <div className="-mr-2 -my-2 md:hidden">
@@ -88,20 +85,13 @@ export default function NavBar({ transparent = false, dark = false }) {
                                 <Link
                                   key={item.name}
                                   href={item.href}
-                                  locale={locale}
-                                  passHref
+                                  className="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50 clickable"
                                 >
-                                  <a
-                                    className="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50 clickable"
-                                    draggable="false"
-                                    hrefLang={locale}
-                                  >
-                                    <div className="ml-4">
-                                      <p className="text-base font-medium text-gray-900">
-                                        {item.name}
-                                      </p>
-                                    </div>
-                                  </a>
+                                  <div className="ml-4">
+                                    <p className="text-base font-medium text-gray-900">
+                                      {item.name}
+                                    </p>
+                                  </div>
                                 </Link>
                               )
                             )}
@@ -181,18 +171,11 @@ export default function NavBar({ transparent = false, dark = false }) {
                                   <Link
                                     key={item.name}
                                     href={item.href}
-                                    passHref
-                                    locale={locale}
+                                    className="clickable -m-3 p-3 flex items-center rounded-md hover:bg-gray-50"
                                   >
-                                    <a
-                                      className="clickable -m-3 p-3 flex items-center rounded-md hover:bg-gray-50"
-                                      hrefLang={locale}
-                                      draggable="false"
-                                    >
-                                      <span className="ml-3 text-base font-medium text-gray-900">
-                                        {item.name}
-                                      </span>
-                                    </a>
+                                    <span className="ml-3 text-base font-medium text-gray-900">
+                                      {item.name}
+                                    </span>
                                   </Link>
                                 )
                               )}
