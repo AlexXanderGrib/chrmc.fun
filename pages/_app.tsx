@@ -49,9 +49,9 @@ function MyApp({ Component, pageProps, router }: AppProps) {
       <Head>
         <meta property="og:type" content="website" />
         <meta property="og:locale" content={locale} />
-        <meta property="og:site_name" content="Chrome MC" />
+        <meta property="og:site_name" content="DiCraft" />
         <meta property="og:locale:alternate" content="en" />
-        <meta property="og:url" content={`https://chrmc.fun${path}`} />
+        <meta property="og:url" content={`https://dicraft.net${path}`} />
         {locales
           ?.filter((loc) => loc !== locale)
           .map((locale) => (
@@ -59,7 +59,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
               key={locale}
               rel="alternate"
               hrefLang={locale}
-              href={`https://chrmc.fun${getPath(locale)}`}
+              href={`https://dicraft.net${getPath(locale)}`}
             />
           ))}
       </Head>

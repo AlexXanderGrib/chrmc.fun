@@ -12,7 +12,6 @@ export default function NavBar({ transparent = false, dark = false }) {
   const { t: ts } = useTranslation("common");
 
   const navigation = {
-    [fs("links.title")]: [{ name: fs("links.donate"), href: "/donate" }],
     [fs("documents.title")]: [
       { name: fs("documents.rules"), href: "/articles/documents/rules" },
       { name: fs("documents.parents"), href: "/articles/documents/parents" }
@@ -33,8 +32,8 @@ export default function NavBar({ transparent = false, dark = false }) {
               <span className="sr-only">{ts("server.name")}</span>
               <img
                 className="h-8 w-auto sm:h-10 rounded"
-                src="/logo-40.jpg"
-                srcSet="/logo-80.jpg 2x"
+                src="/images/app/logo-40.jpg"
+                srcSet="/images/app/logo-80.jpg 2x"
                 alt=""
                 width="40"
                 height="40"
@@ -128,8 +127,8 @@ export default function NavBar({ transparent = false, dark = false }) {
                 <div>
                   <img
                     className="h-8 w-auto rounded"
-                    src="/logo-40.jpg"
-                    srcSet="/logo-80.jpg 2x"
+                    src="/images/app/logo-40.jpg"
+                    srcSet="/images/app/logo-80.jpg 2x"
                     width="40"
                     height="40"
                     alt={ts("server.name")}

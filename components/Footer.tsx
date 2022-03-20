@@ -9,7 +9,10 @@ import {
   GlobeAltIcon,
   VolumeUpIcon,
   ChatAlt2Icon,
-  CursorClickIcon
+  CursorClickIcon,
+  MusicNoteIcon,
+  CameraIcon,
+  ClipboardCopyIcon
 } from "@heroicons/react/solid";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
@@ -73,24 +76,6 @@ export default function Footer() {
       <div className="bg-gray-800">
         <section className="flex flex-row flex-wrap max-w-5xl mx-auto p-16 gap-8 justify-between">
           <FooterBlock
-            label={t("links.title")}
-            links={[
-              [t("links.donate"), "/donate", ShoppingBagIcon],
-              [
-                t("links.discord"),
-                "https://discord.gg/V6dCEUhsbt",
-                VolumeUpIcon,
-                { rel: "noopener noreferrer", target: "_blank" }
-              ],
-              [
-                t("links.vk"),
-                "https://vk.com/chrome_mc",
-                ChatAlt2Icon,
-                { rel: "noopener me", target: "_blank" }
-              ]
-            ]}
-          />
-          <FooterBlock
             label={t("join.title")}
             links={[
               [
@@ -127,21 +112,71 @@ export default function Footer() {
                 {
                   itemProp: "telephone",
                   "aria-label": t("contacts.phone"),
-                  title: t("contacts.phone")
+                  title: t("contacts.phone"),
+                  className: "!select-auto"
                 }
               ],
               [
-                "support@chrmc.fun",
-                "mailto:support@chrmc.fun",
+                "support@dicraft.net",
+                "mailto:support@dicraft.net",
                 MailIcon,
                 {
                   itemProp: "email",
                   "aria-label": t("contacts.email"),
-                  title: t("contacts.email")
+                  title: t("contacts.email"),
+                  className: "!select-auto"
                 }
               ]
             ]}
           />
+          {/* <FooterBlock
+            label={t("links.title")}
+            links={[
+              [
+                t("links.discord"),
+                "",
+                VolumeUpIcon,
+                { rel: "noopener noreferrer", target: "_blank" }
+              ],
+              [
+                t("links.vk"),
+                "",
+                ChatAlt2Icon,
+                { rel: , target: "_blank" }
+              ],
+              [
+                ,
+                "",
+                CameraIcon,
+                { rel: "noopener me", target: "_blank" }
+              ],
+              [
+                t("links.tiktok"),
+                "",
+                MusicNoteIcon,
+                { rel: "noopener me", target: "_blank" }
+              ]
+            ]}
+          /> */}
+          <If condition={router.locales?.length > 0}>
+            <FooterBlock label={t("lang.title")} icon={GlobeAltIcon}>
+              <select
+                defaultValue={router.locale ?? router.defaultLocale}
+                onChange={(e) => {
+                  router.push(router.asPath, router.asPath, {
+                    locale: e.target.value
+                  });
+                }}
+                className="max-w-full w-full select-none rounded"
+              >
+                {router.locales.map((locale) => (
+                  <option value={locale} key={locale}>
+                    {locale} - {t(`lang.${locale}`, locale)}
+                  </option>
+                ))}
+              </select>
+            </FooterBlock>
+          </If>
           <FooterBlock
             label={t("documents.title")}
             links={[
@@ -167,30 +202,108 @@ export default function Footer() {
               ]
             ]}
           />
-          <If condition={router.locales?.length > 0}>
-            <FooterBlock label={t("lang.title")} icon={GlobeAltIcon}>
-              <select
-                defaultValue={router.locale ?? router.defaultLocale}
-                onChange={(e) => {
-                  router.push(router.asPath, router.asPath, {
-                    locale: e.target.value
-                  });
-                }}
-                className="max-w-full w-full select-none rounded"
+        </section>
+      </div>
+      <div className="bg-purple-700">
+        <section className="flex flex-row flex-wrap max-w-5xl mx-auto px-16 py-8 gap-8 justify-between">
+          <button
+            className="flex overflow-hidden rounded-lg text-white items-stretch"
+            title={ts("join.actions.copy")}
+            onClick={() => navigator.clipboard.writeText(ts("server.ip"))}
+          >
+            <div className="px-4 py-2 bg-purple-800 font-bold uppercase">
+              {ts("server.ip")}
+            </div>
+            <div className="px-4 py-2 bg-purple-900 flex justify-center items-center">
+              <ClipboardCopyIcon
+                className="w-5 h-5"
+                aria-label={ts("join.actions.copy")}
+              />
+            </div>
+          </button>
+          <ul className="flex gap-8">
+            <li>
+              <a
+                href="https://www.instagram.com/dicraft.server/"
+                rel="noreferrer noopener me"
+                target="_blank"
+                className="clickable group"
+                title={t("links.instagram")}
               >
-                {router.locales.map((locale) => (
-                  <option value={locale} key={locale}>
-                    {locale} - {t(`lang.${locale}`, locale)}
-                  </option>
-                ))}
-              </select>
-            </FooterBlock>
-          </If>
+                <img
+                  src="/images/icons/Instagram.svg"
+                  alt={t("links.instagram")}
+                  draggable="false"
+                  loading="eager"
+                  width="32"
+                  height="32"
+                  className="opacity-50 group-hover:opacity-80 group-focus:opacity-80 transition-opacity"
+                />
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://discord.gg/V6dCEUhsbt"
+                rel="noreferrer noopener me"
+                target="_blank"
+                className="clickable group"
+                title={t("links.discord")}
+              >
+                <img
+                  src="/images/icons/Discord.svg"
+                  alt={t("links.discord")}
+                  draggable="false"
+                  loading="eager"
+                  width="32"
+                  height="32"
+                  className="opacity-50 group-hover:opacity-80 group-focus:opacity-80 transition-opacity"
+                />
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://vk.com/dicraft.server"
+                rel="noreferrer noopener me"
+                target="_blank"
+                className="clickable group"
+                title={t("links.vk")}
+              >
+                <img
+                  src="/images/icons/VK.svg"
+                  alt={t("links.vk")}
+                  draggable="false"
+                  loading="eager"
+                  width="32"
+                  height="32"
+                  className="opacity-50 group-hover:opacity-80 group-focus:opacity-80 transition-opacity"
+                />
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.tiktok.com/@dicraft.server"
+                rel="noreferrer noopener me"
+                target="_blank"
+                className="clickable group"
+                title={t("links.tiktok")}
+              >
+                <img
+                  src="/images/icons/TikTok.svg"
+                  alt={t("links.tiktok")}
+                  draggable="false"
+                  loading="eager"
+                  width="32"
+                  height="32"
+                  className="opacity-50 group-hover:opacity-80 group-focus:opacity-80 transition-opacity"
+                />
+              </a>
+            </li>
+          </ul>
         </section>
       </div>
       <div className="bg-gray-900">
         <section className="flex flex-row flex-wrap max-w-3xl mx-auto px-16 py-8 gap-8 text-gray-400">
-          <span itemProp="name">{ts("server.name")}</span> ©{" "}
+          <span itemProp="name">{ts("server.name")}</span> © 2021-
           {new Date().getFullYear()}
           <div className="flex flex-row flex-wrap text-gray-500">
             <span>{t("disclaimer.trademarks")}</span>

@@ -2,6 +2,7 @@ const { emerald, orange } = require("tailwindcss/colors");
 const typography = require("@tailwindcss/typography");
 const forms = require("@tailwindcss/forms");
 const aspectRatio = require("@tailwindcss/aspect-ratio");
+const lineClamp = require("@tailwindcss/line-clamp");
 
 const plugin = require("tailwindcss/plugin");
 const utils = plugin(({ addUtilities }) => {
@@ -38,5 +39,5 @@ module.exports = {
       }
     }
   },
-  plugins: [typography, forms, aspectRatio, utils]
+  plugins: [typography, forms, lineClamp, aspectRatio, utils]
 };

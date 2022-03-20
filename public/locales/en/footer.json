@@ -1,6 +1,6 @@
 {
   "contacts": {
-    "title": "Contacts",
+    "title": "Support",
     "email": "Email",
     "phone": "Phone number"
   },
@@ -19,8 +19,9 @@
     "bedrock-add": "Add to Bedrock"
   },
   "links": {
-    "title": "Links",
-    "donate": "Shop",
+    "title": "Socials",
+    "instagram": "Instagram",
+    "tiktok": "TikTok",
     "vk": "VK",
     "discord": "Discord"
   },
@@ -32,6 +33,6 @@
 
   "disclaimer": {
     "trademarks": "All trademarks are property of their respective owners.",
-    "mojang": "Chrome MC is not affiliated and can't be associated with Mojang of Microsoft"
+    "mojang": "DiCraft (formerly Chrome MC) is not affiliated and can't be associated with Mojang of Microsoft"
   }
 }

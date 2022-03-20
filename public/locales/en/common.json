@@ -1,12 +1,12 @@
 {
   "seo": {
     "description": "Private official minecraft server on 1.18 java and bedrock (pocket edition pe) with Survival (SMP) and city role play (RP).",
-    "keywords": "chrome mc, minecraft server, mcpe server, smp, minecraft survival, minecraft role play",
-    "title": "Chrome MC • 1.18 • Private SMP | RP"
+    "keywords": "DiCraft, minecraft server, mcpe server, smp, minecraft survival, minecraft role play",
+    "title": "DiCraft • 1.18 • Private SMP | RP"
   },
   "server": {
-    "ip": "play.chrmc.fun",
-    "name": "Chrome MC",
+    "ip": "play.dicraft.net",
+    "name": "DiCraft",
     "javaPort": "25565",
     "javaVersion": "1.18.1",
     "bedrockPort": "19132"
@@ -17,7 +17,8 @@
     "version": "Version",
     "actions": {
       "bedrock-join": "Add this Server",
-      "how-to-join": "How to join?"
+      "how-to-join": "How to join?",
+      "copy": "Copy"
     }
   },
   "actions": {

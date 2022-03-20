@@ -23,7 +23,7 @@ module.exports = {
   deploy: {
     production: {
       user: "www",
-      host: "37.77.106.193",
+      host: ["37.77.106.193 -p 3276"],
       ref: "origin/main",
       repo: "github:AlexXanderGrib/chrmc.fun.git",
       path: "/home/www/app",

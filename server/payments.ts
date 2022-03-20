@@ -80,7 +80,7 @@ export async function createPaymentLink(
     meta: {
       nickname: nickname.toString()
     },
-    webhookUrl: "https://chrmc.fun/api/pay/callback"
+    webhookUrl: "https://dicraft.net/api/pay/callback"
   };
 
   const response = await fetch(
