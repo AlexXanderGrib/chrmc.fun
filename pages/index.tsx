@@ -169,7 +169,7 @@ export default function Home({ data }) {
                 alt=""
                 style={{
                   transform: `translateY(${Math.max(0, pos - 60)}px) scale(${
-                    1 + Math.max(0, pos - 60) / 5000
+                    1 + Math.max(0, pos - 60) / 3500
                   })`
                 }}
               />
@@ -397,17 +397,20 @@ export default function Home({ data }) {
                         <img
                           src={adv.icon.url}
                           alt=""
-                          className="select-none"
+                          className="select-none pixelated"
                           draggable="false"
                           loading="eager"
                           width={32}
                           height={32}
+                        
                         />
                       </div>
                       <h3 className="text-lg text-emerald-900 font-medium title-font mb-2">
                         {adv.title}
                       </h3>
-                      <p className="leading-relaxed text-base line-clamp-3">{adv.content}</p>
+                      <p className="leading-relaxed text-base line-clamp-3">
+                        {adv.content}
+                      </p>
                     </article>
                   </li>
                 ))}

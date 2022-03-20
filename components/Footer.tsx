@@ -177,9 +177,9 @@ export default function Footer() {
         </section>
       </div>
       <div className="bg-purple-700">
-        <section className="flex flex-row flex-wrap max-w-5xl mx-auto px-16 py-8 gap-8 justify-between">
+        <section className="flex flex-col md:flex-row items-center md:justify-between max-w-5xl mx-auto px-16 py-8 gap-8">
           <button
-            className="flex overflow-hidden rounded-lg text-white items-stretch clickable"
+            className="flex overflow-hidden rounded-lg text-white items-stretch clickable filter active:brightness-110"
             title={ts("join.actions.copy")}
             onClick={() => navigator.clipboard.writeText(ts("server.ip"))}
           >
@@ -193,7 +193,7 @@ export default function Footer() {
               />
             </div>
           </button>
-          <ul className="flex gap-8">
+          <ul className="flex gap-8 flex-wrap justify-center">
             <li>
               <a
                 href="https://www.instagram.com/dicraft.server/"

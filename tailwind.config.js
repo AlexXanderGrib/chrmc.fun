@@ -12,6 +12,10 @@ const utils = plugin(({ addUtilities }) => {
       "-webkit-tap-highlight-color": "transparent",
       "user-select": "none",
       cursor: "pointer"
+    },
+    ".pixelated": {
+      "-ms-interpolation-mode": "nearest-neighbor",
+      "image-rendering": "pixelated"
     }
   });
 });
