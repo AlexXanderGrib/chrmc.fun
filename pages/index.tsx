@@ -384,7 +384,7 @@ export default function Home({ data }) {
             />
           </svg>
         </div>
-        <div className="bg-emerald-100">
+        <div className="pt-8 bg-emerald-100">
           <section className="prose max-w-5xl prose-emerald mx-auto p-2">
             <h2 className="text-center">{t("advantages")}</h2>
 
@@ -444,8 +444,7 @@ export default function Home({ data }) {
             />
           </svg>
         </div>
-
-        <div className="bg-[#5865F2] text-white py-4">
+        <div className="pt-8 pb-8 bg-[#5865F2]">
           <section className="prose mx-auto p-2">
             <h2 className="text-center text-white">Discord</h2>
 

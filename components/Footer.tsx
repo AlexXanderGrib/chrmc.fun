@@ -42,15 +42,15 @@ function FooterBlock({ label, links = [], children, icon: Icon }: any) {
             props = {
               ...props,
               className: classNames(
-                "text-gray-400 hover:text-primary-400 transition-colors duration-150",
+                "text-gray-400 hover:text-primary-400 transition-colors duration-150 !select-auto",
                 props?.className ?? ""
               )
             };
 
             return (
               <li key={label}>
-                <Link {...props} href={link}>
-                  {icon} {label}
+                <Link {...props} href={link} draggable="true">
+                  <span className="select-none">{icon} </span>{label}
                 </Link>
               </li>
             );
@@ -113,7 +113,7 @@ export default function Footer() {
                   itemProp: "telephone",
                   "aria-label": t("contacts.phone"),
                   title: t("contacts.phone"),
-                  className: "!select-auto"
+
                 }
               ],
               [
@@ -124,7 +124,6 @@ export default function Footer() {
                   itemProp: "email",
                   "aria-label": t("contacts.email"),
                   title: t("contacts.email"),
-                  className: "!select-auto"
                 }
               ]
             ]}
