@@ -129,35 +129,7 @@ export default function Footer() {
               ]
             ]}
           />
-          {/* <FooterBlock
-            label={t("links.title")}
-            links={[
-              [
-                t("links.discord"),
-                "",
-                VolumeUpIcon,
-                { rel: "noopener noreferrer", target: "_blank" }
-              ],
-              [
-                t("links.vk"),
-                "",
-                ChatAlt2Icon,
-                { rel: , target: "_blank" }
-              ],
-              [
-                ,
-                "",
-                CameraIcon,
-                { rel: "noopener me", target: "_blank" }
-              ],
-              [
-                t("links.tiktok"),
-                "",
-                MusicNoteIcon,
-                { rel: "noopener me", target: "_blank" }
-              ]
-            ]}
-          /> */}
+
           <If condition={router.locales?.length > 0}>
             <FooterBlock label={t("lang.title")} icon={GlobeAltIcon}>
               <select
@@ -207,7 +179,7 @@ export default function Footer() {
       <div className="bg-purple-700">
         <section className="flex flex-row flex-wrap max-w-5xl mx-auto px-16 py-8 gap-8 justify-between">
           <button
-            className="flex overflow-hidden rounded-lg text-white items-stretch"
+            className="flex overflow-hidden rounded-lg text-white items-stretch clickable"
             title={ts("join.actions.copy")}
             onClick={() => navigator.clipboard.writeText(ts("server.ip"))}
           >
