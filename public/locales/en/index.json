@@ -1,3 +1,7 @@
 {
-  "advantages": "Our Advantages"
+  "advantages": "Our Advantages",
+  "buy": {
+    "title": "Buy",
+    "expires": "Expires"
+  }
 }

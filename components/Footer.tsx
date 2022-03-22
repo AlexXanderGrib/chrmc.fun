@@ -18,9 +18,17 @@ import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import classNames from "classnames";
 import { If } from "./If";
+import { ComponentProps, JSXElementConstructor, PropsWithChildren } from "react";
 
-function FooterBlock({ label, links = [], children, icon: Icon }: any) {
-  const { locale } = useRouter();
+type IconComponent = JSXElementConstructor<ComponentProps<'svg'>>;
+
+type FooterBlockProps = PropsWithChildren<{
+  label: string,
+  icon?: IconComponent;
+  links?: [label: string, link: string, Icon?: IconComponent, props?: ComponentProps<"a">][];
+}>
+
+function FooterBlock({ label, links = [], children, icon: Icon }: FooterBlockProps) {
   const iconFrag = Icon ? <Icon className="w-5 h-5 inline" /> : null;
 
   return (
@@ -50,7 +58,8 @@ function FooterBlock({ label, links = [], children, icon: Icon }: any) {
             return (
               <li key={label}>
                 <Link {...props} href={link} draggable="true">
-                  <span className="select-none">{icon} </span>{label}
+                  <span className="select-none">{icon} </span>
+                  {label}
                 </Link>
               </li>
             );
@@ -73,119 +82,17 @@ export default function Footer() {
       itemScope
       itemType="https://schema.org/Organization"
     >
-      <div className="bg-gray-800">
-        <section className="flex flex-row flex-wrap max-w-5xl mx-auto p-16 gap-8 justify-between">
-          <FooterBlock
-            label={t("join.title")}
-            links={[
-              [
-                t("join.java"),
-                "/articles/guides/how-to-join-from-java-edition",
-                DesktopComputerIcon
-              ],
-              [
-                t("join.bedrock"),
-                "/articles/guides/how-to-join-from-bedrock",
-                DeviceMobileIcon
-              ],
-              [
-                t("join.consoles"),
-                "/articles/guides/how-to-join-from-consoles",
-                GlobeAltIcon
-              ],
-              [
-                t("join.bedrock-add"),
-                `minecraft://?addExternalServer=${ts("server.name")}|${ts(
-                  "server.ip"
-                )}:${ts("server.bedrockPort")}`,
-                CursorClickIcon
-              ]
-            ]}
-          />
-          <FooterBlock
-            label={t("contacts.title")}
-            links={[
-              [
-                "+7 (995) 488-83-15",
-                "tel:+79954888315",
-                PhoneIcon,
-                {
-                  itemProp: "telephone",
-                  "aria-label": t("contacts.phone"),
-                  title: t("contacts.phone"),
-
-                }
-              ],
-              [
-                "support@dicraft.net",
-                "mailto:support@dicraft.net",
-                MailIcon,
-                {
-                  itemProp: "email",
-                  "aria-label": t("contacts.email"),
-                  title: t("contacts.email"),
-                }
-              ]
-            ]}
-          />
-
-          <If condition={router.locales?.length > 0}>
-            <FooterBlock label={t("lang.title")} icon={GlobeAltIcon}>
-              <select
-                defaultValue={router.locale ?? router.defaultLocale}
-                onChange={(e) => {
-                  router.push(router.asPath, router.asPath, {
-                    locale: e.target.value
-                  });
-                }}
-                className="max-w-full w-full select-none rounded"
-              >
-                {router.locales.map((locale) => (
-                  <option value={locale} key={locale}>
-                    {locale} - {t(`lang.${locale}`, locale)}
-                  </option>
-                ))}
-              </select>
-            </FooterBlock>
-          </If>
-          <FooterBlock
-            label={t("documents.title")}
-            links={[
-              [
-                t("documents.rules"),
-                "/articles/documents/rules",
-                DocumentTextIcon
-              ],
-              [
-                t("documents.agreement"),
-                "/articles/documents/agreement",
-                DocumentTextIcon
-              ],
-              [
-                t("documents.privacy"),
-                "/articles/documents/privacy",
-                DocumentTextIcon
-              ],
-              [
-                t("documents.parents"),
-                "/articles/documents/parents",
-                DocumentTextIcon
-              ]
-            ]}
-          />
-        </section>
-      </div>
-      <div className="bg-purple-700">
+      <div className="bg-indigo-700">
         <section className="flex flex-col md:flex-row items-center md:justify-between max-w-5xl mx-auto px-16 py-8 gap-8">
           <button
             className="flex overflow-hidden rounded-lg text-white items-stretch clickable filter active:brightness-110"
             title={ts("join.actions.copy")}
             onClick={() => navigator.clipboard.writeText(ts("server.ip"))}
           >
-            <div className="px-4 py-2 bg-purple-800 font-bold uppercase">
+            <div className="px-4 py-2 bg-indigo-800 font-bold uppercase">
               {ts("server.ip")}
             </div>
-            <div className="px-4 py-2 bg-purple-900 flex justify-center items-center">
+            <div className="px-4 py-2 bg-indigo-900 flex justify-center items-center">
               <ClipboardCopyIcon
                 className="w-5 h-5"
                 aria-label={ts("join.actions.copy")}
@@ -272,6 +179,108 @@ export default function Footer() {
           </ul>
         </section>
       </div>
+      <div className="bg-gray-800">
+        <section className="flex flex-row flex-wrap max-w-5xl mx-auto p-16 gap-8 justify-between">
+          <FooterBlock
+            label={t("join.title")}
+            links={[
+              [
+                t("join.java"),
+                "/articles/guides/how-to-join-from-java-edition",
+                DesktopComputerIcon
+              ],
+              [
+                t("join.bedrock"),
+                "/articles/guides/how-to-join-from-bedrock",
+                DeviceMobileIcon
+              ],
+              [
+                t("join.consoles"),
+                "/articles/guides/how-to-join-from-consoles",
+                GlobeAltIcon
+              ],
+              [
+                t("join.bedrock-add"),
+                `minecraft://?addExternalServer=${ts("server.name")}|${ts(
+                  "server.ip"
+                )}:${ts("server.bedrockPort")}`,
+                CursorClickIcon
+              ]
+            ]}
+          />
+          <FooterBlock
+            label={t("contacts.title")}
+            links={[
+              [
+                "+7 (995) 488-83-15",
+                "tel:+79954888315",
+                PhoneIcon,
+                {
+                  itemProp: "telephone",
+                  "aria-label": t("contacts.phone"),
+                  title: t("contacts.phone")
+                }
+              ],
+              [
+                "support@dicraft.net",
+                "mailto:support@dicraft.net",
+                MailIcon,
+                {
+                  itemProp: "email",
+                  "aria-label": t("contacts.email"),
+                  title: t("contacts.email"),
+                }
+              ]
+            ]}
+          />
+
+          <If condition={router.locales?.length > 0}>
+            <FooterBlock label={t("lang.title")} icon={GlobeAltIcon}>
+              <select
+                defaultValue={router.locale ?? router.defaultLocale}
+                onChange={(e) => {
+                  router.push(router.asPath, router.asPath, {
+                    locale: e.target.value
+                  });
+                }}
+                className="max-w-full w-full select-none rounded"
+              >
+                {router.locales.map((locale) => (
+                  <option value={locale} key={locale}>
+                    {locale} - {t(`lang.${locale}`, locale)}
+                  </option>
+                ))}
+              </select>
+            </FooterBlock>
+          </If>
+          <FooterBlock
+            label={t("documents.title")}
+            links={[
+              [
+                t("documents.rules"),
+                "/articles/documents/rules",
+                DocumentTextIcon
+              ],
+              [
+                t("documents.agreement"),
+                "/articles/documents/agreement",
+                DocumentTextIcon
+              ],
+              [
+                t("documents.privacy"),
+                "/articles/documents/privacy",
+                DocumentTextIcon
+              ],
+              [
+                t("documents.parents"),
+                "/articles/documents/parents",
+                DocumentTextIcon
+              ]
+            ]}
+          />
+        </section>
+      </div>
+
       <div className="bg-gray-900">
         <section className="flex flex-row flex-wrap max-w-3xl mx-auto px-16 py-8 gap-8 text-gray-400">
           <span itemProp="name">{ts("server.name")}</span> © 2021-

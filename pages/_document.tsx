@@ -1,9 +1,8 @@
 import { Html, Head, Main, NextScript } from "next/document";
-import { useRouter } from "next/router";
 
 export default function Document() {
   return (
-    <Html className="scroll-smooth">
+    <Html className="scroll-smooth" prefix="og: https://ogp.me/ns#">
       <Head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
