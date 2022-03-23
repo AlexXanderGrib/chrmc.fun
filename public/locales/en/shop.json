@@ -2,5 +2,6 @@
   "shop": "Shop",
   "forever": "",
   "expires": "Expires",
-  "select-currency": "Choose Currency"
+  "select-currency": "Choose Currency",
+  "buy": "Buy"
 }

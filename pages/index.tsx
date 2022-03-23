@@ -20,6 +20,7 @@ import { round } from "@xxhax/safe-math";
 import { useRouter } from "next/router";
 import { StructuredText } from "react-datocms";
 import { datocms } from "../server/config";
+import Image from "next/image";
 
 const tebex = new Tebex(process.env.TEBEX_STORE_SECRET);
 
@@ -339,6 +340,15 @@ export default function Home({ data }) {
     consoles: ["/articles/guides/how-to-join-from-consoles", GlobeAltIcon]
   };
 
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    const fn = () => setLoaded(true);
+    const timeout = setTimeout(fn, 3000);
+
+    return () => clearTimeout(timeout);
+  }, [setLoaded]);
+
   return (
     <>
       <Head>
@@ -430,15 +440,18 @@ export default function Home({ data }) {
           />
         </div>
         <div className="pt-8 bg-emerald-200">
-          <section className="grid grid-cols-3 max-w-2xl mx-auto gap-2">
-            <div>
-              <img
+          <section className="grid grid-cols-3 max-w-2xl mx-auto gap-8">
+            <div className="text-right">
+              <Image
                 src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/325/backhand-index-pointing-right_1f449.png"
                 alt="👉"
-                className="select-none float-right"
+                className="select-none"
                 draggable="false"
                 loading="lazy"
                 decoding="async"
+                width={60}
+                height={60}
+                layout="fixed"
               />
             </div>
             <div className="flex justify-center items-center">
@@ -449,14 +462,17 @@ export default function Home({ data }) {
                 {t("buy.title")}
               </Link>
             </div>
-            <div>
-              <img
+            <div className="text-left">
+              <Image
                 src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/325/backhand-index-pointing-left_1f448.png"
                 alt="👈"
-                className="select-none float-left"
+                className="select-none"
                 draggable="false"
                 loading="lazy"
                 decoding="async"
+                width={60}
+                height={60}
+                layout="fixed"
               />
             </div>
           </section>
@@ -472,59 +488,82 @@ export default function Home({ data }) {
 
             <div className="not-prose grid grid-cols-2 md:grid-cols-4 grid-rows-2">
               <div className="hidden md:flex col-start-1 row-start-1 items-start justify-start">
-                <img
-                  src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/325/megaphone_1f4e3.png"
-                  alt="📣"
-                  className="select-none transform rotate-12"
-                  draggable="false"
-                  loading="lazy"
-                  decoding="async"
-                />
+                <span className="transform rotate-12 transition-transform duration-150 hover:rotate-0">
+                  <Image
+                    src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/325/megaphone_1f4e3.png"
+                    alt="📣"
+                    className="select-none"
+                    draggable="false"
+                    loading="lazy"
+                    decoding="async"
+                    width={120}
+                    height={120}
+                    layout="fixed"
+                  />
+                </span>
               </div>
               <div className="hidden md:flex col-start-1 row-start-2 items-end justify-start">
-                <img
-                  src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/313/video-game_1f3ae.png"
-                  alt="🎮"
-                  className="select-none transform -rotate-12"
-                  draggable="false"
-                  loading="lazy"
-                  decoding="async"
-                />
+                <span className="transform rotate-12 transition-transform duration-150 hover:rotate-0">
+                  <Image
+                    src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/313/video-game_1f3ae.png"
+                    alt="🎮"
+                    className="select-none"
+                    draggable="false"
+                    loading="lazy"
+                    decoding="async"
+                    width={120}
+                    height={120}
+                    layout="fixed"
+                  />
+                </span>
               </div>
               <div className="row-start-1 col-span-2 row-span-2">
-                <iframe
-                  src="https://discord.com/widget?id=883759326131540000&amp;theme=dark"
-                  width="350"
-                  height="500"
-                  {...{ ["allowtransparency"]: "true" }}
-                  frameBorder={0}
-                  sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
-                  className="mx-auto max-w-full select-none"
-                  title="Discord"
-                  lang="en"
-                  loading="lazy"
-                />
+                <If condition={loaded}>
+                  <iframe
+                    src="https://discord.com/widget?id=883759326131540000&amp;theme=dark"
+                    width="350"
+                    height="500"
+                    {...{ ["allowtransparency"]: "true" }}
+                    frameBorder={0}
+                    sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
+                    className="mx-auto max-w-full select-none"
+                    title="Discord"
+                    lang="en"
+                    loading="lazy"
+                    allowTransparency
+                  />
+                </If>
               </div>
 
               <div className="hidden md:flex col-start-4 row-start-1 items-start justify-end">
-                <img
-                  src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/325/speech-balloon_1f4ac.png"
-                  alt="💬"
-                  className="select-none transform -rotate-12"
-                  draggable="false"
-                  loading="lazy"
-                  decoding="async"
-                />
+                <span className="transform rotate-12 transition-transform duration-150 hover:rotate-0">
+                  <Image
+                    src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/325/speech-balloon_1f4ac.png"
+                    alt="💬"
+                    className="select-none"
+                    draggable="false"
+                    loading="lazy"
+                    decoding="async"
+                    width={120}
+                    height={120}
+                    layout="fixed"
+                  />
+                </span>
               </div>
               <div className="hidden md:flex col-start-4 row-start-2 items-end justify-end">
-                <img
-                  src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/325/gorilla_1f98d.png"
-                  alt="🦍"
-                  className="select-none transform rotate-12"
-                  draggable="false"
-                  loading="lazy"
-                  decoding="async"
-                />
+                <span className="transform -rotate-12 transition-transform duration-150 hover:rotate-0">
+                  <Image
+                    src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/325/gorilla_1f98d.png"
+                    alt="🦍"
+                    className="select-none"
+                    draggable="false"
+                    loading="lazy"
+                    decoding="async"
+                    width={120}
+                    height={120}
+                    layout="fixed"
+                  />
+                </span>
               </div>
             </div>
           </section>

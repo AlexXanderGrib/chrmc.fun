@@ -319,10 +319,10 @@ export default function Footer() {
       </div>
 
       <div className="bg-gray-900">
-        <section className="flex flex-row flex-wrap max-w-3xl mx-auto px-16 py-8 gap-8 text-gray-400">
+        <section className="flex flex-row flex-wrap max-w-3xl mx-auto px-16 py-8 gap-8 text-gray-300">
           <span itemProp="name">{ts("server.name")}</span> © 2021-
           {new Date().getFullYear()}
-          <div className="flex flex-row flex-wrap text-gray-500">
+          <div className="flex flex-row flex-wrap text-gray-400">
             <span>{t("disclaimer.trademarks")}</span>
 
             <br />

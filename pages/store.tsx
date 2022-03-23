@@ -17,10 +17,16 @@ import { useRouter } from "next/router";
 import Link from "../components/Link";
 import { round } from "@xxhax/safe-math";
 import Head from "next/head";
+import Image from "next/image";
+import { render } from "datocms-structured-text-to-plain-text";
 
 function ProductView({ product }: { product: Product }) {
   const { locale, defaultLocale } = useRouter();
   const { t } = useTranslation("shop");
+
+  const description = product.description
+    ? render(product.description)
+    : undefined;
 
   return (
     <article
@@ -31,18 +37,42 @@ function ProductView({ product }: { product: Product }) {
       itemType="https://schema.org/Product"
     >
       <meta itemProp="sku" content={product.id.toString()} />
-      <div className="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
-        <img
-          src={product.image}
-          alt=""
-          className="w-full h-full object-center object-cover lg:w-full lg:h-full select-none"
-          itemProp="image"
-          loading="lazy"
-          draggable="false"
-          width="512"
-          height="512"
-        />
+      {/* <div className="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none"> */}
+      <div className="rounded-md overflow-hidden relative aspect-w-1 aspect-h-1">
+        <div className="absolute top-0 left-0 w-full h-full">
+          <Image
+            src={product.image}
+            alt=""
+            className="select-none bg-gray-200 transform transition-transform group-hover:scale-110"
+            itemProp="image"
+            loading="lazy"
+            draggable="false"
+            width="512"
+            height="512"
+            layout="responsive"
+          />
+        </div>
+        <div className="absolute top-1/2 left-0 w-full h-1/2 bg-black bg-opacity-70 text-center transform transition-transform translate-y-full group-hover:translate-y-0">
+          <div className="mx-auto select-none flex justify-center items-center text-center text-white uppercase font-bold py-2 px-4 w-1/2 relative transform group-hover:-translate-y-1/2 bg-green-600">
+            <div className="absolute w-full h-1 top-0 left-0 bg-white opacity-40" />
+            <div className="absolute w-1 h-full top-0 right-0 bg-white opacity-40" />
+            {t("buy")}
+            <div className="absolute w-full h-1 bottom-0 left-0 bg-black opacity-40" />
+            <div className="absolute w-1 h-full bottom-0 left-0 bg-black opacity-40" />
+          </div>
+          <If condition={!!product.description}>
+            <meta itemProp="description" content={description} />
+            <div
+              className="text-gray-100 leading-5 px-2 line-clamp-3"
+              title={description}
+            >
+              <StructuredText data={product.description} />
+            </div>
+          </If>
+        </div>
       </div>
+
+      {/* </div> */}
       <div className="mt-4 flex justify-between">
         <div>
           <h4 className="text-sm text-gray-700">
@@ -53,11 +83,7 @@ function ProductView({ product }: { product: Product }) {
               </span>
             </Link>
           </h4>
-          <If condition={!!product.description}>
-            <div className="hidden" itemProp="description">
-              <StructuredText data={product.description} />
-            </div>
-          </If>
+
           <If condition={!!product.duration}>
             <p className="mt-1 text-sm text-gray-500">
               {typeof product.duration === "object" && product.duration ? (

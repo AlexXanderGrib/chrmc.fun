@@ -24,7 +24,7 @@ export default function Analytics({
         </Script>
       </If>
       <If condition={!!yandexMetrika}>
-        <Script id="yandex-metrika" strategy="afterInteractive">
+        <Script id="yandex-metrika" strategy="lazyOnload">
           {`
             (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
             m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
@@ -50,7 +50,7 @@ export default function Analytics({
         </noscript>
       </If>
       <If condition={!!vkPixel}>
-        <Script id="vk-pixel" strategy="afterInteractive">
+        <Script id="vk-pixel" strategy="lazyOnload">
           {`!function(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src="https://vk.com/js/api/openapi.js?169",t.onload=function(){VK.Retargeting.Init("${vkPixel}"),VK.Retargeting.Hit()},document.head.appendChild(t)}();`}
         </Script>
 

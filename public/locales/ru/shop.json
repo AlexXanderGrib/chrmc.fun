@@ -2,5 +2,6 @@
   "shop": "Донат",
   "forever": "Навсегда",
   "expires": "Истекает",
-  "select-currency": "Выберите валюту"
+  "select-currency": "Выберите валюту",
+  "buy": "Купить"
 }
