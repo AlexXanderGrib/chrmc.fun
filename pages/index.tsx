@@ -18,21 +18,8 @@ import { GetServerSideProps, GetStaticProps } from "next";
 import { Tebex, types as TebexTypes } from "tebex";
 import { round } from "@xxhax/safe-math";
 import { useRouter } from "next/router";
-
-let client: GraphQLClient;
-
-function initClient(preview = false) {
-  return (client ??= new GraphQLClient(
-    preview
-      ? `https://graphql.datocms.com/preview`
-      : `https://graphql.datocms.com/`,
-    {
-      headers: {
-        authorization: `Bearer ${process.env.DATOCMS_API_TOKEN}`
-      }
-    }
-  ));
-}
+import { StructuredText } from "react-datocms";
+import { datocms } from "../server/config";
 
 const tebex = new Tebex(process.env.TEBEX_STORE_SECRET);
 
@@ -45,8 +32,7 @@ export const getStaticProps: GetStaticProps = async ({
   locale,
   defaultLocale
 }) => {
-  const client = initClient();
-  const ADV_QUERY = `query AdvantageQuery($locale: SiteLocale!, $defaultLocale: SiteLocale!) {
+  const ADV_QUERY = `query Index($locale: SiteLocale!, $defaultLocale: SiteLocale!) {
     allAdvantages(
       locale: $locale
       fallbackLocales: [$defaultLocale]
@@ -61,72 +47,9 @@ export const getStaticProps: GetStaticProps = async ({
     }
   }`;
 
-  const data = await client.request(ADV_QUERY, {
+  const data = await datocms.request(ADV_QUERY, {
     locale,
     defaultLocale
-  });
-
-  const packages = await tebex.packages.get();
-  const storeInfo = await tebex.information.get();
-  const [localCurrencyCode, localCurrencyCourse] =
-    localeToCurrency[locale] ?? localeToCurrency[defaultLocale];
-  const relativeTimeFormatter = new Intl.RelativeTimeFormat([
-    locale,
-    defaultLocale
-  ]);
-  const storeCurrencyFormatter = new Intl.NumberFormat(
-    [locale, defaultLocale],
-    {
-      style: "currency",
-      currency: storeInfo.account.currency.iso_4217
-    }
-  );
-  const localCurrencyFormatter = new Intl.NumberFormat(
-    [locale, defaultLocale],
-    {
-      style: "currency",
-      currency: localCurrencyCode
-    }
-  );
-
-  const tariffs: Tariff[] = packages.map((pkg) => {
-    if (pkg.expiry_length === 0) {
-      pkg.expiry_length = 99;
-      pkg.expiry_period = "year";
-    }
-
-    const localPrice = round(pkg.price * localCurrencyCourse, 2);
-
-    return {
-      price: {
-        baseCurrency: {
-          amount: pkg.price,
-          code: storeInfo.account.currency.iso_4217,
-          localized: storeCurrencyFormatter.format(pkg.price)
-        },
-        localCurrency: {
-          amount: localPrice,
-          code: localCurrencyCode,
-          localized: localCurrencyFormatter.format(localPrice)
-        }
-      },
-      id: pkg.id,
-      name: pkg.name,
-      icon:
-        pkg.image ||
-        `/images/textures/item/${pkg.gui_item
-          .trim()
-          .replace(/^minecraft:/, "")}.png`,
-      link: `/purchase/${pkg.id}`,
-      duration: {
-        length: pkg.expiry_length,
-        period: pkg.expiry_period,
-        localized: relativeTimeFormatter.format(
-          pkg.expiry_length,
-          pkg.expiry_period
-        )
-      }
-    };
   });
 
   return {
@@ -136,8 +59,7 @@ export const getStaticProps: GetStaticProps = async ({
         ["index", "common", "footer", "nav"],
         nextI18NextConfig
       )),
-      data,
-      tariffs
+      data
     },
     revalidate: 60
   };
@@ -401,218 +323,7 @@ function Heading() {
   );
 }
 
-type Tariff = {
-  id: number;
-  duration: {
-    localized: string;
-    length: TebexTypes.Package["expiry_length"];
-    period: TebexTypes.Package["expiry_period"];
-    localizedOnClient?: boolean;
-  };
-  price: {
-    baseCurrency: {
-      amount: number;
-      code: string;
-      localized: string;
-      localizedOnClient?: boolean;
-    };
-    localCurrency?: {
-      amount: number;
-      code: string;
-      localized: string;
-      localizedOnClient?: boolean;
-    };
-  };
-  icon: string;
-  link: string;
-  name: string;
-};
-
-function PurchaseBox({
-  tariffs = [] as Tariff[],
-  unavailable = [] as number[]
-}) {
-  const { t } = useTranslation("index");
-  const { defaultLocale, locale } = useRouter();
-  const [formatLocale, setFormatLocale] = useState(locale);
-  const [relativeTimeFormatter, setRelativeTimeFormatter] = useState<
-    Intl.RelativeTimeFormat | undefined
-  >();
-
-  useEffect(() => {
-    setFormatLocale(navigator.language);
-
-    // console.log('Format locale:', navigator.language)
-
-    try {
-      const formatter = new Intl.RelativeTimeFormat(navigator.language);
-      setRelativeTimeFormatter(formatter);
-    } catch {}
-  }, [setRelativeTimeFormatter, setFormatLocale]);
-
-  const prepared: Tariff[] = tariffs
-    .filter((tr) => !unavailable.includes(tr.id))
-    .map((tr) => {
-      let storeCurrencyFormatter: Intl.NumberFormat | undefined;
-      let localCurrencyFormatter: Intl.NumberFormat | undefined;
-
-      try {
-        storeCurrencyFormatter = new Intl.NumberFormat(navigator.language, {
-          style: "currency",
-          currency: tr.price.baseCurrency.code
-        });
-
-        if (tr.price.localCurrency) {
-          localCurrencyFormatter = new Intl.NumberFormat(navigator.language, {
-            style: "currency",
-            currency: tr.price.localCurrency.code
-          });
-        }
-      } catch {}
-
-      return {
-        ...tr,
-        duration: relativeTimeFormatter
-          ? {
-              ...tr.duration,
-              localized: relativeTimeFormatter.format(
-                tr.duration.length,
-                tr.duration.period
-              ),
-              localizedOnClient: true
-            }
-          : tr.duration,
-        price: {
-          baseCurrency: storeCurrencyFormatter
-            ? {
-                ...tr.price.baseCurrency,
-                localized: storeCurrencyFormatter.format(
-                  tr.price.baseCurrency.amount
-                ),
-                localizedOnClient: true
-              }
-            : tr.price.baseCurrency,
-          localCurrency:
-            tr.price.localCurrency?.code === tr.price.baseCurrency.code
-              ? undefined
-              : localCurrencyFormatter && tr.price.localCurrency
-              ? {
-                  ...tr.price.localCurrency,
-                  localized: localCurrencyFormatter.format(
-                    tr.price.localCurrency.amount
-                  ),
-                  localizedOnClient: true
-                }
-              : tr.price.localCurrency
-        }
-      };
-    });
-
-  return (
-    <ul
-      className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3"
-      itemScope
-      itemType="https://schema.org/ItemList"
-    >
-      {prepared.map((product) => {
-        return (
-          <li
-            key={product.id}
-            className="group relative"
-            itemProp="itemListElement"
-            itemScope
-            itemType="https://schema.org/Product"
-          >
-            <meta itemProp="sku" content={product.id.toString()} />
-            <div className="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
-              <img
-                src={product.icon}
-                alt=""
-                className="w-full h-full object-center object-cover lg:w-full lg:h-full select-none"
-                itemProp="image"
-                loading="lazy"
-                draggable="false"
-                width="512"
-                height="512"
-              />
-            </div>
-            <div className="mt-4 flex justify-between">
-              <div>
-                <h3 className="text-sm text-gray-700">
-                  <Link href={product.link} itemProp="url">
-                    <span aria-hidden="true" className="absolute inset-0" />
-                    <span itemProp="name" lang={defaultLocale}>
-                      {product.name}
-                    </span>
-                  </Link>
-                </h3>
-                <p className="mt-1 text-sm text-gray-500">
-                  <span lang={locale}>{t("buy.expires")}</span>{" "}
-                  <span
-                    lang={
-                      product.duration.localizedOnClient ? formatLocale : locale
-                    }
-                  >
-                    {product.duration.localized}
-                  </span>
-                </p>
-              </div>
-              <p
-                className="text-sm font-medium text-gray-900 text-right"
-                itemProp="offers"
-                itemScope
-                itemType="https://schema.org/Offer"
-              >
-                <span
-                  lang={
-                    product.price.localCurrency?.localizedOnClient ??
-                    product.price.baseCurrency.localizedOnClient
-                      ? formatLocale
-                      : locale
-                  }
-                >
-                  {product.price.localCurrency?.localized ??
-                    product.price.baseCurrency.localized}
-                </span>
-                <meta itemProp="sku" content={product.id.toString()} />
-                <meta
-                  itemProp="price"
-                  content={String(
-                    product.price.localCurrency?.amount ??
-                      product.price.baseCurrency.amount
-                  )}
-                />
-                <meta
-                  itemProp="priceCurrency"
-                  content={
-                    product.price.localCurrency?.code ??
-                    product.price.baseCurrency.code
-                  }
-                />
-                <If condition={!!product.price.localCurrency}>
-                  <div className="text-gray-400">
-                    ≈
-                    <span
-                      lang={
-                        product.price.baseCurrency.localizedOnClient
-                          ? formatLocale
-                          : locale
-                      }
-                    >
-                      {product.price.baseCurrency.localized}
-                    </span>
-                  </div>
-                </If>
-              </p>
-            </div>
-          </li>
-        );
-      })}
-    </ul>
-  );
-}
-
-export default function Home({ data, tariffs }) {
+export default function Home({ data }) {
   const { t: tc } = useTranslation("common");
   const { t } = useTranslation("index");
 
@@ -715,26 +426,40 @@ export default function Home({ data, tariffs }) {
           <SectionTransition
             w1ClassName="fill-emerald-600"
             w2ClassName="fill-emerald-400"
-            bgClassName="fill-emerald-100"
+            bgClassName="fill-emerald-200"
           />
         </div>
-        <div className="pt-8 bg-emerald-100">
-          {/* <article className="prose max-w-5xl prose-emerald mx-auto">
-            <h2 className="text-center">{t("servers.title")}</h2>
-          </article> */}
-          <SectionTransition
-            w1ClassName="fill-blue-600"
-            w2ClassName="fill-blue-400"
-            bgClassName="fill-blue-50"
-          />
-        </div>
-        <div className="pt-8 bg-blue-50">
-          <article className="prose max-w-5xl prose-blue mx-auto">
-            <h2 className="text-center">{t("buy.title")}</h2>
-            <div className="not-prose px-4">
-              <PurchaseBox tariffs={tariffs} />
+        <div className="pt-8 bg-emerald-200">
+          <section className="grid grid-cols-3 max-w-2xl mx-auto gap-2">
+            <div>
+              <img
+                src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/325/backhand-index-pointing-right_1f449.png"
+                alt="👉"
+                className="select-none float-right"
+                draggable="false"
+                loading="lazy"
+                decoding="async"
+              />
             </div>
-          </article>
+            <div className="flex justify-center items-center">
+              <Link
+                href="/store"
+                className="bg-emerald-500 hover:bg-emerald-600 focus:bg-emerald-600 px-8 py-6 rounded text-xl text-white font-bold transition-colors animate-bounce text-center"
+              >
+                {t("buy.title")}
+              </Link>
+            </div>
+            <div>
+              <img
+                src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/325/backhand-index-pointing-left_1f448.png"
+                alt="👈"
+                className="select-none float-left"
+                draggable="false"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          </section>
           <SectionTransition
             w1ClassName="fill-[#5865F2]"
             w2ClassName="fill-[#5865F2]"
@@ -748,8 +473,8 @@ export default function Home({ data, tariffs }) {
             <div className="not-prose grid grid-cols-2 md:grid-cols-4 grid-rows-2">
               <div className="hidden md:flex col-start-1 row-start-1 items-start justify-start">
                 <img
-                  src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/325/backhand-index-pointing-right_1f449.png"
-                  alt=""
+                  src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/325/megaphone_1f4e3.png"
+                  alt="📣"
                   className="select-none transform rotate-12"
                   draggable="false"
                   loading="lazy"
@@ -758,8 +483,8 @@ export default function Home({ data, tariffs }) {
               </div>
               <div className="hidden md:flex col-start-1 row-start-2 items-end justify-start">
                 <img
-                  src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/325/backhand-index-pointing-right_1f449.png"
-                  alt=""
+                  src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/313/video-game_1f3ae.png"
+                  alt="🎮"
                   className="select-none transform -rotate-12"
                   draggable="false"
                   loading="lazy"
@@ -783,8 +508,8 @@ export default function Home({ data, tariffs }) {
 
               <div className="hidden md:flex col-start-4 row-start-1 items-start justify-end">
                 <img
-                  src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/325/backhand-index-pointing-left_1f448.png"
-                  alt=""
+                  src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/325/speech-balloon_1f4ac.png"
+                  alt="💬"
                   className="select-none transform -rotate-12"
                   draggable="false"
                   loading="lazy"
@@ -793,8 +518,8 @@ export default function Home({ data, tariffs }) {
               </div>
               <div className="hidden md:flex col-start-4 row-start-2 items-end justify-end">
                 <img
-                  src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/325/backhand-index-pointing-left_1f448.png"
-                  alt=""
+                  src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/325/gorilla_1f98d.png"
+                  alt="🦍"
                   className="select-none transform rotate-12"
                   draggable="false"
                   loading="lazy"

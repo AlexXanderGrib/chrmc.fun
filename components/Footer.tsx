@@ -12,23 +12,39 @@ import {
   CursorClickIcon,
   MusicNoteIcon,
   CameraIcon,
-  ClipboardCopyIcon
+  ClipboardCopyIcon,
+  MapIcon,
+  ShoppingCartIcon
 } from "@heroicons/react/solid";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import classNames from "classnames";
 import { If } from "./If";
-import { ComponentProps, JSXElementConstructor, PropsWithChildren } from "react";
+import {
+  ComponentProps,
+  JSXElementConstructor,
+  PropsWithChildren
+} from "react";
 
-type IconComponent = JSXElementConstructor<ComponentProps<'svg'>>;
+type IconComponent = JSXElementConstructor<ComponentProps<"svg">>;
 
 type FooterBlockProps = PropsWithChildren<{
-  label: string,
+  label: string;
   icon?: IconComponent;
-  links?: [label: string, link: string, Icon?: IconComponent, props?: ComponentProps<"a">][];
-}>
+  links?: [
+    label: string,
+    link: string,
+    Icon?: IconComponent,
+    props?: ComponentProps<"a">
+  ][];
+}>;
 
-function FooterBlock({ label, links = [], children, icon: Icon }: FooterBlockProps) {
+function FooterBlock({
+  label,
+  links = [],
+  children,
+  icon: Icon
+}: FooterBlockProps) {
   const iconFrag = Icon ? <Icon className="w-5 h-5 inline" /> : null;
 
   return (
@@ -99,18 +115,22 @@ export default function Footer() {
               />
             </div>
           </button>
-          <ul className="flex gap-8 flex-wrap justify-center">
+          <ul
+            className="flex gap-8 flex-wrap justify-center"
+            aria-label={t("socials.title")}
+            title={t("socials.title")}
+          >
             <li>
               <a
                 href="https://www.instagram.com/dicraft.server/"
                 rel="noreferrer noopener me"
                 target="_blank"
                 className="clickable group"
-                title={t("links.instagram")}
+                title={t("socials.instagram")}
               >
                 <img
                   src="/images/icons/Instagram.svg"
-                  alt={t("links.instagram")}
+                  alt={t("socials.instagram")}
                   draggable="false"
                   loading="eager"
                   width="32"
@@ -125,11 +145,11 @@ export default function Footer() {
                 rel="noreferrer noopener me"
                 target="_blank"
                 className="clickable group"
-                title={t("links.discord")}
+                title={t("socials.discord")}
               >
                 <img
                   src="/images/icons/Discord.svg"
-                  alt={t("links.discord")}
+                  alt={t("socials.discord")}
                   draggable="false"
                   loading="eager"
                   width="32"
@@ -144,11 +164,11 @@ export default function Footer() {
                 rel="noreferrer noopener me"
                 target="_blank"
                 className="clickable group"
-                title={t("links.vk")}
+                title={t("socials.vk")}
               >
                 <img
                   src="/images/icons/VK.svg"
-                  alt={t("links.vk")}
+                  alt={t("socials.vk")}
                   draggable="false"
                   loading="eager"
                   width="32"
@@ -163,11 +183,11 @@ export default function Footer() {
                 rel="noreferrer noopener me"
                 target="_blank"
                 className="clickable group"
-                title={t("links.tiktok")}
+                title={t("socials.tiktok")}
               >
                 <img
                   src="/images/icons/TikTok.svg"
-                  alt={t("links.tiktok")}
+                  alt={t("socials.tiktok")}
                   draggable="false"
                   loading="eager"
                   width="32"
@@ -181,6 +201,23 @@ export default function Footer() {
       </div>
       <div className="bg-gray-800">
         <section className="flex flex-row flex-wrap max-w-5xl mx-auto p-16 gap-8 justify-between">
+          <FooterBlock label={t("links.title")} links={[
+            [
+              t("links.store"),
+              "/store",
+              ShoppingCartIcon
+            ],
+            [
+              t("links.city-map"),
+              "/map/city",
+              MapIcon
+            ],
+            [
+              t("links.survival-map"),
+              "/map/survival",
+              MapIcon
+            ],
+          ]} />
           <FooterBlock
             label={t("join.title")}
             links={[
@@ -228,7 +265,7 @@ export default function Footer() {
                 {
                   itemProp: "email",
                   "aria-label": t("contacts.email"),
-                  title: t("contacts.email"),
+                  title: t("contacts.email")
                 }
               ]
             ]}

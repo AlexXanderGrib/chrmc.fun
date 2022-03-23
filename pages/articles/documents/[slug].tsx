@@ -68,7 +68,7 @@ export const getStaticProps: GetStaticProps = async ({
       ) {
         title
         slug
-        _updatedAt
+        updatedAt
 
         content {
           value
@@ -96,8 +96,8 @@ export const getStaticProps: GetStaticProps = async ({
           : {
               ...data.document,
               updatedAt: {
-                pure: data.document._updatedAt,
-                formatted: formatter.format(new Date(data.document._updatedAt))
+                pure: data.document.updatedAt,
+                formatted: formatter.format(new Date(data.document.updatedAt))
               }
             }
     },

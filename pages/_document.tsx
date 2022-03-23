@@ -22,6 +22,7 @@ export default function Document() {
           href="/favicon-32x32.png"
         />
         <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" href="/favicon.png" />
         <link
           rel="icon"
           type="image/png"
@@ -49,7 +50,9 @@ export default function Document() {
       </Head>
       <body className="font-default">
         <Main />
+        <script dangerouslySetInnerHTML={{ __html: `<!--googleoff: all-->` }} />
         <NextScript />
+        <script dangerouslySetInnerHTML={{ __html: `<!--googleon: all-->` }} />
       </body>
     </Html>
   );

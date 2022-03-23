@@ -18,12 +18,18 @@
     "consoles": "From Consoles",
     "bedrock-add": "Add to Bedrock"
   },
-  "links": {
+  "socials": {
     "title": "Socials",
     "instagram": "Instagram",
     "tiktok": "TikTok",
     "vk": "VK",
     "discord": "Discord"
+  },
+  "links": {
+    "title": "Resources",
+    "store": "Shop",
+    "city-map": "City Map",
+    "survival-map": "Survival Map"
   },
   "lang": {
     "title": "Language",

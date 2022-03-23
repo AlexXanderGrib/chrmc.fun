@@ -18,12 +18,18 @@
     "consoles": "С Консолей",
     "bedrock-add": "Открыть в Bedrock"
   },
-  "links": {
+  "socials": {
     "title": "Соц. сети",
     "instagram": "Инстаграм",
     "tiktok": "ТикТок",
     "vk": "ВКонтакте",
     "discord": "Дискорд"
+  },
+  "links": {
+    "title": "Ресурсы",
+    "store": "Донат",
+    "city-map": "Карта Города",
+    "survival-map": "Карта Выживания"
   },
   "lang": {
     "title": "Язык",
