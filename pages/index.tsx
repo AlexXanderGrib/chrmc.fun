@@ -38,7 +38,7 @@ const tebex = new Tebex(process.env.TEBEX_STORE_SECRET);
 
 const localeToCurrency: Record<string, [code: string, course: number]> = {
   en: ["USD", 1],
-  ru: ["RUB", 77]
+  ru: ["RUB", 70.37]
 };
 
 export const getStaticProps: GetStaticProps = async ({
@@ -407,17 +407,20 @@ type Tariff = {
     localized: string;
     length: TebexTypes.Package["expiry_length"];
     period: TebexTypes.Package["expiry_period"];
+    localizedOnClient?: boolean;
   };
   price: {
     baseCurrency: {
       amount: number;
       code: string;
       localized: string;
+      localizedOnClient?: boolean;
     };
     localCurrency?: {
       amount: number;
       code: string;
       localized: string;
+      localizedOnClient?: boolean;
     };
   };
   icon: string;
@@ -425,9 +428,85 @@ type Tariff = {
   name: string;
 };
 
-function PurchaseBox({ tariffs = [] as Tariff[] }) {
+function PurchaseBox({
+  tariffs = [] as Tariff[],
+  unavailable = [] as number[]
+}) {
   const { t } = useTranslation("index");
   const { defaultLocale, locale } = useRouter();
+  const [formatLocale, setFormatLocale] = useState(locale);
+  const [relativeTimeFormatter, setRelativeTimeFormatter] = useState<
+    Intl.RelativeTimeFormat | undefined
+  >();
+
+  useEffect(() => {
+    setFormatLocale(navigator.language);
+
+    // console.log('Format locale:', navigator.language)
+
+    try {
+      const formatter = new Intl.RelativeTimeFormat(navigator.language);
+      setRelativeTimeFormatter(formatter);
+    } catch {}
+  }, [setRelativeTimeFormatter, setFormatLocale]);
+
+  const prepared: Tariff[] = tariffs
+    .filter((tr) => !unavailable.includes(tr.id))
+    .map((tr) => {
+      let storeCurrencyFormatter: Intl.NumberFormat | undefined;
+      let localCurrencyFormatter: Intl.NumberFormat | undefined;
+
+      try {
+        storeCurrencyFormatter = new Intl.NumberFormat(navigator.language, {
+          style: "currency",
+          currency: tr.price.baseCurrency.code
+        });
+
+        if (tr.price.localCurrency) {
+          localCurrencyFormatter = new Intl.NumberFormat(navigator.language, {
+            style: "currency",
+            currency: tr.price.localCurrency.code
+          });
+        }
+      } catch {}
+
+      return {
+        ...tr,
+        duration: relativeTimeFormatter
+          ? {
+              ...tr.duration,
+              localized: relativeTimeFormatter.format(
+                tr.duration.length,
+                tr.duration.period
+              ),
+              localizedOnClient: true
+            }
+          : tr.duration,
+        price: {
+          baseCurrency: storeCurrencyFormatter
+            ? {
+                ...tr.price.baseCurrency,
+                localized: storeCurrencyFormatter.format(
+                  tr.price.baseCurrency.amount
+                ),
+                localizedOnClient: true
+              }
+            : tr.price.baseCurrency,
+          localCurrency:
+            tr.price.localCurrency?.code === tr.price.baseCurrency.code
+              ? undefined
+              : localCurrencyFormatter && tr.price.localCurrency
+              ? {
+                  ...tr.price.localCurrency,
+                  localized: localCurrencyFormatter.format(
+                    tr.price.localCurrency.amount
+                  ),
+                  localizedOnClient: true
+                }
+              : tr.price.localCurrency
+        }
+      };
+    });
 
   return (
     <ul
@@ -435,7 +514,7 @@ function PurchaseBox({ tariffs = [] as Tariff[] }) {
       itemScope
       itemType="https://schema.org/ItemList"
     >
-      {tariffs.map((product) => {
+      {prepared.map((product) => {
         return (
           <li
             key={product.id}
@@ -469,17 +548,32 @@ function PurchaseBox({ tariffs = [] as Tariff[] }) {
                 </h3>
                 <p className="mt-1 text-sm text-gray-500">
                   <span lang={locale}>{t("buy.expires")}</span>{" "}
-                  <span lang={locale}>{product.duration.localized}</span>
+                  <span
+                    lang={
+                      product.duration.localizedOnClient ? formatLocale : locale
+                    }
+                  >
+                    {product.duration.localized}
+                  </span>
                 </p>
               </div>
               <p
-                className="text-sm font-medium text-gray-900"
+                className="text-sm font-medium text-gray-900 text-right"
                 itemProp="offers"
                 itemScope
                 itemType="https://schema.org/Offer"
               >
-                {product.price.localCurrency?.localized ??
-                  product.price.baseCurrency.localized}
+                <span
+                  lang={
+                    product.price.localCurrency?.localizedOnClient ??
+                    product.price.baseCurrency.localizedOnClient
+                      ? formatLocale
+                      : locale
+                  }
+                >
+                  {product.price.localCurrency?.localized ??
+                    product.price.baseCurrency.localized}
+                </span>
                 <meta itemProp="sku" content={product.id.toString()} />
                 <meta
                   itemProp="price"
@@ -495,6 +589,20 @@ function PurchaseBox({ tariffs = [] as Tariff[] }) {
                     product.price.baseCurrency.code
                   }
                 />
+                <If condition={!!product.price.localCurrency}>
+                  <div className="text-gray-400">
+                    ≈
+                    <span
+                      lang={
+                        product.price.baseCurrency.localizedOnClient
+                          ? formatLocale
+                          : locale
+                      }
+                    >
+                      {product.price.baseCurrency.localized}
+                    </span>
+                  </div>
+                </If>
               </p>
             </div>
           </li>
