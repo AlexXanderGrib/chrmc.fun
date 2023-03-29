@@ -17,7 +17,7 @@ import { useRouter } from "next/router";
 import Link from "../components/Link";
 import { round } from "@xxhax/safe-math";
 import Head from "next/head";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { render } from "datocms-structured-text-to-plain-text";
 
 function ProductView({ product }: { product: Product }) {
@@ -290,7 +290,7 @@ export default function Store({
   useEffect(() => {
     document.cookie = `currency=${currency};path=/;max-age=31536000;samesite=strict`;
     updateProducts();
-  }, [currency, updateProducts]);
+  }, [currency]);
 
   return (
     <div className="prose prose-lg max-w-5xl mx-auto px-4 py-8">

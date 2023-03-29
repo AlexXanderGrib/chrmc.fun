@@ -23,7 +23,7 @@ async function init() {
  * @param {string} command
  */
 export async function rcon(command: string): Promise<string> {
-  client ?? await init();
+  client ?? (await init());
 
   const response = await client.send(command);
 

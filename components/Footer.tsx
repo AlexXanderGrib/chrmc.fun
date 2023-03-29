@@ -21,7 +21,7 @@ import {
   PropsWithChildren
 } from "react";
 
-type IconComponent = any;
+type IconComponent = JSXElementConstructor<ComponentProps<"svg">>;
 
 type FooterBlockProps = PropsWithChildren<{
   label: string;

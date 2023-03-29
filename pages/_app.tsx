@@ -1,15 +1,13 @@
 import { appWithTranslation } from "next-i18next";
 import Head from "next/head";
-import { useRouter } from "next/router";
-import Script from "next/script";
 import Footer from "../components/Footer";
 import "../styles/globals.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Navbar from "../components/Navbar";
 import { AppProps } from "next/app";
 import Analytics from "../components/Analytics";
-import { Transition } from "@headlessui/react";
 import { useEffect, useState } from "react";
+import { Transition } from "@headlessui/react";
 
 function MyApp({ Component, pageProps, router }: AppProps) {
   const { locale, defaultLocale, locales, asPath } = router;
@@ -43,6 +41,8 @@ function MyApp({ Component, pageProps, router }: AppProps) {
     return asPath;
   };
   const path = getPath(locale);
+
+  console.log({ show })
 
   return (
     <>

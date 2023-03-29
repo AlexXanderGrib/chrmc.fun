@@ -1,5 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from "next";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { GraphQLClient } from "graphql-request";
 import { StructuredText } from "react-datocms";
 import Head from "next/head";

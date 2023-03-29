@@ -46,6 +46,7 @@ export default function Link({
       }}
       href={href}
       passHref
+      legacyBehavior
     >
       <a hrefLang={locale} draggable="false" {...rest} className={classes}>
         {children}

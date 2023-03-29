@@ -15,7 +15,7 @@ import {
 import Link from "../components/Link";
 import { GetStaticProps } from "next";
 import { datocms } from "../server/config";
-import Image from "next/image";
+import Image from "next/legacy/image";
 
 
 export const getStaticProps: GetStaticProps = async ({
@@ -519,7 +519,6 @@ export default function Home({ data }) {
                     title="Discord"
                     lang="en"
                     loading="lazy"
-                    allowTransparency
                   />
                 </If>
               </div>
