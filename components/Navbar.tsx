@@ -25,6 +25,7 @@ export default function NavBar({ transparent = false, dark = false }) {
 
   return (
     <Popover
+      id="navbar"
       className={classNames("relative", {
         "bg-white": !transparent,
         dark
@@ -53,7 +54,7 @@ export default function NavBar({ transparent = false, dark = false }) {
           </div>
           <Popover.Group as="nav" className="hidden md:flex space-x-10">
             {Object.keys(navigation).map((key) => (
-              <Popover className="relative" key={key}>
+              <Popover className="relative" key={key} id={`navbar-${key}`}>
                 {({ open }) => (
                   <>
                     <Popover.Button

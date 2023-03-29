@@ -99,21 +99,21 @@ export default function Footer() {
       itemType="https://schema.org/Organization"
     >
       <div className="bg-indigo-700">
-        <section className="flex flex-col md:flex-row items-center md:justify-between max-w-5xl mx-auto px-16 py-8 gap-8">
+        <div className="flex flex-col md:flex-row items-center md:justify-between max-w-5xl mx-auto px-16 py-8 gap-8">
           <button
             className="flex overflow-hidden rounded-lg text-white items-stretch clickable filter active:brightness-110"
             title={ts("join.actions.copy")}
             onClick={() => navigator.clipboard.writeText(ts("server.ip"))}
           >
-            <div className="px-4 py-2 bg-indigo-800 font-bold uppercase">
+            <span className="px-4 py-2 bg-indigo-800 font-bold uppercase">
               {ts("server.ip")}
-            </div>
-            <div className="px-4 py-2 bg-indigo-900 flex justify-center items-center">
+            </span>
+            <span className="px-4 py-2 bg-indigo-900 flex justify-center items-center">
               <ClipboardCopyIcon
                 className="w-5 h-5"
                 aria-label={ts("join.actions.copy")}
               />
-            </div>
+            </span>
           </button>
           <ul
             className="flex gap-8 flex-wrap justify-center"
@@ -197,10 +197,10 @@ export default function Footer() {
               </a>
             </li>
           </ul>
-        </section>
+        </div>
       </div>
       <div className="bg-gray-800">
-        <section className="flex flex-row flex-wrap max-w-5xl mx-auto p-16 gap-8 justify-between">
+        <div className="flex flex-row flex-wrap max-w-5xl mx-auto p-16 gap-8 justify-between">
           <FooterBlock label={t("links.title")} links={[
             [
               t("links.store"),
@@ -315,11 +315,11 @@ export default function Footer() {
               ]
             ]}
           />
-        </section>
+        </div>
       </div>
 
       <div className="bg-gray-900">
-        <section className="flex flex-row flex-wrap max-w-3xl mx-auto px-16 py-8 gap-8 text-gray-300">
+        <div className="flex flex-row flex-wrap max-w-3xl mx-auto px-16 py-8 gap-8 text-gray-300">
           <span itemProp="name">{ts("server.name")}</span> © 2021-
           {new Date().getFullYear()}
           <div className="flex flex-row flex-wrap text-gray-400">
@@ -328,7 +328,7 @@ export default function Footer() {
             <br />
             <span>{t("disclaimer.mojang")}</span>
           </div>
-        </section>
+        </div>
       </div>
     </footer>
   );

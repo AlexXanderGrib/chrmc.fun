@@ -1,3 +1,17 @@
+# DiCraft
+
+> Сайт майнкрафт сервера
+
+**Доступен на [DiCraft.net](https://dicraft.net)**
+
+## Скриншоты
+
+![1](./docs/screenshot1.png)
+![2](./docs/screenshot2.png)
+![3](./docs/screenshot3.png)
+![4](./docs/screenshot4.png)
+![5](./docs/screenshot5.png)
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

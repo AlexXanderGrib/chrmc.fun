@@ -17,7 +17,7 @@ async function main() {
 <yml_catalog date="${new Date().toISOString()}">
   <shop>
     <name>${information.account.name}</name>
-    <company>Самозанятый Казаков Александр Олегович ИНН 710708547004</company>
+    <company>Дикрафт</company>
     <url>https://dicraft.net</url>
     <email>support@dicraft.net</email>
     <currencies>
