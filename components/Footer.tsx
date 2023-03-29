@@ -2,16 +2,11 @@ import Link from "./Link";
 import {
   MailIcon,
   PhoneIcon,
-  ShoppingBagIcon,
   DocumentTextIcon,
   DeviceMobileIcon,
   DesktopComputerIcon,
   GlobeAltIcon,
-  VolumeUpIcon,
-  ChatAlt2Icon,
   CursorClickIcon,
-  MusicNoteIcon,
-  CameraIcon,
   ClipboardCopyIcon,
   MapIcon,
   ShoppingCartIcon
@@ -26,7 +21,7 @@ import {
   PropsWithChildren
 } from "react";
 
-type IconComponent = JSXElementConstructor<ComponentProps<"svg">>;
+type IconComponent = any;
 
 type FooterBlockProps = PropsWithChildren<{
   label: string;

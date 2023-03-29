@@ -201,7 +201,7 @@ export default function Store({
   const { t } = useTranslation("shop");
   const { locale, defaultLocale } = useRouter();
 
-  const updateProducts = ({ updateLocalPrices = true } = {}) => {
+  const updateProducts = useCallback(({ updateLocalPrices = true } = {}) => {
     const products = loadedListing
       .flatMap((category) => [category, ...category.subcategories])
       .flatMap((category) => category.products);
@@ -285,12 +285,12 @@ export default function Store({
     }
 
     setListing([...loadedListing]);
-  };
+  }, [currency, defaultLocale, loadedListing, locale]);
 
   useEffect(() => {
     document.cookie = `currency=${currency};path=/;max-age=31536000;samesite=strict`;
     updateProducts();
-  }, [currency]);
+  }, [currency, updateProducts]);
 
   return (
     <div className="prose prose-lg max-w-5xl mx-auto px-4 py-8">
