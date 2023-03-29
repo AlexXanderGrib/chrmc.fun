@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.13",
-    "@heroicons/react": "^1.0.5",
+    "@heroicons/react": "^2.0.16",
     "@xxhax/bablo": "^1.1.0",
     "@xxhax/safe-math": "^0.0.2",
     "@xxhax/strings": "^0.0.2",

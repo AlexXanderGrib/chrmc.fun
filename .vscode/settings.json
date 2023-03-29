@@ -2,5 +2,6 @@
   "cSpell.words": [
     "datocms",
     "tebex"
-  ]
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

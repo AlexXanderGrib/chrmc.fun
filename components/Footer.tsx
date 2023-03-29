@@ -1,16 +1,17 @@
 import Link from "./Link";
 import {
-  MailIcon,
+  EnvelopeIcon,
   PhoneIcon,
   DocumentTextIcon,
-  DeviceMobileIcon,
-  DesktopComputerIcon,
+  DevicePhoneMobileIcon,
+  ComputerDesktopIcon,
   GlobeAltIcon,
-  CursorClickIcon,
-  ClipboardCopyIcon,
+  CursorArrowRaysIcon,
+  ClipboardIcon,
+  
   MapIcon,
   ShoppingCartIcon
-} from "@heroicons/react/solid";
+} from "@heroicons/react/20/solid";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import classNames from "classnames";
@@ -104,7 +105,7 @@ export default function Footer() {
               {ts("server.ip")}
             </span>
             <span className="px-4 py-2 bg-indigo-900 flex justify-center items-center">
-              <ClipboardCopyIcon
+              <ClipboardIcon
                 className="w-5 h-5"
                 aria-label={ts("join.actions.copy")}
               />
@@ -219,12 +220,12 @@ export default function Footer() {
               [
                 t("join.java"),
                 "/articles/guides/how-to-join-from-java-edition",
-                DesktopComputerIcon
+                ComputerDesktopIcon
               ],
               [
                 t("join.bedrock"),
                 "/articles/guides/how-to-join-from-bedrock",
-                DeviceMobileIcon
+                DevicePhoneMobileIcon
               ],
               [
                 t("join.consoles"),
@@ -236,7 +237,7 @@ export default function Footer() {
                 `minecraft://?addExternalServer=${ts("server.name")}|${ts(
                   "server.ip"
                 )}:${ts("server.bedrockPort")}`,
-                CursorClickIcon
+                CursorArrowRaysIcon
               ]
             ]}
           />
@@ -256,7 +257,7 @@ export default function Footer() {
               [
                 "support@dicraft.net",
                 "mailto:support@dicraft.net",
-                MailIcon,
+                EnvelopeIcon,
                 {
                   itemProp: "email",
                   "aria-label": t("contacts.email"),

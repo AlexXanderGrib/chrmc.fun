@@ -1,5 +1,5 @@
 import { Disclosure, Popover, Transition } from "@headlessui/react";
-import { MenuIcon, ChevronDownIcon, XIcon } from "@heroicons/react/solid";
+import { Bars3Icon, ChevronDownIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import classNames from "classnames";
 import { useTranslation } from "next-i18next";
 import Link from "./Link";
@@ -49,7 +49,7 @@ export default function NavBar({ transparent = false, dark = false }) {
           <div className="-mr-2 -my-2 md:hidden">
             <Popover.Button className="clickable bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500">
               <span className="sr-only">{t("menu.open")}</span>
-              <MenuIcon className="h-6 w-6" aria-hidden="true" />
+              <Bars3Icon className="h-6 w-6" aria-hidden="true" />
             </Popover.Button>
           </div>
           <Popover.Group as="nav" className="hidden md:flex space-x-10">
@@ -143,7 +143,7 @@ export default function NavBar({ transparent = false, dark = false }) {
                 <div className="-mr-2">
                   <Popover.Button className="clickable bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500">
                     <span className="sr-only">{t("menu.close")}</span>
-                    <XIcon className="h-6 w-6" aria-hidden="true" />
+                    <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                   </Popover.Button>
                 </div>
               </div>

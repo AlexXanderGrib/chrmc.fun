@@ -1,14 +1,14 @@
 {
   "seo": {
-    "description": "Private official minecraft server on 1.18 java and bedrock (pocket edition pe) with Survival (SMP) and city role play (RP).",
+    "description": "Private official minecraft server on 1.19 java and bedrock (pocket edition pe) with Survival (SMP) and city role play (RP).",
     "keywords": "DiCraft, minecraft server, mcpe server, smp, minecraft survival, minecraft role play",
-    "title": "DiCraft • 1.18 • Private SMP | RP"
+    "title": "DiCraft • 1.19 • Private SMP | RP"
   },
   "server": {
     "ip": "play.dicraft.net",
     "name": "DiCraft",
     "javaPort": "25565",
-    "javaVersion": "1.18.1",
+    "javaVersion": "1.19.3",
     "bedrockPort": "19132"
   },
   "join": {

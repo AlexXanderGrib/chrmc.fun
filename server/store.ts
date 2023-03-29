@@ -76,7 +76,7 @@ export async function fetchProducts(
       memo("tebex-listing", isDev ? 10 : 30_000, () => tebex.listing.get()),
       memo("tebex-packages", isDev ? 10 : 30_000, () => tebex.packages.get()),
       memo(`datocms-products-${locale}`, isDev ? 10 : 300_000, () =>
-        datocms.request(
+        datocms.request<any>(
           `
         query Store($locale: SiteLocale!, $defaultLocale: SiteLocale!) {
           allCategories(

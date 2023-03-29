@@ -48,7 +48,7 @@ export default function Link({
       passHref
       legacyBehavior
     >
-      <a hrefLang={locale} draggable="false" {...rest} className={classes}>
+      <a hrefLang={locale || undefined} draggable="false" {...rest} className={classes}>
         {children}
       </a>
     </NextLink>

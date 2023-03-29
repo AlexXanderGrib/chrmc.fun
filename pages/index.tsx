@@ -6,12 +6,12 @@ import nextI18NextConfig from "../next-i18next.config.js";
 import { ComponentProps, FC, ReactNode, useEffect, useState } from "react";
 import { If } from "../components/If";
 import {
-  ClipboardCopyIcon,
-  DesktopComputerIcon,
-  DeviceMobileIcon,
-  ExternalLinkIcon,
+  ClipboardIcon,
+  ComputerDesktopIcon,
+  DevicePhoneMobileIcon,
+  ArrowTopRightOnSquareIcon,
   GlobeAltIcon
-} from "@heroicons/react/solid";
+} from "@heroicons/react/24/solid";
 import Link from "../components/Link";
 import { GetStaticProps } from "next";
 import { datocms } from "../server/config";
@@ -233,7 +233,7 @@ function Heading() {
                   className="clickable bg-action-500 hover:bg-action-600 transition-colors text-white w-full h-16 flex items-center justify-center rounded-r font-bold"
                   title={t("join.actions.copy")}
                 >
-                  <ClipboardCopyIcon
+                  <ClipboardIcon
                     className="w-6 h-6"
                     aria-label={t("join.actions.copy")}
                   />
@@ -323,9 +323,9 @@ export default function Home({ data }) {
   > = {
     java: [
       "/articles/guides/how-to-join-from-java-edition",
-      DesktopComputerIcon
+      ComputerDesktopIcon
     ],
-    bedrock: ["/articles/guides/how-to-join-from-bedrock", DeviceMobileIcon],
+    bedrock: ["/articles/guides/how-to-join-from-bedrock", DevicePhoneMobileIcon],
     consoles: ["/articles/guides/how-to-join-from-consoles", GlobeAltIcon]
   };
 
@@ -377,7 +377,7 @@ export default function Home({ data }) {
                     </div>
 
                     <div className="w-full" />
-                    <ExternalLinkIcon className="w-6 h-6" />
+                    <ArrowTopRightOnSquareIcon className="w-6 h-6" />
                   </Link>
                 );
               })}

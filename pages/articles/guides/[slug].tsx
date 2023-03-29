@@ -25,7 +25,7 @@ function initClient(preview = false) {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const client = initClient();
-  const { allGuides } = await client.request(`query GuidesIndex {
+  const { allGuides }: any = await client.request(`query GuidesIndex {
     allGuides {
       slug,
       _allSeoLocales {
@@ -108,7 +108,7 @@ export const getStaticProps: GetStaticProps = async ({
     
   }`;
 
-  const data = await client.request(GUIDE_QUERY, {
+  const data: any = await client.request(GUIDE_QUERY, {
     slug: params.slug,
     locale,
     defaultLocale

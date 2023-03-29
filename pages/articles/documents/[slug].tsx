@@ -23,7 +23,7 @@ function initClient(preview = false) {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const client = initClient();
-  const { allDocuments } = await client.request(`query DocumentsIndex {
+  const { allDocuments }: any = await client.request(`query DocumentsIndex {
     allDocuments {
       slug,
       _allContentLocales {
@@ -76,7 +76,7 @@ export const getStaticProps: GetStaticProps = async ({
       }
   }`;
 
-  const data = await client.request(GUIDE_QUERY, {
+  const data: any = await client.request(GUIDE_QUERY, {
     slug: params.slug,
     locale,
     defaultLocale

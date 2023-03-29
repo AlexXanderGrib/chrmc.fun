@@ -41,9 +41,6 @@ function MyApp({ Component, pageProps, router }: AppProps) {
     return asPath;
   };
   const path = getPath(locale);
-
-  console.log({ show })
-
   return (
     <>
       <Head>
