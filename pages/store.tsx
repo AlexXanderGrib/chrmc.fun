@@ -192,6 +192,93 @@ export const getServerSideProps: GetServerSideProps = async ({
   };
 };
 
+function updateProducts({
+  currency = "USD",
+  listing = [] as Awaited<ReturnType<typeof fetchProducts>>,
+  locale = "" as string,
+  defaultLocale = "" as string
+} = {}) {
+  const products = listing
+    .flatMap((category) => [category, ...category.subcategories])
+    .flatMap((category) => category.products);
+
+  for (const product of products) {
+    const browserLocale = navigator.language;
+
+    if (
+      product.price.base.localized.locale !== browserLocale &&
+      Intl?.NumberFormat
+    ) {
+      try {
+        const formatter = new Intl.NumberFormat(browserLocale, {
+          style: "currency",
+          currency: product.price.base.currency
+        });
+
+        product.price.base.localized = {
+          locale: browserLocale,
+          value: formatter.format(product.price.base.value)
+        };
+      } catch {}
+    }
+
+    if (
+      product.duration &&
+      typeof product.duration === "object" &&
+      product.duration.localized.locale !== browserLocale &&
+      Intl?.RelativeTimeFormat
+    ) {
+      try {
+        const formatter = new Intl.RelativeTimeFormat(browserLocale);
+
+        product.duration.localized = {
+          locale: browserLocale,
+          value: formatter.format(
+            product.duration.amount,
+            product.duration.unit
+          )
+        };
+      } catch {}
+    }
+
+    const localCurrency =
+      currency in rates
+        ? currency
+        : getCountryCurrency(
+            "US",
+            localeToCurrency[locale] ?? localeToCurrency[defaultLocale]
+          ).currency;
+
+    const localPrice = convert(
+      product.price.base.value,
+      product.price.base.currency,
+      localCurrency
+    );
+
+    let formattedPrice: string;
+
+    try {
+      const formatter = new Intl.NumberFormat(browserLocale, {
+        style: "currency",
+        currency: localCurrency
+      });
+
+      formattedPrice = formatter.format(localPrice);
+    } catch {
+      formattedPrice = `${round(localPrice, 5)} ${localCurrency}`;
+    }
+
+    product.price.local = {
+      currency: localCurrency,
+      value: localPrice,
+      localized: {
+        locale: browserLocale,
+        value: formattedPrice
+      }
+    };
+  }
+}
+
 export default function Store({
   listing = [] as Awaited<ReturnType<typeof fetchProducts>>,
   userCurrency = "USD"
@@ -201,96 +288,10 @@ export default function Store({
   const { t } = useTranslation("shop");
   const { locale, defaultLocale } = useRouter();
 
-  const updateProducts = useCallback(({ updateLocalPrices = true } = {}) => {
-    const products = loadedListing
-      .flatMap((category) => [category, ...category.subcategories])
-      .flatMap((category) => category.products);
-
-    for (const product of products) {
-      const browserLocale = navigator.language;
-
-      if (
-        product.price.base.localized.locale !== browserLocale &&
-        Intl?.NumberFormat
-      ) {
-        try {
-          const formatter = new Intl.NumberFormat(browserLocale, {
-            style: "currency",
-            currency: product.price.base.currency
-          });
-
-          product.price.base.localized = {
-            locale: browserLocale,
-            value: formatter.format(product.price.base.value)
-          };
-        } catch {}
-      }
-
-      if (
-        product.duration &&
-        typeof product.duration === "object" &&
-        product.duration.localized.locale !== browserLocale &&
-        Intl?.RelativeTimeFormat
-      ) {
-        try {
-          const formatter = new Intl.RelativeTimeFormat(browserLocale);
-
-          product.duration.localized = {
-            locale: browserLocale,
-            value: formatter.format(
-              product.duration.amount,
-              product.duration.unit
-            )
-          };
-        } catch {}
-      }
-
-      if (updateLocalPrices) {
-        const localCurrency =
-          currency in rates
-            ? currency
-            : getCountryCurrency(
-                "US",
-                localeToCurrency[locale] ?? localeToCurrency[defaultLocale]
-              ).currency;
-
-        const localPrice = convert(
-          product.price.base.value,
-          product.price.base.currency,
-          localCurrency
-        );
-
-        let formattedPrice: string;
-
-        try {
-          const formatter = new Intl.NumberFormat(browserLocale, {
-            style: "currency",
-            currency: localCurrency
-          });
-
-          formattedPrice = formatter.format(localPrice);
-        } catch {
-          formattedPrice = `${round(localPrice, 5)} ${localCurrency}`;
-        }
-
-        product.price.local = {
-          currency: localCurrency,
-          value: localPrice,
-          localized: {
-            locale: browserLocale,
-            value: formattedPrice
-          }
-        };
-      }
-    }
-
-    setListing([...loadedListing]);
-  }, [currency, defaultLocale, loadedListing, locale]);
-
-  useEffect(() => {
+  if (typeof window !== "undefined") {
+    updateProducts({ currency, defaultLocale, listing, locale });
     document.cookie = `currency=${currency};path=/;max-age=31536000;samesite=strict`;
-    updateProducts();
-  }, [currency]);
+  }
 
   return (
     <div className="prose prose-lg max-w-5xl mx-auto px-4 py-8">
