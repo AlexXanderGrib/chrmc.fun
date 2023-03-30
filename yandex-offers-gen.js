@@ -1,8 +1,7 @@
+require("dotenv/config");
 const { Tebex } = require("tebex");
-const dotenv = require("dotenv");
 const prettier = require("prettier");
 
-dotenv.config();
 
 async function main() {
   const tebex = new Tebex(process.env.TEBEX_STORE_SECRET);
