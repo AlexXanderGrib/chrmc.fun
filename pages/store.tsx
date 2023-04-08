@@ -9,7 +9,6 @@ import { useRouter } from "next/router";
 import Link from "../components/Link";
 import { round } from "@xxhax/safe-math";
 import Head from "next/head";
-import Image from "next/legacy/image";
 import { render } from "datocms-structured-text-to-plain-text";
 import { loadTranslation, Locales, useTranslation } from "../i18n";
 
@@ -37,7 +36,7 @@ function ProductView({ product }: { product: Product }) {
       {/* <div className="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none"> */}
       <div className="rounded-md overflow-hidden relative aspect-w-1 aspect-h-1">
         <div className="absolute top-0 left-0 w-full h-full">
-          <Image
+          <img
             src={product.image}
             alt=""
             className="select-none bg-gray-200 transform transition-transform group-hover:scale-110"
@@ -46,7 +45,6 @@ function ProductView({ product }: { product: Product }) {
             draggable="false"
             width="512"
             height="512"
-            layout="responsive"
           />
         </div>
         <div className="absolute top-1/2 left-0 w-full h-1/2 bg-black bg-opacity-70 text-center transform transition-transform translate-y-full group-hover:translate-y-0">

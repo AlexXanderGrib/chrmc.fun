@@ -133,12 +133,11 @@ export default function Guide({ guide, allGuides: otherGuides }) {
           {guide.title}
         </h1>
 
-        <Image
+        <img
           src={guide.thumbnail.url}
           alt={guide.thumbnail.alt}
           width={guide.thumbnail.width}
           height={guide.thumbnail.height}
-          priority
           className="-mx-4"
           itemProp="thumbnailUrl"
         />

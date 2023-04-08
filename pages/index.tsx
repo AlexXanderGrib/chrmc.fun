@@ -12,7 +12,6 @@ import {
 import Link from "../components/Link";
 import { GetStaticProps } from "next";
 import { datocms } from "../server/config";
-import Image from "next/legacy/image";
 import { Locales, loadTranslation, useTranslation } from "../i18n";
 
 export const config = {
@@ -425,7 +424,7 @@ export default function Home({ data }) {
         <div className="pt-8 bg-emerald-200">
           <section className="grid grid-cols-3 max-w-2xl mx-auto gap-8">
             <div className="text-right">
-              <Image
+              <img
                 src="/images/emojis/backhand-index-pointing-right_1f449.png"
                 alt="👉"
                 className="select-none"
@@ -434,7 +433,6 @@ export default function Home({ data }) {
                 decoding="async"
                 width={60}
                 height={60}
-                layout="fixed"
               />
             </div>
             <h2 className="flex justify-center items-center">
@@ -446,7 +444,7 @@ export default function Home({ data }) {
               </Link>
             </h2>
             <div className="text-left">
-              <Image
+              <img
                 src="/images/emojis/backhand-index-pointing-left_1f448.png"
                 alt="👈"
                 className="select-none"
@@ -455,7 +453,6 @@ export default function Home({ data }) {
                 decoding="async"
                 width={60}
                 height={60}
-                layout="fixed"
               />
             </div>
           </section>
@@ -472,7 +469,7 @@ export default function Home({ data }) {
             <div className="not-prose grid grid-cols-2 md:grid-cols-4 grid-rows-2">
               <div className="hidden md:flex col-start-1 row-start-1 items-start justify-start">
                 <span className="transform rotate-12 transition-transform duration-150 hover:rotate-0">
-                  <Image
+                  <img
                     src="/images/emojis/megaphone_1f4e3.png"
                     alt="📣"
                     className="select-none"
@@ -481,13 +478,12 @@ export default function Home({ data }) {
                     decoding="async"
                     width={120}
                     height={120}
-                    layout="fixed"
                   />
                 </span>
               </div>
               <div className="hidden md:flex col-start-1 row-start-2 items-end justify-start">
                 <span className="transform rotate-12 transition-transform duration-150 hover:rotate-0">
-                  <Image
+                  <img
                     src="/images/emojis/video-game_1f3ae.png"
                     alt="🎮"
                     className="select-none"
@@ -496,7 +492,6 @@ export default function Home({ data }) {
                     decoding="async"
                     width={120}
                     height={120}
-                    layout="fixed"
                   />
                 </span>
               </div>
@@ -519,7 +514,7 @@ export default function Home({ data }) {
 
               <div className="hidden md:flex col-start-4 row-start-1 items-start justify-end">
                 <span className="transform rotate-12 transition-transform duration-150 hover:rotate-0">
-                  <Image
+                  <img
                     src="/images/emojis/speech-balloon_1f4ac.png"
                     alt="💬"
                     className="select-none"
@@ -528,13 +523,12 @@ export default function Home({ data }) {
                     decoding="async"
                     width={120}
                     height={120}
-                    layout="fixed"
                   />
                 </span>
               </div>
               <div className="hidden md:flex col-start-4 row-start-2 items-end justify-end">
                 <span className="transform -rotate-12 transition-transform duration-150 hover:rotate-0">
-                  <Image
+                  <img
                     src="/images/emojis/gorilla_1f98d.png"
                     alt="🦍"
                     className="select-none"
@@ -543,7 +537,6 @@ export default function Home({ data }) {
                     decoding="async"
                     width={120}
                     height={120}
-                    layout="fixed"
                   />
                 </span>
               </div>
