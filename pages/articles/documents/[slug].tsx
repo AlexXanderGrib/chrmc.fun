@@ -8,6 +8,10 @@ import { useTranslation } from "next-i18next";
 
 let client: GraphQLClient;
 
+export const config = {
+  runtime: "edge"
+};
+
 function initClient(preview = false) {
   return (client ??= new GraphQLClient(
     preview

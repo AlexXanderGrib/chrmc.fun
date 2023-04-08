@@ -4,6 +4,10 @@ import nextI18NextConfig from "../next-i18next.config.js";
 import Error from "next/error";
 import { GetStaticProps } from "next";
 
+export const config = {
+	runtime: 'edge',
+};
+
 export const getStaticProps: GetStaticProps = async ({ locale }) => ({
   props: {
     ...(await serverSideTranslations(

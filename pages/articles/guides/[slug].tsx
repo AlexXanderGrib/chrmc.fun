@@ -10,6 +10,10 @@ import { If } from "../../../components/If";
 
 let client: GraphQLClient;
 
+export const config = {
+  runtime: "edge"
+};
+
 function initClient(preview = false) {
   return (client ??= new GraphQLClient(
     preview

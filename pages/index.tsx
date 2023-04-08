@@ -17,6 +17,9 @@ import { GetStaticProps } from "next";
 import { datocms } from "../server/config";
 import Image from "next/legacy/image";
 
+export const config = {
+	runtime: 'edge',
+};
 
 export const getStaticProps: GetStaticProps = async ({
   locale,

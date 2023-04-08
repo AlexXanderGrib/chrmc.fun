@@ -20,6 +20,10 @@ import Head from "next/head";
 import Image from "next/legacy/image";
 import { render } from "datocms-structured-text-to-plain-text";
 
+export const config = {
+	runtime: 'edge',
+};
+
 function ProductView({ product }: { product: Product }) {
   const { locale, defaultLocale } = useRouter();
   const { t } = useTranslation("shop");
