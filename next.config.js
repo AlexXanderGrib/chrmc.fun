@@ -9,11 +9,7 @@ module.exports = {
   },
   reactStrictMode: true,
   images: {
-    domains: [
-      "www.datocms-assets.com",
-      "dunb17ur4ymx4.cloudfront.net",
-      "emojipedia-us.s3.dualstack.us-west-1.amazonaws.com"
-    ]
+    domains: ["www.datocms-assets.com", "dunb17ur4ymx4.cloudfront.net"]
   },
   poweredByHeader: false
 };

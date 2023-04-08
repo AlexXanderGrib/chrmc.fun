@@ -1,30 +1,19 @@
 import { GetStaticPaths, GetStaticProps } from "next";
 import Image from "next/legacy/image";
-import { GraphQLClient } from "graphql-request";
 import { StructuredText } from "react-datocms";
 import Head from "next/head";
 import { Carousel } from "react-responsive-carousel";
 import { If } from "../../../components/If";
 import { Locales, loadTranslation } from "../../../i18n";
+import { datocms } from "../../../server/config";
 
-let client: GraphQLClient;
+export const config = {
+  runtime: "experimental-edge"
+};
 
-function initClient(preview = false) {
-  return (client ??= new GraphQLClient(
-    preview
-      ? `https://graphql.datocms.com/preview`
-      : `https://graphql.datocms.com/`,
-    {
-      headers: {
-        authorization: `Bearer ${process.env.DATOCMS_API_TOKEN}`
-      }
-    }
-  ));
-}
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const client = initClient();
-  const { allGuides }: any = await client.request(`query GuidesIndex {
+  const { allGuides }: any = await datocms.request(`query GuidesIndex {
     allGuides {
       slug,
       _allSeoLocales {
@@ -34,7 +23,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }`);
 
   return {
-
     paths: allGuides.flatMap(({ _allSeoLocales, slug }) =>
       _allSeoLocales.map(({ locale }) => ({
         locale,
@@ -51,7 +39,6 @@ export const getStaticProps: GetStaticProps = async ({
   params,
   preview
 }) => {
-  const client = initClient(preview);
   const GUIDE_QUERY = `query Guide($slug: String!, $locale: SiteLocale!, $defaultLocale: SiteLocale!) {
     
       allGuides(
@@ -108,7 +95,7 @@ export const getStaticProps: GetStaticProps = async ({
     
   }`;
 
-  const data: any = await client.request(GUIDE_QUERY, {
+  const data: any = await datocms.request(GUIDE_QUERY, {
     slug: params.slug,
     locale,
     defaultLocale

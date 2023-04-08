@@ -1,27 +1,15 @@
 import { GetStaticPaths, GetStaticProps } from "next";
-import { GraphQLClient } from "graphql-request";
 import { StructuredText } from "react-datocms";
 import Head from "next/head";
 import { Locales, loadTranslation, useTranslation } from "../../../i18n";
+import { datocms } from "../../../server/config";
 
-let client: GraphQLClient;
-
-function initClient(preview = false) {
-  return (client ??= new GraphQLClient(
-    preview
-      ? `https://graphql.datocms.com/preview`
-      : `https://graphql.datocms.com/`,
-    {
-      headers: {
-        authorization: `Bearer ${process.env.DATOCMS_API_TOKEN}`
-      }
-    }
-  ));
-}
+export const config = {
+  runtime: "experimental-edge"
+};
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const client = initClient();
-  const { allDocuments }: any = await client.request(`query DocumentsIndex {
+  const { allDocuments }: any = await datocms.request(`query DocumentsIndex {
     allDocuments {
       slug,
       _allContentLocales {
@@ -57,7 +45,6 @@ export const getStaticProps: GetStaticProps = async ({
     timeZoneName: "short"
   });
 
-  const client = initClient(preview);
   const GUIDE_QUERY = `query Document($slug: String!, $locale: SiteLocale!, $defaultLocale: SiteLocale!) {
       document(
         locale: $locale
@@ -74,7 +61,7 @@ export const getStaticProps: GetStaticProps = async ({
       }
   }`;
 
-  const data: any = await client.request(GUIDE_QUERY, {
+  const data: any = await datocms.request(GUIDE_QUERY, {
     slug: params.slug,
     locale,
     defaultLocale
