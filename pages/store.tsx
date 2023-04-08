@@ -1,17 +1,9 @@
-import { GetServerSideProps, GetStaticProps } from "next";
-import { useCallback, useEffect, useState } from "react";
+import { GetServerSideProps } from "next";
+import { useState } from "react";
 import { If } from "../components/If";
 import { fetchProducts, localeToCurrency, Product } from "../server/store";
 import { StructuredText } from "react-datocms";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import nextI18NextConfig from "../next-i18next.config";
-import { useTranslation } from "next-i18next";
-import {
-  baseCurrency,
-  convert,
-  getCountryCurrency,
-  rates
-} from "../shared/currency";
+import { convert, getCountryCurrency, rates } from "../shared/currency";
 import cookie from "cookie";
 import { useRouter } from "next/router";
 import Link from "../components/Link";
@@ -19,14 +11,11 @@ import { round } from "@xxhax/safe-math";
 import Head from "next/head";
 import Image from "next/legacy/image";
 import { render } from "datocms-structured-text-to-plain-text";
-
-export const config = {
-	runtime: 'edge',
-};
+import { loadTranslation, Locales, useTranslation } from "../i18n";
 
 function ProductView({ product }: { product: Product }) {
   const { locale, defaultLocale } = useRouter();
-  const { t } = useTranslation("shop");
+  const t = useTranslation()["shop"];
 
   const description = product.description
     ? render(product.description)
@@ -60,7 +49,7 @@ function ProductView({ product }: { product: Product }) {
           <div className="mx-auto select-none flex justify-center items-center text-center text-white uppercase font-bold py-2 px-4 w-1/2 relative transform group-hover:-translate-y-1/2 bg-green-600">
             <div className="absolute w-full h-1 top-0 left-0 bg-white opacity-40" />
             <div className="absolute w-1 h-full top-0 right-0 bg-white opacity-40" />
-            {t("buy")}
+            {t.buy}
             <div className="absolute w-full h-1 bottom-0 left-0 bg-black opacity-40" />
             <div className="absolute w-1 h-full bottom-0 left-0 bg-black opacity-40" />
           </div>
@@ -92,13 +81,13 @@ function ProductView({ product }: { product: Product }) {
             <p className="mt-1 text-sm text-gray-500">
               {typeof product.duration === "object" && product.duration ? (
                 <>
-                  <span lang={locale}>{t("expires")}</span>{" "}
+                  <span lang={locale}>{t.expires}</span>{" "}
                   <span lang={product.duration.localized.locale}>
                     {product.duration.localized.value}
                   </span>
                 </>
               ) : (
-                t("forever")
+                t.forever
               )}
             </p>
           </If>
@@ -187,11 +176,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     props: {
       listing: await fetchProducts(locale, defaultLocale, country, currency),
       userCurrency: currency,
-      ...(await serverSideTranslations(
-        locale,
-        ["shop", "common", "footer", "nav"],
-        nextI18NextConfig
-      ))
+      translation: await loadTranslation(locale as Locales)
     }
   };
 };
@@ -289,7 +274,7 @@ export default function Store({
 }) {
   const [currency, setCurrency] = useState(userCurrency);
   const [loadedListing, setListing] = useState(listing);
-  const { t } = useTranslation("shop");
+  const t = useTranslation()["shop"];
   const { locale, defaultLocale } = useRouter();
 
   if (typeof window !== "undefined") {
@@ -300,12 +285,12 @@ export default function Store({
   return (
     <div className="prose prose-lg max-w-5xl mx-auto px-4 py-8">
       <Head>
-        <title>{t("shop")}</title>
+        <title>{t.shop}</title>
       </Head>
-      <h1 className="font-heading">{t("shop")}</h1>
+      <h1 className="font-heading">{t.shop}</h1>
 
       <label>
-        <div>{t("select-currency")}</div>
+        <div>{t["select-currency"]}</div>
         <select
           onChange={(event) => {
             setCurrency(event.target.value);

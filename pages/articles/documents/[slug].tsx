@@ -2,15 +2,9 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import { GraphQLClient } from "graphql-request";
 import { StructuredText } from "react-datocms";
 import Head from "next/head";
-import nextI18NextConfig from "../../../next-i18next.config.js";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "next-i18next";
+import { Locales, loadTranslation, useTranslation } from "../../../i18n";
 
 let client: GraphQLClient;
-
-export const config = {
-  runtime: "edge"
-};
 
 function initClient(preview = false) {
   return (client ??= new GraphQLClient(
@@ -89,11 +83,7 @@ export const getStaticProps: GetStaticProps = async ({
   return {
     notFound: data.document === null,
     props: {
-      ...(await serverSideTranslations(
-        locale,
-        ["common", "footer", "nav", "article"],
-        nextI18NextConfig
-      )),
+      translation: await loadTranslation(locale as Locales),
       document:
         data.document === null
           ? null
@@ -110,7 +100,7 @@ export const getStaticProps: GetStaticProps = async ({
 };
 
 export default function Document({ document }) {
-  const { t } = useTranslation("article");
+  const t = useTranslation()["article"];
   return (
     <main>
       <Head>
@@ -126,7 +116,7 @@ export default function Document({ document }) {
           {document.title}
         </h1>
         <time dateTime={document.updatedAt.pure} itemProp="dateModified">
-          {t("updatedAt")} {document.updatedAt.formatted}
+          {t.updatedAt} {document.updatedAt.formatted}
         </time>
         <div itemProp="articleBody">
           <StructuredText data={document.content} />

@@ -1,8 +1,5 @@
 import Head from "next/head";
 
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "next-i18next";
-import nextI18NextConfig from "../next-i18next.config.js";
 import { ComponentProps, FC, ReactNode, useEffect, useState } from "react";
 import { If } from "../components/If";
 import {
@@ -16,15 +13,9 @@ import Link from "../components/Link";
 import { GetStaticProps } from "next";
 import { datocms } from "../server/config";
 import Image from "next/legacy/image";
+import { Locales, loadTranslation, useTranslation } from "../i18n";
 
-export const config = {
-	runtime: 'edge',
-};
-
-export const getStaticProps: GetStaticProps = async ({
-  locale,
-  defaultLocale
-}) => {
+export const getStaticProps = (async ({ locale, defaultLocale }) => {
   const ADV_QUERY = `query Index($locale: SiteLocale!, $defaultLocale: SiteLocale!) {
     allAdvantages(
       locale: $locale
@@ -47,16 +38,12 @@ export const getStaticProps: GetStaticProps = async ({
 
   return {
     props: {
-      ...(await serverSideTranslations(
-        locale,
-        ["index", "common", "footer", "nav"],
-        nextI18NextConfig
-      )),
+      translation: await loadTranslation(locale as Locales),
       data
     },
     revalidate: 60
   };
-};
+}) satisfies GetStaticProps;
 
 // export const getServerSideProps: GetServerSideProps = async (context) => {
 //   context.
@@ -128,7 +115,7 @@ function SectionTransition({
 }
 
 function Heading() {
-  const { t } = useTranslation("common");
+  const t = useTranslation()["common"];
 
   const [primaryPlatform, setPrimaryPlatform] = useState<
     PlayerPlatform | undefined
@@ -194,9 +181,9 @@ function Heading() {
         <div className="max-w-lg px-4">
           <hgroup className="text-white text-center flex flex-col gap-4">
             <h1 className="text-3xl font-bold" itemProp="name">
-              {t("seo.title")}
+              {t.seo.title}
             </h1>
-            <h2 itemProp="description">{t("seo.description")}</h2>
+            <h2 itemProp="description">{t.seo.description}</h2>
           </hgroup>
 
           <div className="pt-8">
@@ -207,38 +194,38 @@ function Heading() {
                   e.preventDefault();
 
                   navigator.clipboard.writeText(
-                    `${t("server.ip")}:${t("server.javaPort")}`
+                    `${t.server.ip}:${t.server.javaPort}`
                   );
                 }}
               >
                 <label htmlFor="address" className="text-white font-bold">
-                  {t("join.address")}
+                  {t.join.address}
                 </label>
                 <label htmlFor="port" className="text-white font-bold">
-                  {t("join.port")}
+                  {t.join.port}
                 </label>
                 <span />
                 <input
                   type="text"
                   id="address"
                   readOnly
-                  value={t("server.ip") as string}
+                  value={t.server.ip as string}
                   className="rounded-l px-2 w-full"
                 />
                 <input
                   type="number"
                   id="port"
                   readOnly
-                  value={t("server.javaPort") as string}
+                  value={t.server.javaPort as string}
                   className="text-center"
                 />
                 <button
                   className="clickable bg-action-500 hover:bg-action-600 transition-colors text-white w-full h-16 flex items-center justify-center rounded-r font-bold"
-                  title={t("join.actions.copy")}
+                  title={t.join.actions.copy}
                 >
                   <ClipboardIcon
                     className="w-6 h-6"
-                    aria-label={t("join.actions.copy")}
+                    aria-label={t.join.actions.copy}
                   />
                 </button>
               </form>
@@ -247,12 +234,10 @@ function Heading() {
             <If condition={primaryPlatform === "bedrock"}>
               <a
                 className="clickable bg-action-500 hover:bg-action-600 transition-colors text-white w-full h-16 flex items-center justify-center rounded font-bold"
-                href={`minecraft://?addExternalServer=${t("server.name")}&vert;${t(
-                  "server.ip"
-                )}:${t("server.bedrockPort")}`}
+                href={`minecraft://?addExternalServer=${t.server.name}&vert;${t.server.ip}:${t.server.bedrockPort}`}
                 draggable="false"
               >
-                {t("join.actions.bedrock-join")}
+                {t.join.actions["bedrock-join"]}
               </a>
             </If>
 
@@ -266,7 +251,7 @@ function Heading() {
                 href="#join"
                 draggable="false"
               >
-                {t("join.actions.how-to-join")}
+                {t.join.actions["how-to-join"]}
               </a>
             </If>
           </div>
@@ -317,8 +302,7 @@ function Heading() {
 }
 
 export default function Home({ data }) {
-  const { t: tc } = useTranslation("common");
-  const { t } = useTranslation("index");
+  const { index: t, common: tc } = useTranslation();
 
   const platforms: Record<
     PlayerPlatform,
@@ -328,7 +312,10 @@ export default function Home({ data }) {
       "/articles/guides/how-to-join-from-java-edition",
       ComputerDesktopIcon
     ],
-    bedrock: ["/articles/guides/how-to-join-from-bedrock", DevicePhoneMobileIcon],
+    bedrock: [
+      "/articles/guides/how-to-join-from-bedrock",
+      DevicePhoneMobileIcon
+    ],
     consoles: ["/articles/guides/how-to-join-from-consoles", GlobeAltIcon]
   };
 
@@ -344,11 +331,11 @@ export default function Home({ data }) {
   return (
     <>
       <Head>
-        <meta name="description" content={tc("seo.description")} />
-        <meta name="keywords" content={tc("seo.keywords")} />
-        <meta name="og:title" content={tc("seo.title")} />
+        <meta name="description" content={tc.seo.description} />
+        <meta name="keywords" content={tc.seo.keywords} />
+        <meta name="og:title" content={tc.seo.title} />
 
-        <title>{tc("seo.title")}</title>
+        <title>{tc.seo.title}</title>
         <meta property="og:image" content="/hero@1x.jpg" />
       </Head>
 
@@ -358,7 +345,7 @@ export default function Home({ data }) {
         <div className="pt-8 bg-orange-50">
           <section className="prose prose-orange mx-auto p-2 my-4">
             <h2 id="join" className="text-center">
-              {tc("join.actions.how-to-join")}
+              {tc.join.actions["how-to-join"]}
             </h2>
 
             <div className="flex flex-col gap-4">
@@ -376,7 +363,7 @@ export default function Home({ data }) {
                     </div>
 
                     <div className="whitespace-nowrap">
-                      {tc(`guides.${value}.title`)}
+                      {tc.guides[value].title}
                     </div>
 
                     <div className="w-full" />
@@ -395,7 +382,7 @@ export default function Home({ data }) {
         </div>
         <div className="pt-8 bg-yellow-100">
           <section className="prose max-w-5xl prose-yellow mx-auto p-2">
-            <h2 className="text-center">{t("advantages")}</h2>
+            <h2 className="text-center">{t.advantages}</h2>
 
             <div className="not-prose">
               <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-2">
@@ -451,7 +438,7 @@ export default function Home({ data }) {
                 href="/store"
                 className="bg-emerald-500 hover:bg-emerald-600 focus:bg-emerald-600 px-8 py-6 rounded text-xl text-white font-bold transition-colors animate-bounce text-center"
               >
-                {t("buy.title")}
+                {t.buy.title}
               </Link>
             </h2>
             <div className="text-left">

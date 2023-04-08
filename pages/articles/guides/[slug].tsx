@@ -3,16 +3,11 @@ import Image from "next/legacy/image";
 import { GraphQLClient } from "graphql-request";
 import { StructuredText } from "react-datocms";
 import Head from "next/head";
-import nextI18NextConfig from "../../../next-i18next.config.js";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Carousel } from "react-responsive-carousel";
 import { If } from "../../../components/If";
+import { Locales, loadTranslation } from "../../../i18n";
 
 let client: GraphQLClient;
-
-export const config = {
-  runtime: "edge"
-};
 
 function initClient(preview = false) {
   return (client ??= new GraphQLClient(
@@ -39,6 +34,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }`);
 
   return {
+
     paths: allGuides.flatMap(({ _allSeoLocales, slug }) =>
       _allSeoLocales.map(({ locale }) => ({
         locale,
@@ -121,11 +117,7 @@ export const getStaticProps: GetStaticProps = async ({
   return {
     notFound: data.guide === null,
     props: {
-      ...(await serverSideTranslations(
-        locale,
-        ["common", "footer", "nav"],
-        nextI18NextConfig
-      )),
+      translation: await loadTranslation(locale as Locales),
       ...data
     },
     revalidate: 15 * 60

@@ -8,11 +8,9 @@ import {
   GlobeAltIcon,
   CursorArrowRaysIcon,
   ClipboardIcon,
-  
   MapIcon,
   ShoppingCartIcon
 } from "@heroicons/react/20/solid";
-import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import classNames from "classnames";
 import { If } from "./If";
@@ -21,6 +19,7 @@ import {
   JSXElementConstructor,
   PropsWithChildren
 } from "react";
+import { useTranslation } from "../i18n";
 
 type IconComponent = JSXElementConstructor<ComponentProps<"svg">>;
 
@@ -84,8 +83,7 @@ function FooterBlock({
 }
 
 export default function Footer() {
-  const { t } = useTranslation("footer");
-  const { t: ts } = useTranslation("common");
+  const { footer: t, common: ts } = useTranslation();
   const router = useRouter();
 
   return (
@@ -98,23 +96,23 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row items-center md:justify-between max-w-5xl mx-auto px-16 py-8 gap-8">
           <button
             className="flex overflow-hidden rounded-lg text-white items-stretch clickable filter active:brightness-110"
-            title={ts("join.actions.copy")}
-            onClick={() => navigator.clipboard.writeText(ts("server.ip"))}
+            title={ts.join.actions.copy}
+            onClick={() => navigator.clipboard.writeText(ts.server.ip)}
           >
             <span className="px-4 py-2 bg-indigo-800 font-bold uppercase">
-              {ts("server.ip")}
+              {ts.server.ip}
             </span>
             <span className="px-4 py-2 bg-indigo-900 flex justify-center items-center">
               <ClipboardIcon
                 className="w-5 h-5"
-                aria-label={ts("join.actions.copy")}
+                aria-label={ts.join.actions.copy}
               />
             </span>
           </button>
           <ul
             className="flex gap-8 flex-wrap justify-center"
-            aria-label={t("socials.title")}
-            title={t("socials.title")}
+            aria-label={t.socials.title}
+            title={t.socials.title}
           >
             <li>
               <a
@@ -122,11 +120,11 @@ export default function Footer() {
                 rel="noreferrer noopener me"
                 target="_blank"
                 className="clickable group"
-                title={t("socials.instagram")}
+                title={t.socials.instagram}
               >
                 <img
                   src="/images/icons/Instagram.svg"
-                  alt={t("socials.instagram")}
+                  alt={t.socials.instagram}
                   draggable="false"
                   loading="eager"
                   width="32"
@@ -141,11 +139,11 @@ export default function Footer() {
                 rel="noreferrer noopener me"
                 target="_blank"
                 className="clickable group"
-                title={t("socials.discord")}
+                title={t.socials.discord}
               >
                 <img
                   src="/images/icons/Discord.svg"
-                  alt={t("socials.discord")}
+                  alt={t.socials.discord}
                   draggable="false"
                   loading="eager"
                   width="32"
@@ -160,11 +158,11 @@ export default function Footer() {
                 rel="noreferrer noopener me"
                 target="_blank"
                 className="clickable group"
-                title={t("socials.vk")}
+                title={t.socials.vk}
               >
                 <img
                   src="/images/icons/VK.svg"
-                  alt={t("socials.vk")}
+                  alt={t.socials.vk}
                   draggable="false"
                   loading="eager"
                   width="32"
@@ -179,11 +177,11 @@ export default function Footer() {
                 rel="noreferrer noopener me"
                 target="_blank"
                 className="clickable group"
-                title={t("socials.tiktok")}
+                title={t.socials.tiktok}
               >
                 <img
                   src="/images/icons/TikTok.svg"
-                  alt={t("socials.tiktok")}
+                  alt={t.socials.tiktok}
                   draggable="false"
                   loading="eager"
                   width="32"
@@ -197,52 +195,41 @@ export default function Footer() {
       </div>
       <div className="bg-gray-800">
         <div className="flex flex-row flex-wrap max-w-5xl mx-auto p-16 gap-8 justify-between">
-          <FooterBlock label={t("links.title")} links={[
-            [
-              t("links.store"),
-              "/store",
-              ShoppingCartIcon
-            ],
-            [
-              t("links.city-map"),
-              "/map/city",
-              MapIcon
-            ],
-            [
-              t("links.survival-map"),
-              "/map/survival",
-              MapIcon
-            ],
-          ]} />
           <FooterBlock
-            label={t("join.title")}
+            label={t.links.title}
+            links={[
+              [t.links.store, "/store", ShoppingCartIcon],
+              [t.links["city-map"], "/map/city", MapIcon],
+              [t.links["survival-map"], "/map/survival", MapIcon]
+            ]}
+          />
+          <FooterBlock
+            label={t.join.title}
             links={[
               [
-                t("join.java"),
+                t.join.java,
                 "/articles/guides/how-to-join-from-java-edition",
                 ComputerDesktopIcon
               ],
               [
-                t("join.bedrock"),
+                t.join.bedrock,
                 "/articles/guides/how-to-join-from-bedrock",
                 DevicePhoneMobileIcon
               ],
               [
-                t("join.consoles"),
+                t.join.consoles,
                 "/articles/guides/how-to-join-from-consoles",
                 GlobeAltIcon
               ],
               [
-                t("join.bedrock-add"),
-                `minecraft://?addExternalServer=${ts("server.name")}|${ts(
-                  "server.ip"
-                )}:${ts("server.bedrockPort")}`,
+                t.join["bedrock-add"],
+                `minecraft://?addExternalServer=${ts.server.name}|${ts.server.ip}:${ts.server.bedrockPort}`,
                 CursorArrowRaysIcon
               ]
             ]}
           />
           <FooterBlock
-            label={t("contacts.title")}
+            label={t.contacts.title}
             links={[
               [
                 "+7 (995) 488-83-15",
@@ -250,8 +237,8 @@ export default function Footer() {
                 PhoneIcon,
                 {
                   itemProp: "telephone",
-                  "aria-label": t("contacts.phone"),
-                  title: t("contacts.phone")
+                  "aria-label": t.contacts.phone,
+                  title: t.contacts.phone
                 }
               ],
               [
@@ -260,15 +247,15 @@ export default function Footer() {
                 EnvelopeIcon,
                 {
                   itemProp: "email",
-                  "aria-label": t("contacts.email"),
-                  title: t("contacts.email")
+                  "aria-label": t.contacts.email,
+                  title: t.contacts.email
                 }
               ]
             ]}
           />
 
           <If condition={router.locales?.length > 0}>
-            <FooterBlock label={t("lang.title")} icon={GlobeAltIcon}>
+            <FooterBlock label={t.lang.title} icon={GlobeAltIcon}>
               <select
                 defaultValue={router.locale ?? router.defaultLocale}
                 onChange={(e) => {
@@ -280,32 +267,32 @@ export default function Footer() {
               >
                 {router.locales.map((locale) => (
                   <option value={locale} key={locale}>
-                    {locale} - {t(`lang.${locale}`, locale)}
+                    {locale} - {t.lang[locale] ?? locale}
                   </option>
                 ))}
               </select>
             </FooterBlock>
           </If>
           <FooterBlock
-            label={t("documents.title")}
+            label={t.documents.title}
             links={[
               [
-                t("documents.rules"),
+                t.documents.rules,
                 "/articles/documents/rules",
                 DocumentTextIcon
               ],
               [
-                t("documents.agreement"),
+                t.documents.agreement,
                 "/articles/documents/agreement",
                 DocumentTextIcon
               ],
               [
-                t("documents.privacy"),
+                t.documents.privacy,
                 "/articles/documents/privacy",
                 DocumentTextIcon
               ],
               [
-                t("documents.parents"),
+                t.documents.parents,
                 "/articles/documents/parents",
                 DocumentTextIcon
               ]
@@ -316,13 +303,13 @@ export default function Footer() {
 
       <div className="bg-gray-900">
         <div className="flex flex-row flex-wrap max-w-3xl mx-auto px-16 py-8 gap-8 text-gray-300">
-          <span itemProp="name">{ts("server.name")}</span> © 2021-
+          <span itemProp="name">{ts.server.name}</span> © 2021-
           {new Date().getFullYear()}
           <div className="flex flex-row flex-wrap text-gray-400">
-            <span>{t("disclaimer.trademarks")}</span>
+            <span>{t.disclaimer.trademarks}</span>
 
             <br />
-            <span>{t("disclaimer.mojang")}</span>
+            <span>{t.disclaimer.mojang}</span>
           </div>
         </div>
       </div>

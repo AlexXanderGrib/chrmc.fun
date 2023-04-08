@@ -1,25 +1,22 @@
 import { Disclosure, Popover, Transition } from "@headlessui/react";
 import { Bars3Icon, ChevronDownIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import classNames from "classnames";
-import { useTranslation } from "next-i18next";
 import Link from "./Link";
-import { useRouter } from "next/router";
 import { Fragment } from "react";
+import { useTranslation } from "../i18n";
 
 export default function NavBar({ transparent = false, dark = false }) {
-  const { t } = useTranslation("nav");
-  const { t: fs } = useTranslation("footer");
-  const { t: ts } = useTranslation("common");
+  const { nav: t, footer: fs, common: ts } = useTranslation();
 
   const navigation = {
-    [fs("documents.title")]: [
-      { name: fs("documents.rules"), href: "/articles/documents/rules" },
-      { name: fs("documents.parents"), href: "/articles/documents/parents" }
+    [fs.documents.title]: [
+      { name: fs.documents.rules, href: "/articles/documents/rules" },
+      { name: fs.documents.parents, href: "/articles/documents/parents" }
     ],
-    [fs("links.title")]: [
-      { name: fs("links.store"), href: "/store" },
-      { name: fs("links.city-map"), href: "/map/city" },
-      { name: fs("links.survival-map"), href: "/map/survival" },
+    [fs.links.title]: [
+      { name: fs.links["store"], href: "/store" },
+      { name: fs.links["city-map"], href: "/map/city" },
+      { name: fs.links["survival-map"], href: "/map/survival" },
     ]
   };
 
@@ -35,7 +32,7 @@ export default function NavBar({ transparent = false, dark = false }) {
         <div className="flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
           <div className="flex justify-start lg:w-0 lg:flex-1">
             <Link href="/">
-              <span className="sr-only">{ts("server.name")}</span>
+              <span className="sr-only">{ts.server.name}</span>
               <img
                 className="h-8 w-auto sm:h-10 rounded"
                 src="/images/app/logo-40.jpg"
@@ -48,7 +45,7 @@ export default function NavBar({ transparent = false, dark = false }) {
           </div>
           <div className="-mr-2 -my-2 md:hidden">
             <Popover.Button className="clickable bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500">
-              <span className="sr-only">{t("menu.open")}</span>
+              <span className="sr-only">{t.menu.open}</span>
               <Bars3Icon className="h-6 w-6" aria-hidden="true" />
             </Popover.Button>
           </div>
@@ -137,12 +134,12 @@ export default function NavBar({ transparent = false, dark = false }) {
                     srcSet="/images/app/logo-80.jpg 2x"
                     width="40"
                     height="40"
-                    alt={ts("server.name")}
+                    alt={ts.server.name}
                   />
                 </div>
                 <div className="-mr-2">
                   <Popover.Button className="clickable bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500">
-                    <span className="sr-only">{t("menu.close")}</span>
+                    <span className="sr-only">{t.menu.close}</span>
                     <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                   </Popover.Button>
                 </div>

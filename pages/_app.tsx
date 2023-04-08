@@ -1,4 +1,3 @@
-import { appWithTranslation } from "next-i18next";
 import Head from "next/head";
 import Footer from "../components/Footer";
 import "../styles/globals.css";
@@ -8,8 +7,9 @@ import { AppProps } from "next/app";
 import Analytics from "../components/Analytics";
 import { useEffect, useState } from "react";
 import { Transition } from "@headlessui/react";
+import { TranslationContext } from "../i18n";
 
-function MyApp({ Component, pageProps, router }: AppProps) {
+function App({ Component, pageProps, router }: AppProps) {
   const { locale, defaultLocale, locales, asPath } = router;
   const [show, setShow] = useState(true);
 
@@ -61,26 +61,27 @@ function MyApp({ Component, pageProps, router }: AppProps) {
           ))}
       </Head>
 
-      <div itemScope itemType="https://schema.org/WebPage">
-        <Navbar />
-        <div className="min-h-screen">
-          <Transition
-            appear={true}
-            show={show}
-            enter="transition-opacity duration-75"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="transition-opacity duration-150"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <Component {...pageProps} />
-          </Transition>
+      <TranslationContext.Provider value={pageProps.translation}>
+        <div itemScope itemType="https://schema.org/WebPage">
+          <Navbar />
+          <div className="min-h-screen">
+            <Transition
+              appear={true}
+              show={show}
+              enter="transition-opacity duration-75"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="transition-opacity duration-150"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <Component {...pageProps} />
+            </Transition>
+          </div>
+
+          <Footer />
         </div>
-
-        <Footer />
-      </div>
-
+      </TranslationContext.Provider>
       <Analytics
         googleTag="G-7JMR9BLX1N"
         yandexMetrika="87563257"
@@ -90,4 +91,4 @@ function MyApp({ Component, pageProps, router }: AppProps) {
   );
 }
 
-export default appWithTranslation(MyApp);
+export default App;

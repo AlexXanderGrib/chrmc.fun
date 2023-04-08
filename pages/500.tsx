@@ -1,24 +1,15 @@
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "next-i18next";
-import nextI18NextConfig from "../next-i18next.config.js";
 import Error from "next/error";
-import { GetStaticProps } from "next";
+import { GetStaticProps, InferGetStaticPropsType } from "next";
+import { Locales, loadTranslation } from "../i18n";
 
-export const config = {
-	runtime: 'edge',
-};
-
-export const getStaticProps: GetStaticProps = async ({ locale }) => ({
+export const getStaticProps = (async ({ locale }) => ({
   props: {
-    ...(await serverSideTranslations(
-      locale,
-      ["common", "footer", "nav","error"],
-      nextI18NextConfig
-    ))
+    translation: await loadTranslation(locale as Locales)
   }
-});
+})) satisfies GetStaticProps;
 
-export default function Custom500() {
-  const { t } = useTranslation("error");
-  return <Error statusCode={500} title={t("500")} />;
+export default function Custom500({
+  translation
+}: InferGetStaticPropsType<typeof getStaticProps>) {
+  return <Error statusCode={500} title={translation.error["500"]} />;
 }
