@@ -4,10 +4,6 @@ import Head from "next/head";
 import { Locales, loadTranslation, useTranslation } from "../../../i18n";
 import { datocms } from "../../../server/config";
 
-export const config = {
-  runtime: "experimental-edge"
-};
-
 export const getStaticPaths: GetStaticPaths = async () => {
   const { allDocuments }: any = await datocms.request(`query DocumentsIndex {
     allDocuments {

@@ -7,11 +7,6 @@ import { If } from "../../../components/If";
 import { Locales, loadTranslation } from "../../../i18n";
 import { datocms } from "../../../server/config";
 
-export const config = {
-  runtime: "experimental-edge"
-};
-
-
 export const getStaticPaths: GetStaticPaths = async () => {
   const { allGuides }: any = await datocms.request(`query GuidesIndex {
     allGuides {

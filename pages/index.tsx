@@ -14,10 +14,6 @@ import { GetStaticProps } from "next";
 import { datocms } from "../server/config";
 import { Locales, loadTranslation, useTranslation } from "../i18n";
 
-export const config = {
-  runtime: "experimental-edge"
-};
-
 export const getStaticProps = (async ({ locale, defaultLocale }) => {
   const ADV_QUERY = `query Index($locale: SiteLocale!, $defaultLocale: SiteLocale!) {
     allAdvantages(

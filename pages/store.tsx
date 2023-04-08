@@ -12,10 +12,6 @@ import Head from "next/head";
 import { render } from "datocms-structured-text-to-plain-text";
 import { loadTranslation, Locales, useTranslation } from "../i18n";
 
-export const config = {
-  runtime: "experimental-edge"
-};
-
 function ProductView({ product }: { product: Product }) {
   const { locale, defaultLocale } = useRouter();
   const t = useTranslation()["shop"];
