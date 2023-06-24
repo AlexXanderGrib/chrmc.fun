@@ -8,16 +8,16 @@ export const ru = {
   common: {
     seo: {
       description:
-        "Приватный лицензионный майнкрафт сервер на 1.19 java и bedrock (пе) с режимами: Выживание (СМП) и Ролеплей в городе (РП)",
+        "Майнкрафт сервер мероприятий",
       keywords:
-        "DiCraft, майнкрафт сервер, майнкрафт выживание, майнкрафт пе сервер, майнкрафт ролеплей, майнкрафт рп",
-      title: "DiCraft • 1.19 • Приватный СМП | РП"
+        "DiCraft, майнкрафт сервер",
+      title: "DiCraft • 1.19 • Сервер мероприятий"
     },
     server: {
       ip: "play.dicraft.net",
       name: "DiCraft",
       javaPort: "25565",
-      javaVersion: "1.19.3",
+      javaVersion: "1.19.4",
       bedrockPort: "19132"
     },
     join: {
@@ -80,7 +80,8 @@ export const ru = {
       instagram: "Инстаграм",
       tiktok: "ТикТок",
       vk: "ВКонтакте",
-      discord: "Дискорд"
+      discord: "Дискорд",
+      telegram: "Телеграм"
     },
     links: {
       title: "Ресурсы",
@@ -105,7 +106,9 @@ export const ru = {
     buy: {
       title: "Купить Проходку",
       expires: "Истекает"
-    }
+    },
+    events: "События",
+    contact: "Связаться с нами"
   },
 
   nav: {

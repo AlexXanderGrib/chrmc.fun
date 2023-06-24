@@ -8,16 +8,16 @@ import { useTranslation } from "../i18n";
 export default function NavBar({ transparent = false, dark = false }) {
   const { nav: t, footer: fs, common: ts } = useTranslation();
 
-  const navigation = {
-    [fs.documents.title]: [
-      { name: fs.documents.rules, href: "/articles/documents/rules" },
-      { name: fs.documents.parents, href: "/articles/documents/parents" }
-    ],
-    [fs.links.title]: [
-      { name: fs.links["store"], href: "/store" },
-      { name: fs.links["city-map"], href: "/map/city" },
-      { name: fs.links["survival-map"], href: "/map/survival" },
-    ]
+  const navigation: Record<string, { name: string, href: string }[]> = {
+    // [fs.documents.title]: [
+    //   { name: fs.documents.rules, href: "/articles/documents/rules" },
+    //   { name: fs.documents.parents, href: "/articles/documents/parents" }
+    // ],
+    // [fs.links.title]: [
+    //   { name: fs.links["store"], href: "/store" },
+    //   { name: fs.links["city-map"], href: "/map/city" },
+    //   { name: fs.links["survival-map"], href: "/map/survival" },
+    // ]
   };
 
   return (

@@ -116,15 +116,15 @@ export default function Footer() {
           >
             <li>
               <a
-                href="https://www.instagram.com/dicraft.server/"
+                href="https://discord.gg/V6dCEUhsbt"
                 rel="noreferrer noopener me"
                 target="_blank"
                 className="clickable group"
-                title={t.socials.instagram}
+                title={t.socials.discord}
               >
                 <img
-                  src="/images/icons/Instagram.svg"
-                  alt={t.socials.instagram}
+                  src="/images/icons/Discord.svg"
+                  alt={t.socials.discord}
                   draggable="false"
                   loading="eager"
                   width="32"
@@ -135,15 +135,15 @@ export default function Footer() {
             </li>
             <li>
               <a
-                href="https://discord.gg/V6dCEUhsbt"
+                href="https://t.me/dme_sup"
                 rel="noreferrer noopener me"
                 target="_blank"
                 className="clickable group"
-                title={t.socials.discord}
+                title={t.socials.telegram}
               >
                 <img
-                  src="/images/icons/Discord.svg"
-                  alt={t.socials.discord}
+                  src="/images/icons/Telegram.svg"
+                  alt={t.socials.telegram}
                   draggable="false"
                   loading="eager"
                   width="32"
@@ -171,63 +171,11 @@ export default function Footer() {
                 />
               </a>
             </li>
-            <li>
-              <a
-                href="https://www.tiktok.com/@dicraft.server"
-                rel="noreferrer noopener me"
-                target="_blank"
-                className="clickable group"
-                title={t.socials.tiktok}
-              >
-                <img
-                  src="/images/icons/TikTok.svg"
-                  alt={t.socials.tiktok}
-                  draggable="false"
-                  loading="eager"
-                  width="32"
-                  height="32"
-                  className="opacity-50 group-hover:opacity-80 group-focus:opacity-80 transition-opacity"
-                />
-              </a>
-            </li>
           </ul>
         </div>
       </div>
       <div className="bg-gray-800">
         <div className="flex flex-row flex-wrap max-w-5xl mx-auto p-16 gap-8 justify-between">
-          <FooterBlock
-            label={t.links.title}
-            links={[
-              [t.links.store, "/store", ShoppingCartIcon],
-              [t.links["city-map"], "/map/city", MapIcon],
-              [t.links["survival-map"], "/map/survival", MapIcon]
-            ]}
-          />
-          <FooterBlock
-            label={t.join.title}
-            links={[
-              [
-                t.join.java,
-                "/articles/guides/how-to-join-from-java-edition",
-                ComputerDesktopIcon
-              ],
-              [
-                t.join.bedrock,
-                "/articles/guides/how-to-join-from-bedrock",
-                DevicePhoneMobileIcon
-              ],
-              [
-                t.join.consoles,
-                "/articles/guides/how-to-join-from-consoles",
-                GlobeAltIcon
-              ],
-              [
-                t.join["bedrock-add"],
-                `minecraft://?addExternalServer=${ts.server.name}|${ts.server.ip}:${ts.server.bedrockPort}`,
-                CursorArrowRaysIcon
-              ]
-            ]}
-          />
           <FooterBlock
             label={t.contacts.title}
             links={[
@@ -273,31 +221,6 @@ export default function Footer() {
               </select>
             </FooterBlock>
           </If>
-          <FooterBlock
-            label={t.documents.title}
-            links={[
-              [
-                t.documents.rules,
-                "/articles/documents/rules",
-                DocumentTextIcon
-              ],
-              [
-                t.documents.agreement,
-                "/articles/documents/agreement",
-                DocumentTextIcon
-              ],
-              [
-                t.documents.privacy,
-                "/articles/documents/privacy",
-                DocumentTextIcon
-              ],
-              [
-                t.documents.parents,
-                "/articles/documents/parents",
-                DocumentTextIcon
-              ]
-            ]}
-          />
         </div>
       </div>
 

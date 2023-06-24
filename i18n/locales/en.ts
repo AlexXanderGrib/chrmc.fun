@@ -6,16 +6,16 @@ export const en = {
   common: {
     seo: {
       description:
-        "Private official minecraft server on 1.19 java and bedrock (pocket edition pe) with Survival (SMP) and city role play (RP).",
+        "Minecraft Events Server for Hire",
       keywords:
-        "DiCraft, minecraft server, mcpe server, smp, minecraft survival, minecraft role play",
-      title: "DiCraft • 1.19 • Private SMP | RP"
+        "DiCraft, minecraft server",
+      title: "DiCraft • 1.19 • Events Server for Hire"
     },
     server: {
       ip: "play.dicraft.net",
       name: "DiCraft",
       javaPort: "25565",
-      javaVersion: "1.19.3",
+      javaVersion: "1.19.4",
       bedrockPort: "19132"
     },
     join: {
@@ -79,7 +79,8 @@ export const en = {
       instagram: "Instagram",
       tiktok: "TikTok",
       vk: "VK",
-      discord: "Discord"
+      discord: "Discord",
+      telegram: "Telegram",
     },
     links: {
       title: "Resources",
@@ -104,7 +105,10 @@ export const en = {
     buy: {
       title: "Buy Pass",
       expires: "Expires"
-    }
+    },
+
+    events: "Events",
+    contact: "Contact Us"
   },
   nav: {
     menu: {

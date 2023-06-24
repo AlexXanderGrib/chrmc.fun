@@ -1,31 +1,47 @@
 import Head from "next/head";
 
-import { ComponentProps, FC, ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { If } from "../components/If";
-import {
-  ClipboardIcon,
-  ComputerDesktopIcon,
-  DevicePhoneMobileIcon,
-  ArrowTopRightOnSquareIcon,
-  GlobeAltIcon
-} from "@heroicons/react/24/solid";
-import Link from "../components/Link";
+
 import { GetStaticProps } from "next";
 import { datocms } from "../server/config";
 import { Locales, loadTranslation, useTranslation } from "../i18n";
+import Image from "next/image";
+import { StructuredText } from "react-datocms";
+import Link from "../components/Link";
 
 export const getStaticProps = (async ({ locale, defaultLocale }) => {
   const ADV_QUERY = `query Index($locale: SiteLocale!, $defaultLocale: SiteLocale!) {
-    allAdvantages(
-      locale: $locale
-      fallbackLocales: [$defaultLocale]
-
-    ) {
+    allAdvantages(locale: $locale, fallbackLocales: [$defaultLocale]) {
       title
       content
       id
       icon {
         url
+      }
+    }
+
+    allEvents(locale: $locale, fallbackLocales: [$defaultLocale]) {
+      id,
+      start,
+      end,
+      pinned,
+      thumbnail {
+        alt,
+        width,
+        height,
+        url,
+      },
+      photos {
+        id,
+        alt,
+        width,
+        height,
+        url,
+      },
+      title,
+      text{
+        value
       }
     }
   }`;
@@ -144,7 +160,7 @@ function Heading() {
   }, [setPrimaryPlatform]);
 
   return (
-    <div className="relative min-h-[500px] h-[90vh] max-h-[1200px] w-full overflow-hidden">
+    <div className="relative min-h-[500px] h-[70vh] max-h-[1200px] w-full overflow-hidden">
       <ScrollSpy>
         {(pos) => (
           <picture>
@@ -184,81 +200,11 @@ function Heading() {
             </h1>
             <h2 itemProp="description">{t.seo.description}</h2>
           </hgroup>
-
-          <div className="pt-8">
-            <If condition={primaryPlatform === "java"}>
-              <form
-                className="grid gap-y-2 grid-cols-[auto_6rem_4rem] grid-rows-[auto_4rem] w-full"
-                onSubmit={(e) => {
-                  e.preventDefault();
-
-                  navigator.clipboard.writeText(
-                    `${t.server.ip}:${t.server.javaPort}`
-                  );
-                }}
-              >
-                <label htmlFor="address" className="text-white font-bold">
-                  {t.join.address}
-                </label>
-                <label htmlFor="port" className="text-white font-bold">
-                  {t.join.port}
-                </label>
-                <span />
-                <input
-                  type="text"
-                  id="address"
-                  readOnly
-                  value={t.server.ip as string}
-                  className="rounded-l px-2 w-full"
-                />
-                <input
-                  type="number"
-                  id="port"
-                  readOnly
-                  value={t.server.javaPort as string}
-                  className="text-center"
-                />
-                <button
-                  className="clickable bg-action-500 hover:bg-action-600 transition-colors text-white w-full h-16 flex items-center justify-center rounded-r font-bold"
-                  title={t.join.actions.copy}
-                >
-                  <ClipboardIcon
-                    className="w-6 h-6"
-                    aria-label={t.join.actions.copy}
-                  />
-                </button>
-              </form>
-            </If>
-
-            <If condition={primaryPlatform === "bedrock"}>
-              <a
-                className="clickable bg-action-500 hover:bg-action-600 transition-colors text-white w-full h-16 flex items-center justify-center rounded font-bold"
-                href={`minecraft://?addExternalServer=${t.server.name}&vert;${t.server.ip}:${t.server.bedrockPort}`}
-                draggable="false"
-              >
-                {t.join.actions["bedrock-join"]}
-              </a>
-            </If>
-
-            <If
-              condition={
-                primaryPlatform === undefined || primaryPlatform === "consoles"
-              }
-            >
-              <a
-                className="clickable bg-action-500 hover:bg-action-600 transition-colors text-white w-full h-16 flex items-center justify-center rounded font-bold"
-                href="#join"
-                draggable="false"
-              >
-                {t.join.actions["how-to-join"]}
-              </a>
-            </If>
-          </div>
         </div>
         <div className="w-full">
           <div className="text-center pb-4">
             <a
-              href="#join"
+              href="#advantages"
               className="
                 clickable
                 mx-auto
@@ -290,9 +236,9 @@ function Heading() {
             </a>
           </div>
           <SectionTransition
-            w1ClassName="fill-orange-600"
-            w2ClassName="fill-orange-400"
-            bgClassName="fill-orange-50"
+            w1ClassName="fill-blue-600"
+            w2ClassName="fill-blue-400"
+            bgClassName="fill-blue-100"
           />
         </div>
       </div>
@@ -302,21 +248,6 @@ function Heading() {
 
 export default function Home({ data }) {
   const { index: t, common: tc } = useTranslation();
-
-  const platforms: Record<
-    PlayerPlatform,
-    [destination: string, icon: FC<ComponentProps<"svg">>]
-  > = {
-    java: [
-      "/articles/guides/how-to-join-from-java-edition",
-      ComputerDesktopIcon
-    ],
-    bedrock: [
-      "/articles/guides/how-to-join-from-bedrock",
-      DevicePhoneMobileIcon
-    ],
-    consoles: ["/articles/guides/how-to-join-from-consoles", GlobeAltIcon]
-  };
 
   const [loaded, setLoaded] = useState(false);
 
@@ -341,45 +272,7 @@ export default function Home({ data }) {
       <Heading />
 
       <main className="">
-        <div className="pt-8 bg-orange-50">
-          <section className="prose prose-orange mx-auto p-2 my-4">
-            <h2 id="join" className="text-center">
-              {tc.join.actions["how-to-join"]}
-            </h2>
-
-            <div className="flex flex-col gap-4">
-              {Object.keys(platforms).map((value) => {
-                const [href, Icon] = platforms[value];
-
-                return (
-                  <Link
-                    key={value}
-                    href={href}
-                    className="flex clickable items-center w-full gap-2 px-6 py-4 text-sm font-medium text-left text-orange-900 bg-orange-100 rounded-lg hover:bg-orange-200 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-75 transition-colors"
-                  >
-                    <div className="flex bg-orange-200 rounded-full w-12 h-12 items-center justify-center p-6 relative">
-                      <Icon className="w-6 h-6 absolute" />
-                    </div>
-
-                    <div className="whitespace-nowrap">
-                      {tc.guides[value].title}
-                    </div>
-
-                    <div className="w-full" />
-                    <ArrowTopRightOnSquareIcon className="w-6 h-6" />
-                  </Link>
-                );
-              })}
-            </div>
-          </section>
-
-          <SectionTransition
-            w1ClassName="fill-yellow-600"
-            w2ClassName="fill-yellow-400"
-            bgClassName="fill-yellow-100"
-          />
-        </div>
-        <div className="pt-8 bg-yellow-100">
+        <div className="pt-8 bg-blue-100">
           <section className="prose max-w-5xl prose-yellow mx-auto p-2">
             <h2 className="text-center">{t.advantages}</h2>
 
@@ -387,8 +280,8 @@ export default function Home({ data }) {
               <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-2">
                 {data.allAdvantages.map((adv) => (
                   <li className="p-2" key={adv.id}>
-                    <article className="border border-yellow-200 border-opacity-75 p-6 rounded-lg bg-yellow-50">
-                      <div className="w-10 h-10 inline-flex items-center justify-center rounded-full bg-yellow-200 text-indigo-400 mb-4">
+                    <article className="border border-blue-200 border-opacity-75 p-6 rounded-lg bg-blue-50">
+                      <div className="w-10 h-10 inline-flex items-center justify-center rounded-full bg-blue-200 text-indigo-400 mb-4">
                         <img
                           src={adv.icon.url}
                           alt=""
@@ -399,7 +292,7 @@ export default function Home({ data }) {
                           height={32}
                         />
                       </div>
-                      <h3 className="text-lg text-yellow-900 font-medium title-font mb-2">
+                      <h3 className="text-lg text-blue-900 font-medium title-font mb-2">
                         {adv.title}
                       </h3>
                       <p className="leading-relaxed text-base line-clamp-3">
@@ -412,45 +305,52 @@ export default function Home({ data }) {
             </div>
           </section>
           <SectionTransition
-            w1ClassName="fill-emerald-600"
-            w2ClassName="fill-emerald-400"
-            bgClassName="fill-emerald-200"
+            w1ClassName="fill-cyan-100"
+            w2ClassName="fill-cyan-200"
+            bgClassName="fill-cyan-100"
           />
         </div>
-        <div className="pt-8 bg-emerald-200">
-          <section className="grid grid-cols-3 max-w-2xl mx-auto gap-8">
-            <div className="text-right">
-              <img
-                src="/images/emojis/backhand-index-pointing-right_1f449.png"
-                alt="👉"
-                className="select-none"
-                draggable="false"
-                loading="lazy"
-                decoding="async"
-                width={60}
-                height={60}
-              />
-            </div>
-            <h2 className="flex justify-center items-center">
-              <Link
-                href="/store"
-                className="bg-emerald-500 hover:bg-emerald-600 focus:bg-emerald-600 px-8 py-6 rounded text-xl text-white font-bold transition-colors animate-bounce text-center"
+
+        <div className="pt-8 bg-cyan-100">
+          <section className="prose max-w-5xl prose-yellow mx-auto p-2">
+            <h2 className="text-center">{t.events}</h2>
+
+            {data.allEvents.map((event: any) => (
+              <article
+                key={event.id}
+                className="bg-white rounded-xl shadow-2xl pb-8"
               >
-                {t.buy.title}
-              </Link>
-            </h2>
-            <div className="text-left">
-              <img
-                src="/images/emojis/backhand-index-pointing-left_1f448.png"
-                alt="👈"
-                className="select-none"
-                draggable="false"
-                loading="lazy"
-                decoding="async"
-                width={60}
-                height={60}
-              />
-            </div>
+                <h3 className="px-8 text-2xl md:text-4xl pt-8">
+                  {event.title}
+                </h3>
+                <Image
+                  src={event.thumbnail.url}
+                  alt={event.thumbnail.alt}
+                  width={event.thumbnail.width}
+                  height={event.thumbnail.height}
+                  className=""
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div className="prose mx-auto pb-8">
+                  <StructuredText data={event.text.value} />
+                </div>
+                <div className="grid grid-cols-2">
+                  {event.photos.map((photo) => (
+                    <Image
+                      key={photo.id}
+                      src={photo.url}
+                      alt={photo.alt}
+                      width={photo.width}
+                      height={photo.height}
+                      loading="lazy"
+                      decoding="async"
+                      className="my-0"
+                    />
+                  ))}
+                </div>
+              </article>
+            ))}
           </section>
           <SectionTransition
             w1ClassName="fill-[#5865F2]"
@@ -500,7 +400,7 @@ export default function Home({ data }) {
                     {...{ ["allowtransparency"]: "true" }}
                     frameBorder={0}
                     sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
-                    className="mx-auto max-w-full select-none"
+                    className="mx-auto max-w-full select-none shadow-lg"
                     title="Discord"
                     lang="en"
                     loading="lazy"
